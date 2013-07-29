@@ -82,9 +82,14 @@ describe 'Extract', ->
         assert(fs.existsSync('tmp/test6.pot'))
 
         po.load 'tmp/test6.pot', (catalog) ->
-            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items.length, 2)
             assert.equal(catalog.items[0].msgid, 'Hello')
             assert.equal(catalog.items[0].msgstr, '')
             assert.equal(catalog.items[0].references.length, 1)
             assert.equal(catalog.items[0].references[0], 'test/fixtures/filter.html')
+
+            assert.equal(catalog.items[1].msgid, 'Second')
+            assert.equal(catalog.items[1].msgstr, '')
+            assert.equal(catalog.items[1].references.length, 1)
+            assert.equal(catalog.items[1].references[0], 'test/fixtures/filter.html')
             done()

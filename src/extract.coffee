@@ -35,9 +35,9 @@ module.exports = (grunt) ->
                         plural = node.attr('translate-plural')
                         addString(input, str, plural)
 
-                    for attr in n.attributes
-                        while matches = attrRegex.exec(attr.value)
-                            addString(input, matches[2])
+                while matches = attrRegex.exec(src)
+                    addString(input, matches[2])
+
 
             for key, string of strings
                 catalog.items.push(string)
