@@ -25,7 +25,7 @@ grunt.loadNpmTasks('grunt-angular-gettext');
 
 Extracts translations from your Angular.JS templates and generates a gettext-compatible `.pot` file.
 
-In your project's Gruntfile, add a section named nggettext_extract` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `nggettext_extract` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
@@ -36,6 +36,40 @@ grunt.initConfig({
   },
 })
 ```
+
+## The "nggettext_compile" task
+
+Compiles a `.po` file into a angular-gettext JavaScript definition.
+
+In your project's Gruntfile, add a section named `nggettext_compile` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+  nggettext_compile: {
+    all: {
+      'src/js/translations.js': ['po/*.po']
+    },
+  },
+})
+```
+
+Optionally, you can specify a `module` parameter, which defines the Angular.JS module for which the translations JavaScript is generated:
+
+```js
+grunt.initConfig({
+  nggettext_compile: {
+    all: {
+      options: {
+        module: 'myApp'
+      },
+      files: {
+        'src/js/translations.js': ['po/*.po']
+      }
+    },
+  },
+})
+```
+
 
 ## Contributing
 All code lives in the `src` folder and is written in CoffeeScript. Try to stick to the style conventions used in existing code.

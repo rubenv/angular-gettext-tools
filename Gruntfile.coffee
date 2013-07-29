@@ -49,8 +49,23 @@ module.exports = (grunt) ->
                 files:
                     'tmp/test5.pot': 'test/fixtures/corrupt.html'
 
+        nggettext_compile:
+            test1:
+                files:
+                    'tmp/test1.js': 'test/fixtures/nl.po'
+
+            test2:
+                options:
+                    module: 'myApp'
+                files:
+                    'tmp/test2.js': 'test/fixtures/nl.po'
+
+            test3:
+                files:
+                    'tmp/test3.js': 'test/fixtures/{nl,fr}.po'
+
     @registerTask 'default', ['test']
     @registerTask 'build', ['clean', 'coffee']
     @registerTask 'package', ['build', 'release']
-    @registerTask 'runtests', ['clean:tmp', 'nggettext_extract:auto', 'mochacli']
+    @registerTask 'runtests', ['clean:tmp', 'nggettext_extract:auto', 'nggettext_compile', 'mochacli']
     @registerTask 'test', ['build', 'runtests']
