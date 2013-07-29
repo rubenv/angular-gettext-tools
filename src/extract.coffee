@@ -3,6 +3,8 @@ po = require 'node-po'
 
 $ = jquery.create()
 
+attrRegex = /{{('|")(.*?)\1\|translate}}/g
+
 module.exports = (grunt) ->
     grunt.registerMultiTask 'nggettext_extract', 'Extract strings from views', () ->
         @files.forEach (file) ->
@@ -26,15 +28,21 @@ module.exports = (grunt) ->
 
             file.src.forEach (input) ->
                 src = grunt.file.read(input)
-                $(src).find('*[translate]').each (index, n) ->
+                $(src).find('*').andSelf().each (index, n) ->
                     node = $(n)
-                    return if !node.attr('translate')
-                    str = node.html()
-                    plural = node.attr('translate-plural')
-                    addString(input, str, plural)
+                    if node.attr('translate')
+                        str = node.html()
+                        plural = node.attr('translate-plural')
+                        addString(input, str, plural)
+
+                    for attr in n.attributes
+                        while matches = attrRegex.exec(attr.value)
+                            addString(input, matches[2])
 
             for key, string of strings
                 catalog.items.push(string)
 
             if !failed
                 grunt.file.write(file.dest, catalog.toString())
+
+module.exports.regex = attrRegex

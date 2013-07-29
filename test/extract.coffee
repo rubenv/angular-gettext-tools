@@ -77,3 +77,14 @@ describe 'Extract', ->
         }, (err) ->
             assert(!fs.existsSync('tmp/test5.pot'))
             done(err)
+
+    it 'Extracts filter strings', (done) ->
+        assert(fs.existsSync('tmp/test6.pot'))
+
+        po.load 'tmp/test6.pot', (catalog) ->
+            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items[0].msgid, 'Hello')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/filter.html')
+            done()
