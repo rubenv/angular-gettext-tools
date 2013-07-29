@@ -7,7 +7,7 @@ po = require('node-po');
 
 $ = jquery.create();
 
-attrRegex = /{{('|")(.*?)\1\|translate}}/g;
+attrRegex = /{{('|"|&quot;)(.*?)\1\|translate}}/g;
 
 module.exports = function(grunt) {
   return grunt.registerMultiTask('nggettext_extract', 'Extract strings from views', function() {
