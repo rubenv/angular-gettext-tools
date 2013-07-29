@@ -41,7 +41,9 @@
     "grunt": "~0.4.1"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "angular",
+    "gettext"
   ],
   "dependencies": {
     "node-po": "~0.1.2",
