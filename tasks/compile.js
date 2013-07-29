@@ -30,7 +30,7 @@ module.exports = function(grunt) {
         _ref = catalog.items;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           item = _ref[_i];
-          strings[item.msgid] = item.msgstr;
+          strings[item.msgid] = item.msgstr.length === 1 ? item.msgstr[0] : item.msgstr;
         }
         return body += langTemplate(catalog.headers.Language, strings);
       });

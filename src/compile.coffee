@@ -26,7 +26,7 @@ module.exports = (grunt) ->
 
                 strings = {}
                 for item in catalog.items
-                    strings[item.msgid] = item.msgstr
+                    strings[item.msgid] = if item.msgstr.length == 1 then item.msgstr[0] else item.msgstr
                 body += langTemplate(catalog.headers.Language, strings)
 
             grunt.file.write(file.dest, template(options.module, body))
