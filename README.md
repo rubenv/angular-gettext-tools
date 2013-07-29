@@ -4,6 +4,7 @@
 
 Used in combination with [`angular-gettext`](https://github.com/rubenv/angular-gettext).
 
+[![Build Status](https://travis-ci.org/rubenv/grunt-angular-gettext.png?branch=master)](https://travis-ci.org/rubenv/grunt-angular-gettext)
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
