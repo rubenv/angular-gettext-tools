@@ -3,14 +3,20 @@ regex = require('../tasks/extract').regex
 
 describe 'Extract: Filter regex', ->
     it 'Matches a simple string', ->
+        hit = false
         while matches = regex.exec("{{'Hello'|translate}}")
             assert.equal(matches.length, 3)
             assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)
 
     it 'Matches double quotes', ->
+        hit = false
         while matches = regex.exec('{{"Hello"|translate}}')
             assert.equal(matches.length, 3)
             assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)
 
     it 'Matches multiple strings', ->
         hit = 0
@@ -37,3 +43,11 @@ describe 'Extract: Filter regex', ->
             hit++
 
         assert.equal(hit, 2)
+
+    it 'Matches spaces', ->
+        hit = false
+        while matches = regex.exec('{{ "Hello" | translate }}')
+            assert.equal(matches.length, 3)
+            assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)
