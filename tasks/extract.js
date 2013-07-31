@@ -1,9 +1,11 @@
-var $, attrRegex, jquery, po,
+var $, attrRegex, esprima, jquery, po,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 jquery = require('jquery');
 
 po = require('node-po');
+
+esprima = require('esprima');
 
 $ = jquery.create();
 
@@ -12,7 +14,7 @@ attrRegex = /{{\s*('|"|&quot;)(.*?)\1\s*\|\s*translate\s*}}/g;
 module.exports = function(grunt) {
   return grunt.registerMultiTask('nggettext_extract', 'Extract strings from views', function() {
     return this.files.forEach(function(file) {
-      var addString, catalog, failed, key, string, strings;
+      var addString, catalog, extractHtml, extractJs, failed, key, string, strings, walkJs;
       failed = false;
       catalog = new po();
       strings = {};
@@ -38,23 +40,61 @@ module.exports = function(grunt) {
           return item.msgstr = ["", ""];
         }
       };
-      file.src.forEach(function(input) {
+      extractHtml = function(filename) {
         var matches, src, _results;
-        src = grunt.file.read(input);
+        src = grunt.file.read(filename);
         $(src).find('*').andSelf().each(function(index, n) {
           var node, plural, str;
           node = $(n);
           if (node.attr('translate')) {
             str = node.html();
             plural = node.attr('translate-plural');
-            return addString(input, str, plural);
+            return addString(filename, str, plural);
           }
         });
         _results = [];
         while (matches = attrRegex.exec(src)) {
-          _results.push(addString(input, matches[2]));
+          _results.push(addString(filename, matches[2]));
         }
         return _results;
+      };
+      walkJs = function(node, fn) {
+        var key, obj, _results;
+        fn(node);
+        _results = [];
+        for (key in node) {
+          obj = node[key];
+          if (typeof obj === 'object') {
+            _results.push(walkJs(obj, fn));
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      };
+      extractJs = function(filename) {
+        var src, syntax;
+        src = grunt.file.read(filename);
+        syntax = esprima.parse(src, {
+          tolerant: true
+        });
+        return walkJs(syntax, function(node) {
+          var str, _ref, _ref1;
+          if ((node != null ? node.type : void 0) === 'CallExpression' && ((_ref = node.callee) != null ? _ref.name : void 0) === 'gettext') {
+            str = (_ref1 = node["arguments"]) != null ? _ref1[0].value : void 0;
+            if (str) {
+              return addString(filename, str);
+            }
+          }
+        });
+      };
+      file.src.forEach(function(input) {
+        if (input.match(/\.htm(|l)$/)) {
+          extractHtml(input);
+        }
+        if (input.match(/\.js$/)) {
+          return extractJs(input);
+        }
       });
       for (key in strings) {
         string = strings[key];

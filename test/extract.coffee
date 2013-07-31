@@ -93,3 +93,14 @@ describe 'Extract', ->
             assert.equal(catalog.items[1].references.length, 1)
             assert.equal(catalog.items[1].references[0], 'test/fixtures/filter.html')
             done()
+
+    it 'Extracts flagged strings from JavaScript source', (done) ->
+        assert(fs.existsSync('tmp/test7.pot'))
+
+        po.load 'tmp/test7.pot', (catalog) ->
+            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items[0].msgid, 'Hello')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/source.js')
+            done()

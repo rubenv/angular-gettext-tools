@@ -47,6 +47,7 @@
   ],
   "dependencies": {
     "node-po": "~0.1.2",
-    "jquery": "~1.8.3"
+    "jquery": "~1.8.3",
+    "esprima": "~1.0.3"
   }
 }
