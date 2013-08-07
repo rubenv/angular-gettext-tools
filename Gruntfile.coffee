@@ -47,6 +47,7 @@ module.exports = (grunt) ->
                     'tmp/test4.pot': 'test/fixtures/merge.html'
                     'tmp/test6.pot': 'test/fixtures/filter.html'
                     'tmp/test7.pot': 'test/fixtures/source.js'
+                    'tmp/test8.pot': 'test/fixtures/quotes.html'
             manual:
                 files:
                     'tmp/test5.pot': 'test/fixtures/corrupt.html'

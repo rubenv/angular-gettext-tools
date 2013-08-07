@@ -24,6 +24,7 @@ describe 'Compile', ->
                 assert.equal(strings['Hello!'], 'Hallo!')
                 assert.equal(strings['This is a test'], 'Dit is een test')
                 assert.deepEqual(strings['Bird'], [ 'Vogel', 'Vogels' ])
+                assert.deepEqual(strings['Hello \"world\"'], 'Hallo \"wereld\"')
         }
         context = vm.createContext(makeEnv('gettext', catalog))
         vm.runInContext(fs.readFileSync('tmp/test1.js', 'utf8'), context)

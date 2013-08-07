@@ -15,17 +15,22 @@ module.exports = (grunt) ->
 
             strings = {}
 
+            escape = (str) ->
+                str = str.replace(/\\/g, '\\\\')
+                str = str.replace(/"/g, '\\"')
+                return str
+
             addString = (file, string, plural = null) ->
                 if !strings[string]
                     strings[string] = new po.Item()
                 item = strings[string]
-                item.msgid = string
+                item.msgid = escape(string)
                 item.references.push(file) if file not in item.references
                 if plural && plural != ''
                     if item.msgid_plural && item.msgid_plural != plural
                         grunt.log.error "Incompatible plural definitions for #{string}: #{item.msgid_plural} / #{plural} (in: #{item.references.join(", ")})"
                         failed = true
-                    item.msgid_plural = plural
+                    item.msgid_plural = escape(plural)
                     item.msgstr = ["", ""]
 
             extractHtml = (filename) ->

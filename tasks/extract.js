@@ -14,10 +14,15 @@ attrRegex = /{{\s*('|"|&quot;)(.*?)\1\s*\|\s*translate\s*}}/g;
 module.exports = function(grunt) {
   return grunt.registerMultiTask('nggettext_extract', 'Extract strings from views', function() {
     return this.files.forEach(function(file) {
-      var addString, catalog, extractHtml, extractJs, failed, key, string, strings, walkJs;
+      var addString, catalog, escape, extractHtml, extractJs, failed, key, string, strings, walkJs;
       failed = false;
       catalog = new po();
       strings = {};
+      escape = function(str) {
+        str = str.replace(/\\/g, '\\\\');
+        str = str.replace(/"/g, '\\"');
+        return str;
+      };
       addString = function(file, string, plural) {
         var item;
         if (plural == null) {
@@ -27,7 +32,7 @@ module.exports = function(grunt) {
           strings[string] = new po.Item();
         }
         item = strings[string];
-        item.msgid = string;
+        item.msgid = escape(string);
         if (__indexOf.call(item.references, file) < 0) {
           item.references.push(file);
         }
@@ -36,7 +41,7 @@ module.exports = function(grunt) {
             grunt.log.error("Incompatible plural definitions for " + string + ": " + item.msgid_plural + " / " + plural + " (in: " + (item.references.join(", ")) + ")");
             failed = true;
           }
-          item.msgid_plural = plural;
+          item.msgid_plural = escape(plural);
           return item.msgstr = ["", ""];
         }
       };

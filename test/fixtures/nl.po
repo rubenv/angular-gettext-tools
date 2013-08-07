@@ -25,3 +25,7 @@ msgid "Bird"
 msgid_plural "Birds"
 msgstr[0] "Vogel"
 msgstr[1] "Vogels"
+
+#: test/fixtures/quotes.html
+msgid "Hello \"world\""
+msgstr "Hallo \"wereld\""

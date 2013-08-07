@@ -104,3 +104,14 @@ describe 'Extract', ->
             assert.equal(catalog.items[0].references.length, 1)
             assert.equal(catalog.items[0].references[0], 'test/fixtures/source.js')
             done()
+
+    it 'Extracts strings with quotes', (done) ->
+        assert(fs.existsSync('tmp/test8.pot'))
+
+        po.load 'tmp/test8.pot', (catalog) ->
+            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items[0].msgid, 'Hello "world"!')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/quotes.html')
+            done()
