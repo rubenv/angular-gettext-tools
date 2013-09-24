@@ -115,3 +115,14 @@ describe 'Extract', ->
             assert.equal(catalog.items[0].references.length, 1)
             assert.equal(catalog.items[0].references[0], 'test/fixtures/quotes.html')
             done()
+
+    it 'Strips whitespace around strings', (done) ->
+        assert(fs.existsSync('tmp/test9.pot'))
+
+        po.load 'tmp/test9.pot', (catalog) ->
+            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items[0].msgid, 'Hello!')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/strip.html')
+            done()

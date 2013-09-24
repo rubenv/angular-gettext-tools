@@ -21,6 +21,7 @@ module.exports = (grunt) ->
                 return str
 
             addString = (file, string, plural = null) ->
+                string = string.trim()
                 if !strings[string]
                     strings[string] = new po.Item()
                 item = strings[string]

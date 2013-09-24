@@ -28,6 +28,7 @@ module.exports = function(grunt) {
         if (plural == null) {
           plural = null;
         }
+        string = string.trim();
         if (!strings[string]) {
           strings[string] = new po.Item();
         }
