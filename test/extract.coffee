@@ -126,3 +126,18 @@ describe 'Extract', ->
             assert.equal(catalog.items[0].references.length, 1)
             assert.equal(catalog.items[0].references[0], 'test/fixtures/strip.html')
             done()
+
+    it 'Handles attribute with < or >', (done) ->
+        assert(fs.existsSync('tmp/test10.pot'))
+
+        po.load 'tmp/test10.pot', (catalog) ->
+            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items[0].msgid, 'Show {{trackcount}} song...')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].msgid_plural, 'Show all {{trackcount}} songs...')
+            assert.equal(catalog.items[0].msgstr.length, 2)
+            assert.equal(catalog.items[0].msgstr[0], '')
+            assert.equal(catalog.items[0].msgstr[1], '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/ngif.html')
+            done()

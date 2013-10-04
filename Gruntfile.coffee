@@ -49,6 +49,7 @@ module.exports = (grunt) ->
                     'tmp/test7.pot': 'test/fixtures/source.js'
                     'tmp/test8.pot': 'test/fixtures/quotes.html'
                     'tmp/test9.pot': 'test/fixtures/strip.html'
+                    'tmp/test10.pot': 'test/fixtures/ngif.html'
             manual:
                 files:
                     'tmp/test5.pot': 'test/fixtures/corrupt.html'
