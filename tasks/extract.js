@@ -1,13 +1,11 @@
-var $, attrRegex, esprima, jquery, po,
+var attrRegex, cheerio, esprima, po,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-jquery = require('jquery');
+cheerio = require('cheerio');
 
 po = require('node-po');
 
 esprima = require('esprima');
-
-$ = jquery.create();
 
 attrRegex = /{{\s*('|"|&quot;)(.*?)\1\s*\|\s*translate\s*}}/g;
 
@@ -47,12 +45,13 @@ module.exports = function(grunt) {
         }
       };
       extractHtml = function(filename) {
-        var matches, src, _results;
+        var $, matches, src, _results;
         src = grunt.file.read(filename);
-        $(src).find('*').andSelf().each(function(index, n) {
+        $ = cheerio.load(src);
+        $('*').each(function(index, n) {
           var node, plural, str;
           node = $(n);
-          if (node.attr('translate')) {
+          if (typeof node.attr('translate') !== 'undefined') {
             str = node.html();
             plural = node.attr('translate-plural');
             return addString(filename, str, plural);

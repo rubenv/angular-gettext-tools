@@ -46,8 +46,8 @@
     "gettext"
   ],
   "dependencies": {
-    "node-po": "~0.1.2",
-    "jquery": "~1.8.3",
-    "esprima": "~1.0.3"
+    "cheerio": "~0.12.2",
+    "esprima": "~1.0.3",
+    "node-po": "~0.1.2"
   }
 }

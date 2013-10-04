@@ -1,8 +1,6 @@
-jquery = require 'jquery'
+cheerio = require 'cheerio'
 po = require 'node-po'
 esprima = require 'esprima'
-
-$ = jquery.create()
 
 attrRegex = /{{\s*('|"|&quot;)(.*?)\1\s*\|\s*translate\s*}}/g
 
@@ -36,9 +34,10 @@ module.exports = (grunt) ->
 
             extractHtml = (filename) ->
                 src = grunt.file.read(filename)
-                $(src).find('*').andSelf().each (index, n) ->
+                $ = cheerio.load(src)
+                $('*').each (index, n) ->
                     node = $(n)
-                    if node.attr('translate')
+                    if typeof node.attr('translate') != 'undefined'
                         str = node.html()
                         plural = node.attr('translate-plural')
                         addString(filename, str, plural)
