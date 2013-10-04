@@ -53,6 +53,12 @@ module.exports = (grunt) ->
             manual:
                 files:
                     'tmp/test5.pot': 'test/fixtures/corrupt.html'
+            custom:
+                options:
+                    startDelim: '[['
+                    endDelim: ']]'
+                files:
+                    'tmp/test11.pot': 'test/fixtures/delim.html'
 
         nggettext_compile:
             test1:
@@ -72,5 +78,5 @@ module.exports = (grunt) ->
     @registerTask 'default', ['test']
     @registerTask 'build', ['clean', 'coffee']
     @registerTask 'package', ['build', 'release']
-    @registerTask 'runtests', ['clean:tmp', 'nggettext_extract:auto', 'nggettext_compile', 'mochacli']
+    @registerTask 'runtests', ['clean:tmp', 'nggettext_extract:auto', 'nggettext_extract:custom', 'nggettext_compile', 'mochacli']
     @registerTask 'test', ['build', 'runtests']

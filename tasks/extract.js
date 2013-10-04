@@ -1,4 +1,4 @@
-var attrRegex, cheerio, esprima, po,
+var cheerio, escapeRegex, esprima, mkAttrRegex, po,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 cheerio = require('cheerio');
@@ -7,10 +7,24 @@ po = require('node-po');
 
 esprima = require('esprima');
 
-attrRegex = /{{\s*('|"|&quot;)(.*?)\1\s*\|\s*translate\s*}}/g;
+escapeRegex = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;
+
+mkAttrRegex = function(startDelim, endDelim) {
+  var attrRegex, end, start;
+  start = startDelim.replace(escapeRegex, "\\$&");
+  end = endDelim.replace(escapeRegex, "\\$&");
+  attrRegex = new RegExp(start + '\\s*(\'|"|&quot;)(.*?)\\1\\s*\\|\\s*translate\\s*' + end, 'g');
+  return attrRegex;
+};
 
 module.exports = function(grunt) {
   return grunt.registerMultiTask('nggettext_extract', 'Extract strings from views', function() {
+    var attrRegex, options;
+    options = this.options({
+      startDelim: '{{',
+      endDelim: '}}'
+    });
+    attrRegex = mkAttrRegex(options.startDelim, options.endDelim);
     return this.files.forEach(function(file) {
       var addString, catalog, escape, extractHtml, extractJs, failed, key, string, strings, walkJs;
       failed = false;
@@ -112,4 +126,4 @@ module.exports = function(grunt) {
   });
 };
 
-module.exports.regex = attrRegex;
+module.exports.mkAttrRegex = mkAttrRegex;

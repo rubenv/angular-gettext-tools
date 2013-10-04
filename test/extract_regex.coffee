@@ -1,7 +1,12 @@
 assert = require 'assert'
-regex = require('../tasks/extract').regex
+mkAttrRegex = require('../tasks/extract').mkAttrRegex
 
 describe 'Extract: Filter regex', ->
+    regex = null
+
+    beforeEach () ->
+        regex = mkAttrRegex('{{', '}}')
+
     it 'Matches a simple string', ->
         hit = false
         while matches = regex.exec("{{'Hello'|translate}}")
@@ -47,6 +52,15 @@ describe 'Extract: Filter regex', ->
     it 'Matches spaces', ->
         hit = false
         while matches = regex.exec('{{ "Hello" | translate }}')
+            assert.equal(matches.length, 3)
+            assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)
+
+    it 'Can customize delimiters', ->
+        regex = mkAttrRegex('[[', ']]')
+        hit = false
+        while matches = regex.exec("[['Hello'|translate]]")
             assert.equal(matches.length, 3)
             assert.equal(matches[2], 'Hello')
             hit = true

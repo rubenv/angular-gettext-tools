@@ -140,3 +140,15 @@ describe 'Extract', ->
             assert.equal(catalog.items[0].references.length, 1)
             assert.equal(catalog.items[0].references[0], 'test/fixtures/ngif.html')
             done()
+
+    it 'Can customize delimiters', (done) ->
+        assert(fs.existsSync('tmp/test11.pot'))
+
+        po.load 'tmp/test11.pot', (catalog) ->
+            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items[0].msgid, 'Hello')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/delim.html')
+            done()
+

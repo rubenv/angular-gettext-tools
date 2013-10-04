@@ -2,11 +2,22 @@ cheerio = require 'cheerio'
 po = require 'node-po'
 esprima = require 'esprima'
 
-attrRegex = /{{\s*('|"|&quot;)(.*?)\1\s*\|\s*translate\s*}}/g
+escapeRegex = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g
 
+mkAttrRegex = (startDelim, endDelim) ->
+    start = startDelim.replace(escapeRegex, "\\$&")
+    end = endDelim.replace(escapeRegex, "\\$&")
+    attrRegex = new RegExp(start + '\\s*(\'|"|&quot;)(.*?)\\1\\s*\\|\\s*translate\\s*' + end, 'g')
+    return attrRegex
 
 module.exports = (grunt) ->
     grunt.registerMultiTask 'nggettext_extract', 'Extract strings from views', () ->
+        options = @options({
+            startDelim: '{{'
+            endDelim: '}}'
+        })
+        attrRegex = mkAttrRegex(options.startDelim, options.endDelim)
+
         @files.forEach (file) ->
             failed = false
             catalog = new po()
@@ -70,4 +81,4 @@ module.exports = (grunt) ->
             if !failed
                 grunt.file.write(file.dest, catalog.toString())
 
-module.exports.regex = attrRegex
+module.exports.mkAttrRegex = mkAttrRegex
