@@ -108,7 +108,7 @@ module.exports = function(grunt) {
         });
       };
       file.src.forEach(function(input) {
-        if (input.match(/\.htm(|l)$/)) {
+        if (input.match(/\.(htm(|l)|php)$/)) {
           extractHtml(input);
         }
         if (input.match(/\.js$/)) {

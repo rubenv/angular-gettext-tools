@@ -152,3 +152,14 @@ describe 'Extract', ->
             assert.equal(catalog.items[0].references[0], 'test/fixtures/delim.html')
             done()
 
+    it 'Can extract from PHP files', (done) ->
+        assert(fs.existsSync('tmp/test12.pot'))
+
+        po.load 'tmp/test12.pot', (catalog) ->
+            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items[0].msgid, 'Play')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/php.php')
+            done()
+
