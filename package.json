@@ -8,6 +8,7 @@
     "email": "ruben@savanne.be",
     "url": "http://savanne.be"
   },
+  "homepage": "http://angular-gettext.rocketeer.be/",
   "repository": {
     "type": "git",
     "url": "git://github.com/rubenv/grunt-angular-gettext.git"
