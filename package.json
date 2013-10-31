@@ -1,14 +1,13 @@
 {
   "name": "grunt-angular-gettext",
   "description": "Tasks for extracting/compiling angular-gettext strings.",
-  "version": "0.1.1",
-  "homepage": "https://github.com/rubenv/grunt-angular-gettext",
+  "version": "0.1.2",
+  "homepage": "http://angular-gettext.rocketeer.be/",
   "author": {
     "name": "Ruben Vermeersch",
     "email": "ruben@savanne.be",
     "url": "http://savanne.be"
   },
-  "homepage": "http://angular-gettext.rocketeer.be/",
   "repository": {
     "type": "git",
     "url": "git://github.com/rubenv/grunt-angular-gettext.git"
