@@ -74,6 +74,9 @@ module.exports = (grunt) ->
                 extractHtml(input) if input.match /\.(htm(|l)|php|phtml)$/
                 extractJs(input) if input.match /\.js$/
 
+            catalog.headers =
+                "Content-Type": "text/plain; charset=UTF-8"
+                "Content-Transfer-Encoding": "8bit"
 
             for key, string of strings
                 catalog.items.push(string)
