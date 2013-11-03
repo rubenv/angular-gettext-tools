@@ -115,6 +115,10 @@ module.exports = function(grunt) {
           return extractJs(input);
         }
       });
+      catalog.headers = {
+        "Content-Type": "text/plain; charset=UTF-8",
+        "Content-Transfer-Encoding": "8bit"
+      };
       for (key in strings) {
         string = strings[key];
         catalog.items.push(string);
