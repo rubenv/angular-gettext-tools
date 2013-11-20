@@ -1,6 +1,6 @@
 module.exports = (grunt) ->
     @loadNpmTasks('grunt-contrib-clean')
-    @loadNpmTasks('grunt-contrib-coffee')
+    @loadNpmTasks('grunt-contrib-jshint')
     @loadNpmTasks('grunt-contrib-watch')
     @loadNpmTasks('grunt-mocha-cli')
     @loadNpmTasks('grunt-release')
@@ -8,27 +8,18 @@ module.exports = (grunt) ->
     @loadTasks('tasks')
 
     @initConfig
-        coffee:
-            tasks:
-                options:
-                    bare: true
-                expand: true
-                cwd: 'src'
-                src: ['*.coffee']
-                dest: 'tasks'
-                ext: '.js'
+        jshint:
+            all: [ 'tasks/*.js' ]
+            options:
+                jshintrc: '.jshintrc'
 
         clean:
-            tasks: ['tasks']
             tmp: ['tmp']
 
         watch:
-            all:
-                files: ['src/**.coffee']
-                tasks: ['build']
             test:
                 files: ['tasks/**.js', 'test/*{,/*}.coffee']
-                tasks: ['runtests']
+                tasks: ['test']
 
         mochacli:
             options:
@@ -77,7 +68,6 @@ module.exports = (grunt) ->
                     'tmp/test3.js': 'test/fixtures/{nl,fr}.po'
 
     @registerTask 'default', ['test']
-    @registerTask 'build', ['clean', 'coffee']
+    @registerTask 'build', ['clean', 'jshint']
     @registerTask 'package', ['build', 'release']
-    @registerTask 'runtests', ['clean:tmp', 'nggettext_extract:auto', 'nggettext_extract:custom', 'nggettext_compile', 'mochacli']
-    @registerTask 'test', ['build', 'runtests']
+    @registerTask 'test', ['build', 'nggettext_extract:auto', 'nggettext_extract:custom', 'nggettext_compile', 'mochacli']
