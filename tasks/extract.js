@@ -83,16 +83,14 @@ module.exports = function (grunt) {
             }
 
             function extractJs(filename) {
-                var src, syntax;
-                src = grunt.file.read(filename);
-                syntax = esprima.parse(src, {
+                var src = grunt.file.read(filename);
+                var syntax = esprima.parse(src, {
                     tolerant: true
                 });
 
                 walkJs(syntax, function (node) {
-                    var str, _ref, _ref1;
                     if (node !== null && node.type === 'CallExpression' && node.callee !== null && node.callee.name === 'gettext') {
-                        str = (_ref1 = node["arguments"]) != null ? _ref1[0].value : void 0;
+                        var str = node['arguments'][0] ? node['arguments'][0].value : null;
                         if (str) {
                             addString(filename, str);
                         }
