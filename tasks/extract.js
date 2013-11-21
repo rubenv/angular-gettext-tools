@@ -116,6 +116,10 @@ module.exports = function (grunt) {
                 catalog.items.push(strings[key]);
             }
 
+            catalog.items.sort(function (a, b) {
+                return a.msgid.localeCompare(b.msgid);
+            });
+
             if (!failed) {
                 grunt.file.write(file.dest, catalog.toString());
             }

@@ -163,3 +163,12 @@ describe 'Extract', ->
             assert.equal(catalog.items[0].references[0], 'test/fixtures/php.php')
             done()
 
+    it 'Sorts strings', (done) ->
+        assert(fs.existsSync('tmp/test13.pot'))
+
+        po.load 'tmp/test13.pot', (catalog) ->
+            assert.equal(catalog.items.length, 3)
+            assert.equal(catalog.items[0].msgid, 'a')
+            assert.equal(catalog.items[1].msgid, 'b')
+            assert.equal(catalog.items[2].msgid, 'c')
+            done()
