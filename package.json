@@ -48,6 +48,6 @@
   "dependencies": {
     "cheerio": "~0.12.2",
     "esprima": "~1.0.3",
-    "node-po": "~0.1.2"
+    "node-po": "mikejholly/node-po#f7d70f302b76563b5c8a6ea68ba7ef064cbc425f"
   }
 }
