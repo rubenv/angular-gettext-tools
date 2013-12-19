@@ -52,6 +52,7 @@ module.exports = function (grunt) {
             }
 
             function extractHtml(filename) {
+                grunt.log.debug("Extracting " + filename);
                 var src = grunt.file.read(filename);
                 var $ = cheerio.load(src);
 
@@ -83,6 +84,7 @@ module.exports = function (grunt) {
             }
 
             function extractJs(filename) {
+                grunt.log.debug("Extracting " + filename);
                 var src = grunt.file.read(filename);
                 var syntax = esprima.parse(src, {
                     tolerant: true
