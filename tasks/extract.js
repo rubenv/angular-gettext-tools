@@ -1,5 +1,5 @@
 var cheerio = require('cheerio');
-var po = require('node-po');
+var po = require('pofile');
 var esprima = require('esprima');
 
 var escapeRegex = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;

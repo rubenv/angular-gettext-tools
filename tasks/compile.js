@@ -1,4 +1,4 @@
-var po = require('node-po');
+var po = require('pofile');
 
 var template = function (module, body) {
     return "angular.module(\"" + module + "\").run(['gettextCatalog', function (gettextCatalog) {\n" + body + "\n}]);";

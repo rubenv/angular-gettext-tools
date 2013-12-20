@@ -1,5 +1,5 @@
 assert = require 'assert'
-po = require 'node-po'
+po = require 'pofile'
 fs = require 'fs'
 grunt = require 'grunt'
 
@@ -7,7 +7,8 @@ describe 'Extract', ->
     it 'Extracts strings from views', (done) ->
         assert(fs.existsSync('tmp/test1.pot'))
 
-        po.load 'tmp/test1.pot', (catalog) ->
+        po.load 'tmp/test1.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 1)
             assert.equal(catalog.items[0].msgid, 'Hello!')
             assert.equal(catalog.items[0].msgstr, '')
@@ -18,7 +19,8 @@ describe 'Extract', ->
     it 'Merges multiple views into one .pot', (done) ->
         assert(fs.existsSync('tmp/test2.pot'))
 
-        po.load 'tmp/test2.pot', (catalog) ->
+        po.load 'tmp/test2.pot', (err, catalog) ->
+            assert.equal(err, null)
             i = catalog.items
             assert.equal(i.length, 2)
             assert.equal(i[0].msgid, 'Hello!')
@@ -28,7 +30,8 @@ describe 'Extract', ->
     it 'Merges duplicate strings with references', (done) ->
         assert(fs.existsSync('tmp/test2.pot'))
 
-        po.load 'tmp/test2.pot', (catalog) ->
+        po.load 'tmp/test2.pot', (err, catalog) ->
+            assert.equal(err, null)
             i = catalog.items
             assert.equal(i.length, 2)
 
@@ -45,7 +48,8 @@ describe 'Extract', ->
     it 'Extracts plural strings', (done) ->
         assert(fs.existsSync('tmp/test3.pot'))
 
-        po.load 'tmp/test3.pot', (catalog) ->
+        po.load 'tmp/test3.pot', (err, catalog) ->
+            assert.equal(err, null)
             i = catalog.items
             assert.equal(i.length, 1)
 
@@ -59,7 +63,8 @@ describe 'Extract', ->
     it 'Merges singular and plural strings', (done) ->
         assert(fs.existsSync('tmp/test4.pot'))
 
-        po.load 'tmp/test4.pot', (catalog) ->
+        po.load 'tmp/test4.pot', (err, catalog) ->
+            assert.equal(err, null)
             i = catalog.items
             assert.equal(i.length, 1)
 
@@ -81,7 +86,8 @@ describe 'Extract', ->
     it 'Extracts filter strings', (done) ->
         assert(fs.existsSync('tmp/test6.pot'))
 
-        po.load 'tmp/test6.pot', (catalog) ->
+        po.load 'tmp/test6.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 2)
             assert.equal(catalog.items[0].msgid, 'Hello')
             assert.equal(catalog.items[0].msgstr, '')
@@ -97,7 +103,8 @@ describe 'Extract', ->
     it 'Extracts flagged strings from JavaScript source', (done) ->
         assert(fs.existsSync('tmp/test7.pot'))
 
-        po.load 'tmp/test7.pot', (catalog) ->
+        po.load 'tmp/test7.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 1)
             assert.equal(catalog.items[0].msgid, 'Hello')
             assert.equal(catalog.items[0].msgstr, '')
@@ -108,7 +115,8 @@ describe 'Extract', ->
     it 'Extracts strings with quotes', (done) ->
         assert(fs.existsSync('tmp/test8.pot'))
 
-        po.load 'tmp/test8.pot', (catalog) ->
+        po.load 'tmp/test8.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 1)
             assert.equal(catalog.items[0].msgid, 'Hello "world"!')
             assert.equal(catalog.items[0].msgstr, '')
@@ -119,7 +127,8 @@ describe 'Extract', ->
     it 'Strips whitespace around strings', (done) ->
         assert(fs.existsSync('tmp/test9.pot'))
 
-        po.load 'tmp/test9.pot', (catalog) ->
+        po.load 'tmp/test9.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 1)
             assert.equal(catalog.items[0].msgid, 'Hello!')
             assert.equal(catalog.items[0].msgstr, '')
@@ -130,7 +139,8 @@ describe 'Extract', ->
     it 'Handles attribute with < or >', (done) ->
         assert(fs.existsSync('tmp/test10.pot'))
 
-        po.load 'tmp/test10.pot', (catalog) ->
+        po.load 'tmp/test10.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 1)
             assert.equal(catalog.items[0].msgid, 'Show {{trackcount}} song...')
             assert.equal(catalog.items[0].msgid_plural, 'Show all {{trackcount}} songs...')
@@ -144,7 +154,8 @@ describe 'Extract', ->
     it 'Can customize delimiters', (done) ->
         assert(fs.existsSync('tmp/test11.pot'))
 
-        po.load 'tmp/test11.pot', (catalog) ->
+        po.load 'tmp/test11.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 1)
             assert.equal(catalog.items[0].msgid, 'Hello')
             assert.equal(catalog.items[0].msgstr, '')
@@ -155,7 +166,8 @@ describe 'Extract', ->
     it 'Can extract from PHP files', (done) ->
         assert(fs.existsSync('tmp/test12.pot'))
 
-        po.load 'tmp/test12.pot', (catalog) ->
+        po.load 'tmp/test12.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 1)
             assert.equal(catalog.items[0].msgid, 'Play')
             assert.equal(catalog.items[0].msgstr, '')
@@ -166,7 +178,8 @@ describe 'Extract', ->
     it 'Sorts strings', (done) ->
         assert(fs.existsSync('tmp/test13.pot'))
 
-        po.load 'tmp/test13.pot', (catalog) ->
+        po.load 'tmp/test13.pot', (err, catalog) ->
+            assert.equal(err, null)
             assert.equal(catalog.items.length, 3)
             assert.equal(catalog.items[0].msgid, 'a')
             assert.equal(catalog.items[1].msgid, 'b')
