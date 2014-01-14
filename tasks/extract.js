@@ -71,7 +71,7 @@ module.exports = function (grunt) {
                     addString(filename, matches[2]);
                 }
             }
-            
+
             function walkJs(node, fn) {
                 fn(node);
 
@@ -83,6 +83,18 @@ module.exports = function (grunt) {
                 }
             }
 
+            var binaryExpressionWalkJs = function (node) {
+                var res = "";
+                if (node.type === "Literal") {
+                    res = node.value;
+                }
+                if (node.type === 'BinaryExpression' && node.operator === '+') {
+                    res += binaryExpressionWalkJs(node.left);
+                    res += binaryExpressionWalkJs(node.right);
+                }
+                return res;
+            };
+
             function extractJs(filename) {
                 grunt.log.debug("Extracting " + filename);
                 var src = grunt.file.read(filename);
@@ -91,8 +103,22 @@ module.exports = function (grunt) {
                 });
 
                 walkJs(syntax, function (node) {
-                    if (node !== null && node.type === 'CallExpression' && node.callee !== null && node.callee.name === 'gettext') {
-                        var str = node['arguments'][0] ? node['arguments'][0].value : null;
+                    if (node !== null &&
+                        node.type === 'CallExpression' &&
+                        node.callee !== null &&
+                        node.callee.name === 'gettext' &&
+                        node["arguments"] !== null &&
+                        node["arguments"].length) {
+
+                        var arg = node["arguments"][0];
+                        var str;
+                        switch (arg.type) {
+                            case 'Literal':
+                                str = arg.value;
+                                break;
+                            case 'BinaryExpression':
+                                str = binaryExpressionWalkJs(arg);
+                        }
                         if (str) {
                             addString(filename, str);
                         }

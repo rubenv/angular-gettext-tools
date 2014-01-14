@@ -185,3 +185,21 @@ describe 'Extract', ->
             assert.equal(catalog.items[1].msgid, 'b')
             assert.equal(catalog.items[2].msgid, 'c')
             done()
+
+    it 'Extracts strings concatenation from JavaScript source', (done) ->
+        assert(fs.existsSync('tmp/test14.pot'))
+
+        po.load 'tmp/test14.pot', (err, catalog) ->
+            assert.equal(err, null)
+            assert.equal(catalog.items.length, 2)
+            assert.equal(catalog.items[0].msgid, 'Hello one concat!')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/concat.js')
+
+            assert.equal(catalog.items[1].msgid, 'Hello two concat!')
+            assert.equal(catalog.items[1].msgstr, '')
+            assert.equal(catalog.items[1].references.length, 1)
+            assert.equal(catalog.items[1].references[0], 'test/fixtures/concat.js')
+
+            done()
