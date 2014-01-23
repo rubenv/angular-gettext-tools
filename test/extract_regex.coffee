@@ -74,3 +74,6 @@ describe 'Extract: Filter regex', ->
             assert.equal(matches[2], 'Hello')
             hit = true
         assert(hit)
+
+        matches = regex.exec("{{'Hello' | translate}}")
+        assert.equal(matches, null)

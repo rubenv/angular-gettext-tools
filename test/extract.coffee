@@ -243,10 +243,15 @@ describe 'Extract', ->
 
         po.load 'tmp/test19.pot', (err, catalog) ->
             assert.equal(err, null)
-            assert.equal(catalog.items.length, 2)
+            assert.equal(catalog.items.length, 3)
             assert.equal(catalog.items[0].msgid, 'Click to upload file')
             assert.equal(catalog.items[0].msgstr, '')
             assert.equal(catalog.items[0].references.length, 1)
             assert.equal(catalog.items[0].references[0], 'test/fixtures/no_delimiter.html')
+
+            assert.equal(catalog.items[1].msgid, 'Selected a file to upload!')
+            assert.equal(catalog.items[1].msgstr, '')
+            assert.equal(catalog.items[1].references.length, 1)
+            assert.equal(catalog.items[1].references[0], 'test/fixtures/no_delimiter.html')
 
             done()

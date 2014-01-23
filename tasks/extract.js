@@ -7,6 +7,11 @@ var escapeRegex = /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g;
 var mkAttrRegex = function (startDelim, endDelim) {
     var start = startDelim.replace(escapeRegex, "\\$&");
     var end = endDelim.replace(escapeRegex, "\\$&");
+
+    if (start === '' && end === '') {
+        start = '^';
+    }
+
     return new RegExp(start + '\\s*(\'|"|&quot;)(.*?)\\1\\s*\\|\\s*translate\\s*' + end, 'g');
 };
 
