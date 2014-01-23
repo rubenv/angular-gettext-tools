@@ -24,6 +24,7 @@ module.exports = function (grunt) {
             }
         });
         var attrRegex = mkAttrRegex(options.startDelim, options.endDelim);
+        var noDelimRegex = mkAttrRegex('', '');
 
         var isValidStrategy = function (strategy) {
             return strategy === 'html' || strategy === 'js';
@@ -75,12 +76,18 @@ module.exports = function (grunt) {
                 var $ = cheerio.load(src);
 
                 $('*').each(function (index, n) {
-                    var node, plural, str;
+                    var node, plural, str, matches;
                     node = $(n);
-                    if (typeof node.attr('translate') !== 'undefined') {
-                        str = node.html();
-                        plural = node.attr('translate-plural');
-                        addString(filename, str, plural);
+
+                    for (var attr in node.attr()) {
+                        if (attr === 'translate') {
+                            str = node.html();
+                            plural = node.attr('translate-plural');
+                            addString(filename, str, plural);
+                        }
+                        else if (matches = noDelimRegex.exec(node.attr(attr))) {
+                            addString(filename, matches[2]);
+                        }
                     }
 
                     if (typeof node.attr('data-translate') !== 'undefined') {

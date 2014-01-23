@@ -237,3 +237,16 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.js_extension')
         done()
+
+    it 'Extracts strings from non-delimited attribute', (done) ->
+        assert(fs.existsSync('tmp/test19.pot'))
+
+        po.load 'tmp/test19.pot', (err, catalog) ->
+            assert.equal(err, null)
+            assert.equal(catalog.items.length, 2)
+            assert.equal(catalog.items[0].msgid, 'Click to upload file')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/no_delimiter.html')
+
+            done()

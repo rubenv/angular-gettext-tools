@@ -65,3 +65,12 @@ describe 'Extract: Filter regex', ->
             assert.equal(matches[2], 'Hello')
             hit = true
         assert(hit)
+
+    it 'Can be used without delimiters', ->
+        regex = mkAttrRegex('', '')
+        hit = false
+        while matches = regex.exec("'Hello' | translate")
+            assert.equal(matches.length, 3)
+            assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)

@@ -45,6 +45,7 @@ module.exports = (grunt) ->
                     'tmp/test13.pot': 'test/fixtures/sort.html'
                     'tmp/test14.pot': 'test/fixtures/concat.js'
                     'tmp/test15.pot': 'test/fixtures/data.html'
+                    'tmp/test19.pot': 'test/fixtures/no_delimiter.html'
             manual:
                 files:
                     'tmp/test5.pot': 'test/fixtures/corrupt.html'
