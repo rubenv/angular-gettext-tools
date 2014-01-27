@@ -203,3 +203,13 @@ describe 'Extract', ->
             assert.equal(catalog.items[1].references[0], 'test/fixtures/concat.js')
 
             done()
+
+    it 'Support data-translate for old-school HTML style', (done) ->
+        po.load 'tmp/test15.pot', (err, catalog) ->
+            assert.equal(err, null)
+            assert.equal(catalog.items.length, 1)
+            assert.equal(catalog.items[0].msgid, 'Hello!')
+            assert.equal(catalog.items[0].msgstr, '')
+            assert.equal(catalog.items[0].references.length, 1)
+            assert.equal(catalog.items[0].references[0], 'test/fixtures/data.html')
+            done()

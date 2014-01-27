@@ -64,6 +64,12 @@ module.exports = function (grunt) {
                         plural = node.attr('translate-plural');
                         addString(filename, str, plural);
                     }
+
+                    if (typeof node.attr('data-translate') !== 'undefined') {
+                        str = node.html();
+                        plural = node.attr('data-translate-plural');
+                        addString(filename, str, plural);
+                    }
                 });
 
                 var matches;
