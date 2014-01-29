@@ -25,6 +25,17 @@ module.exports = function (grunt) {
         });
         var attrRegex = mkAttrRegex(options.startDelim, options.endDelim);
 
+        var isValidStrategy = function (strategy) {
+            return strategy === 'html' || strategy === 'js';
+        };
+
+        for (var extension in options.extensions) {
+            var strategy = options.extensions[extension];
+            if (!isValidStrategy(strategy)) {
+                grunt.log.error("Invalid strategy " + strategy + " for extension " + extension);
+            }
+        }
+
         this.files.forEach(function (file) {
             var failed = false;
             var catalog = new po();
