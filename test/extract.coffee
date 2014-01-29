@@ -213,3 +213,27 @@ describe 'Extract', ->
             assert.equal(catalog.items[0].references.length, 1)
             assert.equal(catalog.items[0].references[0], 'test/fixtures/data.html')
             done()
+
+    it 'Extract strings from custom HTML file extensions', (done) ->
+      assert(fs.existsSync('tmp/test16.pot'))
+
+      po.load 'tmp/test16.pot', (err, catalog) ->
+          assert.equal(err, null)
+          assert.equal(catalog.items.length, 2)
+          assert.equal(catalog.items[0].msgid, 'Custom file!')
+          assert.equal(catalog.items[0].msgstr, '')
+          assert.equal(catalog.items[0].references.length, 1)
+          assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.extension')
+          done()
+
+    it 'Extract strings from custom JS file extensions', (done) ->
+      assert(fs.existsSync('tmp/test17.pot'))
+
+      po.load 'tmp/test17.pot', (err, catalog) ->
+        assert.equal(err, null)
+        assert.equal(catalog.items.length, 1)
+        assert.equal(catalog.items[0].msgid, 'Hello custom')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.js_extension')
+        done()

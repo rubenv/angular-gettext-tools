@@ -1,0 +1,7 @@
+<html>
+    <body>
+        <h1 translate>Custom file!</h1>
+        <p translate>This is a test to show support for custom extensions</p>
+    </body>
+</html>
+

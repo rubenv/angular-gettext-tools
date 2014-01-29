@@ -33,7 +33,7 @@ module.exports = (grunt) ->
             auto:
                 files:
                     'tmp/test1.pot': 'test/fixtures/single.html'
-                    'tmp/test2.pot': ['test/fixtures/single.html', 'test/fixtures/second.html']
+                    'tmp/test2.pot': ['test/fixtures/single.html', 'test/fixtures/second.html', 'test/fixtures/custom.extension']
                     'tmp/test3.pot': 'test/fixtures/plural.html'
                     'tmp/test4.pot': 'test/fixtures/merge.html'
                     'tmp/test6.pot': 'test/fixtures/filter.html'
@@ -54,6 +54,15 @@ module.exports = (grunt) ->
                     endDelim: ']]'
                 files:
                     'tmp/test11.pot': 'test/fixtures/delim.html'
+            custom_extensions:
+                options:
+                  extensions:
+                    extension: 'html'
+                    js_extension: 'js'
+                files:
+                  'tmp/test16.pot': 'test/fixtures/custom.extension'
+                  'tmp/test17.pot': 'test/fixtures/custom.js_extension'
+                  'tmp/test18.pot': 'test/fixtures/single.html'
 
         nggettext_compile:
             test1:
@@ -73,4 +82,4 @@ module.exports = (grunt) ->
     @registerTask 'default', ['test']
     @registerTask 'build', ['clean', 'jshint']
     @registerTask 'package', ['build', 'release']
-    @registerTask 'test', ['build', 'nggettext_extract:auto', 'nggettext_extract:custom', 'nggettext_compile', 'mochacli']
+    @registerTask 'test', ['build', 'nggettext_extract:auto', 'nggettext_extract:custom', 'nggettext_extract:custom_extensions', 'nggettext_compile', 'mochacli']

@@ -14,7 +14,14 @@ module.exports = function (grunt) {
     grunt.registerMultiTask('nggettext_extract', 'Extract strings from views', function () {
         var options = this.options({
             startDelim: '{{',
-            endDelim: '}}'
+            endDelim: '}}',
+            extensions: {
+                htm: 'html',
+                html: 'html',
+                php: 'html',
+                phtml: 'html',
+                js: 'js'
+            }
         });
         var attrRegex = mkAttrRegex(options.startDelim, options.endDelim);
 
@@ -132,11 +139,16 @@ module.exports = function (grunt) {
                 });
             }
 
+            function isSupportedByStrategy(strategy, filename) {
+                var extension = filename.split(".").pop();
+                return (extension in options.extensions) && (options.extensions[extension] === strategy);
+            }
+
             file.src.forEach(function (input) {
-                if (input.match(/\.(htm(|l)|php|phtml)$/)) {
+                if (isSupportedByStrategy("html", input)) {
                     extractHtml(input);
                 }
-                if (input.match(/\.js$/)) {
+                if (isSupportedByStrategy("js", input)) {
                     extractJs(input);
                 }
             });
