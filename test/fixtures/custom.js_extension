@@ -1,0 +1,3 @@
+angular.module("myApp").controller("customController", function (gettext) {
+    var myString = gettext("Hello custom");
+});
