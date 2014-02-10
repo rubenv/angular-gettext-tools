@@ -150,16 +150,17 @@ module.exports = function (grunt) {
                 });
             }
 
-            function isSupportedByStrategy(strategy, filename) {
-                var extension = filename.split(".").pop();
+            function isSupportedByStrategy(strategy, extension) {
                 return (extension in options.extensions) && (options.extensions[extension] === strategy);
             }
 
             file.src.forEach(function (input) {
-                if (isSupportedByStrategy("html", input)) {
+                var extension = input.split(".").pop();
+
+                if (isSupportedByStrategy("html", extension)) {
                     extractHtml(input);
                 }
-                if (isSupportedByStrategy("js", input)) {
+                if (isSupportedByStrategy("js", extension)) {
                     extractJs(input);
                 }
             });
