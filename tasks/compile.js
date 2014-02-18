@@ -1,7 +1,7 @@
 var po = require('pofile');
 
 var formats = {
-    'javascript': {
+    javascript: {
         addLocale: function (locale, strings) {
             return "    gettextCatalog.setStrings('" + locale + "', " + (JSON.stringify(strings)) + ");\n";
         },
@@ -9,7 +9,7 @@ var formats = {
             return "angular.module(\"" + options.module + "\").run(['gettextCatalog', function (gettextCatalog) {\n" + locales.join('') + "\n}]);";
         }
     },
-    'json': {
+    json: {
         addLocale: function (locale, strings) {
             return {name: locale, strings: strings};
         },
