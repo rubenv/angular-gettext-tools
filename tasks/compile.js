@@ -1,21 +1,40 @@
 var po = require('pofile');
 
-var template = function (module, body) {
-    return "angular.module(\"" + module + "\").run(['gettextCatalog', function (gettextCatalog) {\n" + body + "\n}]);";
-};
-
-var langTemplate = function (language, strings) {
-    return "    gettextCatalog.setStrings('" + language + "', " + (JSON.stringify(strings)) + ");\n";
-};
-
 module.exports = function (grunt) {
     grunt.registerMultiTask('nggettext_compile', 'Compile strings from .po files', function () {
+        var outputFormatters = {
+            'module': {
+                addLocale: function(locale, strings) {
+                    return "    gettextCatalog.setStrings('" + locale + "', " + (JSON.stringify(strings)) + ");\n";
+                },
+                format: function(locales, options) {
+                    return "angular.module(\"" + options.moduleName +
+                        "\").run(['gettextCatalog', function (gettextCatalog) {\n" + locales.join('') + "\n}]);";
+                }
+            },
+            'json': {
+                addLocale: function(locale, strings) {
+                    return {locale: locale, strings: strings};
+                },
+                format: function(locales, options) {
+                    return JSON.stringify(locales);
+                }
+            }
+        };
+
         var options = this.options({
-            module: 'gettext'
+            outputFormat: 'module',
+            moduleName: 'gettext'
         });
 
+        if (!outputFormatters.hasOwnProperty(options.outputFormat)) {
+            throw new Error('There is no "' + options.outputFormat + '" output format.');
+        }
+
+        var outputFormatter = outputFormatters[options.outputFormat];
+
         this.files.forEach(function (file) {
-            var body = '';
+            var locales = [];
 
             file.src.forEach(function (input) {
                 var data = grunt.file.read(input);
@@ -31,10 +50,10 @@ module.exports = function (grunt) {
                     strings[item.msgid] = item.msgstr.length === 1 ? item.msgstr[0] : item.msgstr;
                 }
 
-                body += langTemplate(catalog.headers.Language, strings);
+                locales.push(outputFormatter.addLocale(catalog.headers.Language, strings));
             });
 
-            grunt.file.write(file.dest, template(options.module, body));
+            grunt.file.write(file.dest, outputFormatter.format(locales, options));
         });
     });
 };
