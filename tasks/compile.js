@@ -11,10 +11,14 @@ var formats = {
     },
     'json': {
         addLocale: function (locale, strings) {
-            return {locale: locale, strings: strings};
+            return {name: locale, strings: strings};
         },
         format: function (locales, options) {
-            return JSON.stringify(locales);
+            var result = {};
+            locales.forEach(function (locale) {
+                result[locale.name] = locale.strings;
+            });
+            return JSON.stringify(result);
         }
     }
 };

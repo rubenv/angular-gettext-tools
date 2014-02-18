@@ -51,3 +51,19 @@ describe 'Compile', ->
         context = vm.createContext(makeEnv('gettext', catalog))
         vm.runInContext(fs.readFileSync('tmp/test3.js', 'utf8'), context)
         assert.equal(languages, 2)
+
+    it 'Can output to JSON', ->
+        assert(fs.existsSync('tmp/test4.json'))
+
+        data = JSON.parse(fs.readFileSync('tmp/test4.json'))
+        assert.deepEqual(data.fr, {
+            "Hello!": "Bonjour!"
+            "This is a test": "Ceci est un test",
+            "Bird": ["Oiseau", "Oiseaux"]
+        })
+        assert.deepEqual(data.nl, {
+            "Hello!": "Hallo!"
+            "This is a test": "Dit is een test",
+            "Bird": ["Vogel", "Vogels"],
+            "Hello \"world\"": "Hallo \"wereld\""
+        })
