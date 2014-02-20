@@ -1,5 +1,5 @@
 assert = require 'assert'
-mkAttrRegex = require('../tasks/extract').mkAttrRegex
+mkAttrRegex = require('../lib/extract').mkAttrRegex
 
 describe 'Extract: Filter regex', ->
     regex = null
