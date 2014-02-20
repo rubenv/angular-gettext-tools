@@ -1,10 +1,14 @@
-# grunt-angular-gettext
+# angular-gettext
 
-> Tasks for extracting/compiling angular-gettext strings.
+> Tools for extracting/compiling angular-gettext strings.
 
-Used in combination with [`angular-gettext`](https://github.com/rubenv/angular-gettext).
+Used to construct build tools for [`angular-gettext`](https://github.com/rubenv/angular-gettext).
 
-[![Build Status](https://travis-ci.org/rubenv/grunt-angular-gettext.png?branch=master)](https://travis-ci.org/rubenv/grunt-angular-gettext)
+[![Build Status](https://travis-ci.org/rubenv/grunt-angular-gettext.png?branch=master)](https://travis-ci.org/rubenv/angular-gettext-tools)
+
+Implementations:
+
+* [Grunt](https://github.com/rubenv/grunt-angular-gettext)
 
 Check the website for usage instructions: [http://angular-gettext.rocketeer.be/](http://angular-gettext.rocketeer.be/).
 
@@ -12,7 +16,7 @@ Check the website for usage instructions: [http://angular-gettext.rocketeer.be/]
 
     (The MIT License)
 
-    Copyright (C) 2013 by Ruben Vermeersch <ruben@savanne.be>
+    Copyright (C) 2013-2014 by Ruben Vermeersch <ruben@rocketeer.be>
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

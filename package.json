@@ -1,24 +1,24 @@
 {
-  "name": "grunt-angular-gettext",
-  "description": "Tasks for extracting/compiling angular-gettext strings.",
+  "name": "angular-gettext-tools",
+  "description": "Tools for extracting/compiling angular-gettext strings.",
   "version": "0.2.8",
   "homepage": "http://angular-gettext.rocketeer.be/",
   "author": {
     "name": "Ruben Vermeersch",
-    "email": "ruben@savanne.be",
-    "url": "http://savanne.be"
+    "email": "ruben@rocketeer.be",
+    "url": "http://rocketeer.be"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/rubenv/grunt-angular-gettext.git"
+    "url": "git://github.com/rubenv/angular-gettext-tools.git"
   },
   "bugs": {
-    "url": "https://github.com/rubenv/grunt-angular-gettext/issues"
+    "url": "https://github.com/rubenv/angular-gettext-tools/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/rubenv/grunt-angular-gettext/blob/master/LICENSE"
+      "url": "https://github.com/rubenv/angular-gettext-tools/blob/master/LICENSE"
     }
   ],
   "main": "Gruntfile.js",
