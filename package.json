@@ -29,13 +29,13 @@
     "test": "grunt test"
   },
   "devDependencies": {
+    "coffee-script": "~1.6.3",
     "grunt": "~0.4.1",
     "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-watch": "~0.5.1",
     "grunt-mocha-cli": "~1.0.6",
-    "grunt-release": "~0.4.0",
-    "coffee-script": "~1.6.3",
-    "grunt-contrib-jshint": "~0.7.2"
+    "grunt-release": "~0.4.0"
   },
   "keywords": [
     "angular",
@@ -44,7 +44,7 @@
   "dependencies": {
     "cheerio": "~0.12.2",
     "esprima": "~1.0.3",
-    "pofile": "~0.2.1",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "pofile": "~0.2.1"
   }
 }
