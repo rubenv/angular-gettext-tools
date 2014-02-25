@@ -3,16 +3,14 @@ PO = require 'pofile'
 fs = require 'fs'
 Extractor = require('..').Extractor
 
+testExtract = (filenames, options) ->
+    extractor = new Extractor(options)
+    for filename in filenames
+        extractor.parse(filename, fs.readFileSync(filename, 'utf8'))
+
+    return PO.parse(extractor.toString())
+
 describe 'Extract', ->
-    testExtract = (filenames, options) ->
-        extractor = new Extractor(options)
-        for filename in filenames
-            extractor.parse(filename, fs.readFileSync(filename, 'utf8'))
-
-        return PO.parse(extractor.toString())
-
-
-
     it 'Extracts strings from views', () ->
         files = [
             'test/fixtures/single.html'
