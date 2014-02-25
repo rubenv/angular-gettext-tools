@@ -1,4 +1,4 @@
 module.exports = {
     Compiler: require('./lib/compile'),
-    extract: require('./lib/extract'),
+    Extractor: require('./lib/extract')
 };
