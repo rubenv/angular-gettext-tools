@@ -288,3 +288,23 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/custom_marker_name.js')
+
+    it 'Can post-process the catalog', ->
+        called = false
+
+        files = [
+            'test/fixtures/single.html'
+        ]
+        catalog = testExtract(files, {
+            postProcess: (po) ->
+                called = true
+                po.headers.Test = 'Test'
+        })
+
+        assert.equal(catalog.items.length, 1)
+        assert.equal(catalog.items[0].msgid, 'Hello!')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/single.html')
+        assert.equal(catalog.headers.Test, 'Test')
+        assert(called)
