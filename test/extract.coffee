@@ -11,7 +11,7 @@ testExtract = (filenames, options) ->
     return PO.parse(extractor.toString())
 
 describe 'Extract', ->
-    it 'Extracts strings from views', () ->
+    it 'Extracts strings from views', ->
         files = [
             'test/fixtures/single.html'
         ]
@@ -23,7 +23,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/single.html')
 
-    it 'Merges multiple views into one .pot', () ->
+    it 'Merges multiple views into one .pot', ->
         files = [
             'test/fixtures/single.html'
             'test/fixtures/second.html'
@@ -36,7 +36,7 @@ describe 'Extract', ->
         assert.equal(i[0].msgid, 'Hello!')
         assert.equal(i[1].msgid, 'This is a test')
 
-    it 'Merges duplicate strings with references', () ->
+    it 'Merges duplicate strings with references', ->
         files = [
             'test/fixtures/single.html'
             'test/fixtures/second.html'
@@ -56,7 +56,7 @@ describe 'Extract', ->
         assert.equal(i[1].references.length, 1)
         assert.equal(i[1].references[0], 'test/fixtures/second.html')
 
-    it 'Extracts plural strings', () ->
+    it 'Extracts plural strings', ->
         files = [
             'test/fixtures/plural.html'
         ]
@@ -71,7 +71,7 @@ describe 'Extract', ->
         assert.equal(i[0].msgstr[0], '')
         assert.equal(i[0].msgstr[1], '')
 
-    it 'Merges singular and plural strings', () ->
+    it 'Merges singular and plural strings', ->
         files = [
             'test/fixtures/merge.html'
         ]
@@ -86,14 +86,14 @@ describe 'Extract', ->
         assert.equal(i[0].msgstr[0], '')
         assert.equal(i[0].msgstr[1], '')
 
-    it 'Warns for incompatible plurals', () ->
+    it 'Warns for incompatible plurals', ->
         files = [
             'test/fixtures/corrupt.html'
         ]
-        assert.throws () ->
+        assert.throws ->
             testExtract(files)
 
-    it 'Extracts filter strings', () ->
+    it 'Extracts filter strings', ->
         files = [
             'test/fixtures/filter.html'
         ]
@@ -110,7 +110,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/filter.html')
 
-    it 'Extracts flagged strings from JavaScript source', () ->
+    it 'Extracts flagged strings from JavaScript source', ->
         files = [
             'test/fixtures/source.js'
         ]
@@ -122,7 +122,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/source.js')
 
-    it 'Extracts strings with quotes', () ->
+    it 'Extracts strings with quotes', ->
         files = [
             'test/fixtures/quotes.html'
         ]
@@ -134,7 +134,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/quotes.html')
 
-    it 'Strips whitespace around strings', () ->
+    it 'Strips whitespace around strings', ->
         files = [
             'test/fixtures/strip.html'
         ]
@@ -146,7 +146,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/strip.html')
 
-    it 'Handles attribute with < or >', () ->
+    it 'Handles attribute with < or >', ->
         files = [
             'test/fixtures/ngif.html'
         ]
@@ -161,7 +161,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/ngif.html')
 
-    it 'Can customize delimiters', () ->
+    it 'Can customize delimiters', ->
         files = [
             'test/fixtures/delim.html'
         ]
@@ -176,7 +176,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/delim.html')
 
-    it 'Can extract from PHP files', () ->
+    it 'Can extract from PHP files', ->
         files = [
             'test/fixtures/php.php'
         ]
@@ -188,7 +188,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/php.php')
 
-    it 'Sorts strings', () ->
+    it 'Sorts strings', ->
         files = [
             'test/fixtures/sort.html'
         ]
@@ -199,7 +199,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].msgid, 'b')
         assert.equal(catalog.items[2].msgid, 'c')
 
-    it 'Extracts strings concatenation from JavaScript source', () ->
+    it 'Extracts strings concatenation from JavaScript source', ->
         files = [
             'test/fixtures/concat.js'
         ]
@@ -216,7 +216,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/concat.js')
 
-    it 'Support data-translate for old-school HTML style', () ->
+    it 'Support data-translate for old-school HTML style', ->
         files = [
             'test/fixtures/data.html'
         ]
@@ -228,7 +228,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/data.html')
 
-    it 'Extract strings from custom HTML file extensions', () ->
+    it 'Extract strings from custom HTML file extensions', ->
         files = [
             'test/fixtures/custom.extension'
         ]
@@ -243,7 +243,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.extension')
 
-    it 'Extract strings from custom JS file extensions', () ->
+    it 'Extract strings from custom JS file extensions', ->
         files = [
             'test/fixtures/custom.js_extension'
         ]
@@ -258,7 +258,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.js_extension')
 
-    it 'Extracts strings from non-delimited attribute', () ->
+    it 'Extracts strings from non-delimited attribute', ->
         files = [
             'test/fixtures/no_delimiter.html'
         ]
@@ -275,7 +275,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/no_delimiter.html')
 
-    it 'Can customize the marker name', () ->
+    it 'Can customize the marker name', ->
         files = [
             'test/fixtures/custom_marker_name.js'
         ]
