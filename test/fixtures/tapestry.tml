@@ -1,0 +1,3 @@
+<html t:type="layout" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+    <h1 translate>Bonjour from HelloWorld component.</h1>
+</html>
