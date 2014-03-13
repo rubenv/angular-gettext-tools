@@ -100,3 +100,17 @@ describe 'Compile', ->
             "Bird": ["Vogel", "Vogels"],
             "Hello \"world\"": "Hallo \"wereld\""
         })
+
+    it 'Ignores empty strings', ->
+        files = [
+            'test/fixtures/empty.po'
+        ]
+        output = testCompile(files, {
+            format: 'json'
+        })
+
+        data = JSON.parse(output)
+        assert.deepEqual(data.nl, {
+            "This is a test": "Dit is een test",
+        })
+
