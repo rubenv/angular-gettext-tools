@@ -122,6 +122,23 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/source.js')
 
+    it 'Extracts strings from calls to gettextCatalog', ->
+        files = [
+            'test/fixtures/catalog.js'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 2)
+        assert.equal(catalog.items[0].msgid, 'Hello')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/catalog.js')
+        assert.equal(catalog.items[1].msgid, 'Bird')
+        assert.equal(catalog.items[1].msgid_plural, 'Birds')
+        assert.equal(catalog.items[1].msgstr.length, 2)
+        assert.equal(catalog.items[1].msgstr[0], '')
+        assert.equal(catalog.items[1].msgstr[1], '')
+
     it 'Extracts strings with quotes', ->
         files = [
             'test/fixtures/quotes.html'
