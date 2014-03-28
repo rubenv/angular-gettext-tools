@@ -1,4 +1,4 @@
-# angular-gettext
+# angular-gettext-tools
 
 > Tools for extracting/compiling angular-gettext strings.
 
