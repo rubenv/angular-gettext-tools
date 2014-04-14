@@ -1,4 +1,5 @@
 assert = require 'assert'
+util = require 'util'
 fs = require 'fs'
 vm = require 'vm'
 Compiler = require('..').Compiler
@@ -13,6 +14,20 @@ makeEnv = (mod, catalog) -> {
                     assert.equal(block[0], 'gettextCatalog')
                     block[1](catalog)
             }
+}
+# Fake Angular environment with RequireJS module loader
+makeRequireJsEnv = (mod, modPath, catalog) -> {
+    define: (modules, callback) ->
+        angular = {
+            module: (modDefined) ->
+                assert.equal(modDefined, mod)
+                return {
+                    run: (block) ->
+                        assert.equal(block[0], 'gettextCatalog')
+                        block[1](catalog)
+                }
+        }
+        callback(angular)
 }
 
 testCompile = (filenames, options) ->
@@ -55,6 +70,25 @@ describe 'Compile', ->
                 @called = true
         }
         context = vm.createContext(makeEnv('myApp', catalog))
+        vm.runInContext(output, context)
+        assert(catalog.called)
+
+    it 'Accepts a requirejs and modulePath parameter', ->
+        files = [
+            'test/fixtures/nl.po'
+        ]
+        output = testCompile(files, {
+            module: 'myApp'
+            requirejs: true
+            modulePath: './test/fixtures/module'
+        })
+
+        catalog = {
+            called: false
+            setStrings: (language, strings) ->
+                @called = true
+        }
+        context = vm.createContext(makeRequireJsEnv('myApp', './test/fixtures/module', catalog))
         vm.runInContext(output, context)
         assert(catalog.called)
 
