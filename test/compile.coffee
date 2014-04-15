@@ -15,9 +15,12 @@ makeEnv = (mod, catalog) -> {
                     block[1](catalog)
             }
 }
+
 # Fake Angular environment with RequireJS module loader
 makeRequireJsEnv = (mod, modPath, catalog) -> {
     define: (modules, callback) ->
+        assert.equal(modules[0], 'angular')
+        assert.equal(modules[1], modPath)
         angular = {
             module: (modDefined) ->
                 assert.equal(modDefined, mod)
