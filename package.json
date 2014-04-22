@@ -43,7 +43,7 @@
   ],
   "dependencies": {
     "cheerio": "~0.12.2",
-    "esprima": "~1.0.3",
+    "esprima": "~1.1.1",
     "lodash": "~2.4.1",
     "pofile": "~0.2.7"
   }
