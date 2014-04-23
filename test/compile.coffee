@@ -151,3 +151,15 @@ describe 'Compile', ->
             "This is a test": "Dit is een test",
         })
 
+    it 'Ignores fuzzy strings', ->
+        files = [
+            'test/fixtures/fuzzy.po'
+        ]
+        output = testCompile(files, {
+            format: 'json'
+        })
+
+        data = JSON.parse(output)
+        assert.deepEqual(data.nl, {
+            "This is a test": "Dit is een test",
+        })
