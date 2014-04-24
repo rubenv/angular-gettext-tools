@@ -76,6 +76,26 @@ describe 'Compile', ->
         vm.runInContext(output, context)
         assert(catalog.called)
 
+    it 'Accepts a defaultLanguage parameter', ->
+        files = [
+            'test/fixtures/nl.po'
+        ]
+        output = testCompile(files, {
+            defaultLanguage: 'nl'
+        })
+
+        catalog = {
+            called: false
+            setStrings: (language, strings) ->
+                @called = true
+        }
+
+        context = vm.createContext(makeEnv('gettext', catalog))
+        vm.runInContext(output, context);
+        assert(catalog.called)
+        assert.notEqual(output.indexOf("gettextCatalog.currentLanguage = 'nl';"), -1)
+        assert.equal(catalog.currentLanguage, 'nl');
+
     it 'Accepts a requirejs and modulePath parameter', ->
         files = [
             'test/fixtures/nl.po'
