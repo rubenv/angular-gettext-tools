@@ -71,6 +71,38 @@ describe 'Extract', ->
         assert.equal(i[0].msgstr[0], '')
         assert.equal(i[0].msgstr[1], '')
 
+    it 'Extracts comment strings', ->
+        files = [
+            'test/fixtures/comments.html'
+        ]
+        catalog = testExtract(files)
+
+        i = catalog.items
+        assert.equal(i.length, 1)
+
+        assert.equal(i[0].msgid, 'Translate this')
+        assert.equal(i[0].extractedComments, 'This is a comment')
+
+    it 'Extracts comment strings from JavaScript source', ->
+        files = [
+            'test/fixtures/comments.js'
+        ]
+        catalog = testExtract(files)
+
+        i = catalog.items
+
+        assert.equal(i.length, 3)
+
+        assert.equal(i[0].msgid, 'Bird')
+        assert.equal(i[0].extractedComments, 'Plural Comments')
+
+        assert.equal(i[1].msgid, 'Translate this')
+        assert.equal(i[1].extractedComments, 'This is a comment')
+
+        assert.equal(i[2].msgid, 'Two Part Comment')
+        assert.equal(i[2].extractedComments, 'This is two part comment, Second part')
+
+
     it 'Merges singular and plural strings', ->
         files = [
             'test/fixtures/merge.html'
