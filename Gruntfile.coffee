@@ -2,6 +2,7 @@ module.exports = (grunt) ->
     @loadNpmTasks('grunt-contrib-clean')
     @loadNpmTasks('grunt-contrib-jshint')
     @loadNpmTasks('grunt-contrib-watch')
+    @loadNpmTasks('grunt-jscs-checker')
     @loadNpmTasks('grunt-mocha-cli')
     @loadNpmTasks('grunt-bump')
 
@@ -10,6 +11,13 @@ module.exports = (grunt) ->
             all: [ 'lib/*.js', 'index.js' ]
             options:
                 jshintrc: '.jshintrc'
+
+        jscs:
+            src:
+                options:
+                    config: '.jscs.json'
+                files:
+                    src: ['*.{js,json}', '{lib,test}/**/*.js', '!test/fixtures/custom_marker_name.js']
 
         clean:
             tmp: ['tmp']
@@ -34,5 +42,5 @@ module.exports = (grunt) ->
                 pushTo: 'origin'
 
     @registerTask 'default', ['test']
-    @registerTask 'build', ['clean', 'jshint']
+    @registerTask 'build', ['clean', 'jshint', 'jscs']
     @registerTask 'test', ['build', 'mochacli']
