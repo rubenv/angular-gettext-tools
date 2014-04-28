@@ -4,8 +4,8 @@ angular.module("myApp").controller("helloController", function (gettext, gettext
 
     /// This is two part comment
     /// Second part
-	var myString = gettext("Two Part Comment");
+    var myString = gettext("Two Part Comment");
 
-	/// Plural Comments
-	var myString = gettextCatalog.getPlural(2, 'Bird', 'Birds');
+    /// Plural Comments
+    var myString = gettextCatalog.getPlural(2, "Bird", "Birds");
 });
