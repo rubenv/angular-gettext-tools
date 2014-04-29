@@ -6,6 +6,14 @@ angular.module("myApp").controller("helloController", function (gettext, gettext
     /// Second part
     var myString = gettext("Two Part Comment");
 
+	/**
+	* Please ignore this comment ///gettext
+	  Thank You
+	*/
+    var myString = gettext("No comment");
+
     /// Plural Comments
     var myString = gettextCatalog.getPlural(2, "Bird", "Birds");
+
+    /// Comment with no translations, ignore this comment too
 });
