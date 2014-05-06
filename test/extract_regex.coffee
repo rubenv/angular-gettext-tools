@@ -10,7 +10,15 @@ describe 'Extract: Filter regex', ->
     it 'Matches a simple string', ->
         hit = false
         while matches = regex.exec("{{'Hello'|translate}}")
-            assert.equal(matches.length, 3)
+            assert.equal(matches.length, 4)
+            assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)
+
+    it 'Matches a simple string with multiple filters', ->
+        hit = false
+        while matches = regex.exec("{{'Hello'|translate|lowercase}}")
+            assert.equal(matches.length, 4)
             assert.equal(matches[2], 'Hello')
             hit = true
         assert(hit)
@@ -18,7 +26,15 @@ describe 'Extract: Filter regex', ->
     it 'Matches double quotes', ->
         hit = false
         while matches = regex.exec('{{"Hello"|translate}}')
-            assert.equal(matches.length, 3)
+            assert.equal(matches.length, 4)
+            assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)
+
+    it 'Matches double quotes with multiple filters', ->
+        hit = false
+        while matches = regex.exec('{{"Hello"|translate|lowercase}}')
+            assert.equal(matches.length, 4)
             assert.equal(matches[2], 'Hello')
             hit = true
         assert(hit)
@@ -27,10 +43,23 @@ describe 'Extract: Filter regex', ->
         hit = 0
         while matches = regex.exec("{{'Hello'|translate}} {{\"Second\"|translate}}")
             if hit == 0
-                assert.equal(matches.length, 3)
+                assert.equal(matches.length, 4)
                 assert.equal(matches[2], 'Hello')
             else if hit == 1
-                assert.equal(matches.length, 3)
+                assert.equal(matches.length, 4)
+                assert.equal(matches[2], 'Second')
+            hit++
+
+        assert.equal(hit, 2)
+
+    it 'Matches multiple strings with multiple filters', ->
+        hit = 0
+        while matches = regex.exec("{{'Hello'|translate|lowercase}} {{\"Second\"|translate|uppercase}}")
+            if hit == 0
+                assert.equal(matches.length, 4)
+                assert.equal(matches[2], 'Hello')
+            else if hit == 1
+                assert.equal(matches.length, 4)
                 assert.equal(matches[2], 'Second')
             hit++
 
@@ -40,10 +69,23 @@ describe 'Extract: Filter regex', ->
         hit = 0
         while matches = regex.exec("{{'Hello'|translate}} {{&quot;Second&quot;|translate}}")
             if hit == 0
-                assert.equal(matches.length, 3)
+                assert.equal(matches.length, 4)
                 assert.equal(matches[2], 'Hello')
             else if hit == 1
-                assert.equal(matches.length, 3)
+                assert.equal(matches.length, 4)
+                assert.equal(matches[2], 'Second')
+            hit++
+
+        assert.equal(hit, 2)
+
+    it 'Matches encoded quotes with multiple filters', ->
+        hit = 0
+        while matches = regex.exec("{{'Hello'|translate}} {{&quot;Second&quot;|translate|lowercase}}")
+            if hit == 0
+                assert.equal(matches.length, 4)
+                assert.equal(matches[2], 'Hello')
+            else if hit == 1
+                assert.equal(matches.length, 4)
                 assert.equal(matches[2], 'Second')
             hit++
 
@@ -52,7 +94,15 @@ describe 'Extract: Filter regex', ->
     it 'Matches spaces', ->
         hit = false
         while matches = regex.exec('{{ "Hello" | translate }}')
-            assert.equal(matches.length, 3)
+            assert.equal(matches.length, 4)
+            assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)
+
+    it 'Matches spaces with multiple filters', ->
+        hit = false
+        while matches = regex.exec('{{ "Hello" | translate | lowercase }}')
+            assert.equal(matches.length, 4)
             assert.equal(matches[2], 'Hello')
             hit = true
         assert(hit)
@@ -61,7 +111,16 @@ describe 'Extract: Filter regex', ->
         regex = mkAttrRegex('[[', ']]')
         hit = false
         while matches = regex.exec("[['Hello'|translate]]")
-            assert.equal(matches.length, 3)
+            assert.equal(matches.length, 4)
+            assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)
+
+    it 'Can customize delimiters with multiple filters', ->
+        regex = mkAttrRegex('[[', ']]')
+        hit = false
+        while matches = regex.exec("[['Hello'|translate|lowercase]]")
+            assert.equal(matches.length, 4)
             assert.equal(matches[2], 'Hello')
             hit = true
         assert(hit)
@@ -70,10 +129,19 @@ describe 'Extract: Filter regex', ->
         regex = mkAttrRegex('', '')
         hit = false
         while matches = regex.exec("'Hello' | translate")
-            assert.equal(matches.length, 3)
+            assert.equal(matches.length, 4)
             assert.equal(matches[2], 'Hello')
             hit = true
         assert(hit)
+        
+    it 'Can be used without delimiters with multiple filters', ->
+        regex = mkAttrRegex('', '')
+        hit = false
+        while matches = regex.exec("'Hello' | translate | lowercase")
+            assert.equal(matches.length, 4)
+            assert.equal(matches[2], 'Hello')
+            hit = true
+        assert(hit)        
 
         matches = regex.exec("{{'Hello' | translate}}")
         assert.equal(matches, null)
