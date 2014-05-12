@@ -390,3 +390,15 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/tapestry.tml')
+
+    it 'Extract filter from js code', () ->
+        files = [
+            'test/fixtures/provider.js'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 1)
+        assert.equal(catalog.items[0].msgid, 'Users')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/provider.js')
