@@ -9,6 +9,7 @@ Used to construct build tools for [`angular-gettext`](https://github.com/rubenv/
 Implementations:
 
 * [Grunt](https://github.com/rubenv/grunt-angular-gettext)
+* [Gulp](https://github.com/gabegorelick/gulp-angular-gettext)
 
 Check the website for usage instructions: [http://angular-gettext.rocketeer.be/](http://angular-gettext.rocketeer.be/).
 
