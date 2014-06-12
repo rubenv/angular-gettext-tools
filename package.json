@@ -21,7 +21,7 @@
       "url": "https://github.com/rubenv/angular-gettext-tools/blob/master/LICENSE"
     }
   ],
-  "main": "Gruntfile.js",
+  "main": "index.js",
   "engines": {
     "node": ">= 0.8.0"
   },
