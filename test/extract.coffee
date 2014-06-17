@@ -192,6 +192,25 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/catalog.js')
 
+    it 'Extracts strings from deep path calls to obj.gettextCatalog', ->
+        files = [
+            'test/fixtures/deeppath_catalog.js'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items[0].msgid, 'Bird')
+        assert.equal(catalog.items[0].msgid_plural, 'Birds')
+        assert.equal(catalog.items[0].msgstr.length, 2)
+        assert.equal(catalog.items[0].msgstr[0], '')
+        assert.equal(catalog.items[0].msgstr[1], '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/deeppath_catalog.js')
+        assert.equal(catalog.items.length, 2)
+        assert.equal(catalog.items[1].msgid, 'Hello')
+        assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/deeppath_catalog.js')
+
     it 'Extracts strings with quotes', ->
         files = [
             'test/fixtures/quotes.html'
