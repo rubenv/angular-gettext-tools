@@ -20,7 +20,7 @@ module.exports = function (grunt) {
                     config: '.jscs.json'
                 },
                 files: {
-                    src: ['*.{js,json}', '{lib,test}/**/*.js', '!test/fixtures/custom_marker_name.js']
+                    src: ['*.{js,json}', '{lib,test}/**/*.js', '!test/fixtures/*.js']
                 }
             }
         },
