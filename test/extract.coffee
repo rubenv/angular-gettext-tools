@@ -173,6 +173,27 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/source.js')
 
+    it 'Extracts flagged strings from OOP Javascript source', ->
+        files = [
+            'test/fixtures/source-property.js'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 3)
+        assert.equal(catalog.items[0].msgid, 'Hello')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[1].msgid, 'World')
+        assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[2].msgid, 'Hello world')
+        assert.equal(catalog.items[2].msgstr, '')
+
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/source-prototype.js')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[0].references[1], 'test/fixtures/source-prototype.js')
+        assert.equal(catalog.items[2].references.length, 1)
+        assert.equal(catalog.items[0].references[2], 'test/fixtures/source-prototype.js')
+
     it 'Extracts strings from calls to gettextCatalog', ->
         files = [
             'test/fixtures/catalog.js'
