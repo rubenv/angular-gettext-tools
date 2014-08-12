@@ -190,4 +190,19 @@ describe('Compile', function () {
             'This is a test': 'Dit is een test'
         });
     });
+
+    it('Can output multiple inputs to single JSON', function () {
+        var files = ['test/fixtures/fr.po', 'test/fixtures/depth/fr.po'];
+        var output = testCompile(files, {
+            format: 'json'
+        });
+        var data = JSON.parse(output);
+
+        assert.deepEqual(data.fr, {
+            'Hello!': 'Bonjour!',
+            'This is a test': 'Ceci est un test',
+            'Bird': ['Oiseau', 'Oiseaux'],
+            'Goodbye!': 'Au revoir!'
+        });
+    });
 });
