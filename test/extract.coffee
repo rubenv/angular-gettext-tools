@@ -256,6 +256,18 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped-quotes.html')
 
+    it 'Works with inline templates', ->
+        files = [
+            'test/fixtures/inline-templates.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 1)
+        assert.equal(catalog.items[0].msgid, 'Hello world!')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/inline-templates.html')
+
     it 'Does not encode entities', ->
         files = [
             'test/fixtures/entities.html'
