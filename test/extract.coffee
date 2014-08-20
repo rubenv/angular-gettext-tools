@@ -244,6 +244,40 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/quotes.html')
 
+    it 'Does not escape single quotes', ->
+        files = [
+            'test/fixtures/escaped-quotes.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 1)
+        assert.equal(catalog.items[0].msgid, "'These quotes' should not be escaped.")
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped-quotes.html')
+
+    it 'Does not encode entities', ->
+        files = [
+            'test/fixtures/entities.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 3)
+        assert.equal(catalog.items[0].msgid, '&amp; & &apos; \' &gt; > &lt; < &quot; "')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/entities.html')
+
+        assert.equal(catalog.items[1].msgid, '<span id="&amp; & &apos; \' &gt; > &lt; <"></span>')
+        assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/entities.html')
+
+        assert.equal(catalog.items[2].msgid, '<span id="&amp; & &gt; > &lt; < &quot;"></span>')
+        assert.equal(catalog.items[2].msgstr, '')
+        assert.equal(catalog.items[2].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/entities.html')
+
     it 'Strips whitespace around strings', ->
         files = [
             'test/fixtures/strip.html'

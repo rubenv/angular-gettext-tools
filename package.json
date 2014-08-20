@@ -43,7 +43,7 @@
     "gettext"
   ],
   "dependencies": {
-    "cheerio": "~0.15.0",
+    "cheerio": "~0.17.0",
     "esprima": "~1.1.1",
     "lodash": "~2.4.1",
     "pofile": "~0.2.8"
