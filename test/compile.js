@@ -73,6 +73,30 @@ describe('Compile', function () {
         assert(catalog.called);
     });
 
+    it('Adds objects to the catalog if translations have a msgctxt', function () {
+        var files = ['test/fixtures/pt.po'];
+        var output = testCompile(files);
+        console.log(output);
+        var catalog = {
+            called: false,
+            setStrings: function (language, strings) {
+                this.called = true;
+                assert.equal(language, 'pt-BR');
+                assert.deepEqual(strings['Hello!'], {
+                    male:'Olá!',
+                    female:'Olá Olá!'
+                });
+                assert.deepEqual(strings.Bird, {
+                    cage:['Pássaro Oprimido', 'Pássaros Oprimidos'],
+                    free:['Pássaro Livre', 'Pássaros Livres']
+                });
+            }
+        };
+
+        var context = vm.createContext(makeEnv('gettext', catalog));
+        vm.runInContext(output, context);
+    });
+
     it('Accepts a module parameter', function () {
         var files = ['test/fixtures/nl.po'];
         var output = testCompile(files, {
