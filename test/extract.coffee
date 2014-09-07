@@ -504,16 +504,16 @@ describe 'Extract', ->
         catalog = testExtract(files)
 
         assert.equal(catalog.items.length, 2)
-        assert.equal(catalog.items[0].msgid, 'Hello!')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].msgctxt, 'male')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/homonyms.html')
         assert.equal(catalog.items[1].msgid, 'Hello!')
         assert.equal(catalog.items[1].msgstr, '')
-        assert.equal(catalog.items[1].msgctxt, 'female')
+        assert.equal(catalog.items[1].msgctxt, 'male')
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/homonyms.html')
+        assert.equal(catalog.items[0].msgid, 'Hello!')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].msgctxt, 'female')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/homonyms.html')
 
     it 'Can extract context aware translations from javascript', () ->
         files = [
