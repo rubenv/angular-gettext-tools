@@ -83,8 +83,8 @@ describe('Compile', function () {
                 this.called = true;
                 assert.equal(language, 'pt-BR');
                 assert.deepEqual(strings['Hello!'], {
-                    male:'Olá!',
-                    female:'Olá Olá!'
+                    male:['Olá!'],
+                    female:['Olá Olá!']
                 });
                 assert.deepEqual(strings.Bird, {
                     cage:['Pássaro Oprimido', 'Pássaros Oprimidos'],
