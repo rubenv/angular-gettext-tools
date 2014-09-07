@@ -133,7 +133,7 @@ describe 'Extract', ->
         ]
         catalog = testExtract(files)
 
-        assert.equal(catalog.items.length, 2)
+        assert.equal(catalog.items.length, 4)
         assert.equal(catalog.items[0].msgid, 'Hello')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
@@ -143,6 +143,16 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/filter.html')
+        assert.equal(catalog.items[2].msgid, 'Bird')
+        assert.equal(catalog.items[2].msgstr, '')
+        assert.equal(catalog.items[2].msgctxt, 'cage')
+        assert.equal(catalog.items[2].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/filter.html')
+        assert.equal(catalog.items[3].msgid, 'Bird')
+        assert.equal(catalog.items[3].msgstr, '')
+        assert.equal(catalog.items[3].msgctxt, 'free')
+        assert.equal(catalog.items[3].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/filter.html')
 
     it 'Extracts concatenated filter strings', ->
         files = [
@@ -150,7 +160,7 @@ describe 'Extract', ->
         ]
         catalog = testExtract(files)
 
-        assert.equal(catalog.items.length, 2)
+        assert.equal(catalog.items.length, 4)
         assert.equal(catalog.items[0].msgid, 'Hello')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
@@ -160,6 +170,16 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/multifilter.html')
+        assert.equal(catalog.items[2].msgid, 'Bird')
+        assert.equal(catalog.items[2].msgstr, '')
+        assert.equal(catalog.items[2].msgctxt, 'cage')
+        assert.equal(catalog.items[2].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/multifilter.html')
+        assert.equal(catalog.items[3].msgid, 'Bird')
+        assert.equal(catalog.items[3].msgstr, '')
+        assert.equal(catalog.items[3].msgctxt, 'free')
+        assert.equal(catalog.items[3].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/multifilter.html')
 
     it 'Extracts flagged strings from JavaScript source', ->
         files = [
@@ -476,3 +496,60 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/tapestry.tml')
+
+    it 'Can extract context aware translations from html', () ->
+        files = [
+            'test/fixtures/homonyms.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 2)
+        assert.equal(catalog.items[1].msgid, 'Hello!')
+        assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[1].msgctxt, 'male')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/homonyms.html')
+        assert.equal(catalog.items[0].msgid, 'Hello!')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].msgctxt, 'female')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/homonyms.html')
+
+    it 'Can extract context aware translations from javascript', () ->
+        files = [
+            'test/fixtures/homonyms.js'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 4)
+        assert.equal(catalog.items[0].msgid, 'Bird')
+        assert.equal(catalog.items[0].msgid_plural, 'Birds')
+        assert.equal(catalog.items[0].msgstr.length, 2)
+        assert.equal(catalog.items[0].msgctxt, 'cage')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/homonyms.js')
+        assert.equal(catalog.items[1].msgid, 'Bird')
+        assert.equal(catalog.items[1].msgid_plural, 'Birds')
+        assert.equal(catalog.items[1].msgstr.length, 2)
+        assert.equal(catalog.items[1].msgctxt, 'free')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/homonyms.js')
+        assert.equal(catalog.items[2].msgid, 'Hello!')
+        assert.equal(catalog.items[2].msgstr, '')
+        assert.equal(catalog.items[2].msgctxt, 'male')
+        assert.equal(catalog.items[2].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/homonyms.js')
+        assert.equal(catalog.items[3].msgid, 'Hello!')
+        assert.equal(catalog.items[3].msgstr, '')
+        assert.equal(catalog.items[3].msgctxt, 'female')
+        assert.equal(catalog.items[3].references.length, 1)
+        assert.equal(catalog.items[3].references[0], 'test/fixtures/homonyms.js')
+
+    it 'Warns for msgid with and without msgctxt in the same code base', ->
+        files = [
+            'test/fixtures/homonyms_corrupt_with_msgctxt_first.html',
+            'test/fixtures/homonyms_corrupt_without_msgctxt_first.html',
+            'test/fixtures/homonyms_corrupt.js',
+        ]
+        assert.throws ->
+            testExtract(files)
