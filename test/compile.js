@@ -5,14 +5,18 @@ var vm = require('vm');
 var Compiler = require('..').Compiler;
 
 // Fake Angular environment
-function makeEnv(mod, catalog) {
+function makeEnv(mod, catalog, catalogName) {
     return {
         angular: {
             module: function (modDefined) {
                 assert.equal(modDefined, mod);
                 return {
                     run: function (block) {
-                        assert.equal(block[0], 'gettextCatalog');
+                        if (catalogName) {
+                            assert.equal(block[0], catalogName);
+                        } else {
+                            assert.equal(block[0], 'gettextCatalog');
+                        }
                         return block[1](catalog);
                     }
                 };
@@ -124,6 +128,24 @@ describe('Compile', function () {
         };
 
         var context = vm.createContext(makeRequireJsEnv('myApp', './test/fixtures/module', catalog));
+        vm.runInContext(output, context);
+        assert(catalog.called);
+    });
+
+    it('Accepts a catalogMarkerName and catalogAccessorName parameter', function () {
+        var files = ['test/fixtures/nl.po'];
+        var output = testCompile(files, {
+            catalogMarkerName: 'myGettextCatalog',
+            catalogAccessorName: 'setTranslations'
+        });
+        var catalog = {
+            called: false,
+            setTranslations: function (language, strings) {
+                this.called = true;
+            }
+        };
+
+        var context = vm.createContext(makeEnv('gettext', catalog, 'myGettextCatalog'));
         vm.runInContext(output, context);
         assert(catalog.called);
     });
