@@ -476,3 +476,11 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/tapestry.tml')
+
+    it 'Does not create empty-keyed items', ->
+        files = [
+            'test/fixtures/empty.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 0)
