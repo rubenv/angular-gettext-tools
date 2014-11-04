@@ -1,5 +1,3 @@
-window.__ = function(str) { return str; };
-
 angular.module("myApp").controller("customController", function (gettext) {
     var myString = gettext("Hello default");
     // Should be ignored.
