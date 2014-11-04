@@ -445,6 +445,29 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/custom_marker_name.js')
 
+    it 'Can customize multiple marker name functions', ->
+      files = [
+        'test/fixtures/custom_marker_names.js'
+      ]
+      catalog = testExtract(files, { markerNames: ['showError', 'showSuccess'] })
+
+      assert.equal(catalog.items.length, 3)
+
+      assert.equal(catalog.items[0].msgid, 'Hello default')
+      assert.equal(catalog.items[0].msgstr, '')
+      assert.equal(catalog.items[0].references.length, 1)
+      assert.equal(catalog.items[0].references[0], 'test/fixtures/custom_marker_names.js')
+
+      assert.equal(catalog.items[1].msgid, 'Hello first custom')
+      assert.equal(catalog.items[1].msgstr, '')
+      assert.equal(catalog.items[1].references.length, 1)
+      assert.equal(catalog.items[1].references[0], 'test/fixtures/custom_marker_names.js')
+
+      assert.equal(catalog.items[2].msgid, 'Hello second custom')
+      assert.equal(catalog.items[2].msgstr, '')
+      assert.equal(catalog.items[2].references.length, 1)
+      assert.equal(catalog.items[2].references[0], 'test/fixtures/custom_marker_names.js')
+
     it 'Can post-process the catalog', ->
         called = false
 
