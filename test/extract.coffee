@@ -514,15 +514,22 @@ describe 'Extract', ->
         ]
         catalog = testExtract(files)
 
-        assert.equal(catalog.items.length, 2)
-        assert.equal(catalog.items[0].msgid, 'One file selected')
-        assert.equal(catalog.items[0].msgid_plural, '{} files selected')
+        # Notes on the ordering: Strings seem to be sorted alphabetically
+        assert.equal(catalog.items.length, 3)
+        assert.equal(catalog.items[0].msgid, '1 coin')
+        assert.equal(catalog.items[0].msgid_plural, '{} coins')
         assert.equal(catalog.items[0].msgstr.length, 2)
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/filter-plural.html')
 
-        assert.equal(catalog.items[1].msgid, 'You have an unread message')
-        assert.equal(catalog.items[1].msgid_plural, 'You have {} unread messages')
+        assert.equal(catalog.items[1].msgid, 'One file selected')
+        assert.equal(catalog.items[1].msgid_plural, '{} files selected')
         assert.equal(catalog.items[1].msgstr.length, 2)
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/filter-plural.html')
+
+        assert.equal(catalog.items[2].msgid, 'You have an unread message')
+        assert.equal(catalog.items[2].msgid_plural, 'You have {} unread messages')
+        assert.equal(catalog.items[2].msgstr.length, 2)
+        assert.equal(catalog.items[2].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/filter-plural.html')
