@@ -91,7 +91,7 @@ describe 'Extract', ->
 
         i = catalog.items
 
-        assert.equal(i.length, 5)
+        assert.equal(i.length, 8)
 
         assert.equal(i[0].msgid, '0: Translate this')
         assert.equal(i[0].extractedComments, 'This is a comment')
@@ -107,6 +107,15 @@ describe 'Extract', ->
 
         assert.equal(i[4].msgid, '4: gettextCatalog.getString comment')
         assert.equal(i[4].extractedComments, 'gettextCatalog.getString() comment')
+
+        assert.equal(i[5].msgid, '5: gettext inside array')
+        assert.equal(i[5].extractedComments, 'gettext inside array')
+
+        assert.equal(i[6].msgid, '6: gettextCatalog inside array')
+        assert.equal(i[6].extractedComments, 'gettextCatalog inside array')
+
+        assert.equal(i[7].msgid, '7: gettextCatalog(gettext) inside array')
+        assert.equal(i[7].extractedComments, 'gettextCatalog(gettext) inside array')
 
     it 'Merges singular and plural strings', ->
         files = [

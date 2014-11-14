@@ -18,5 +18,16 @@ angular.module("myApp").controller("helloController", function (gettext, gettext
     /// gettextCatalog.getString() comment
     var myString = gettextCatalog.getString("4: gettextCatalog.getString comment");
 
+    var array = [
+        /// gettext inside array
+        gettext('5: gettext inside array'),
+
+        /// gettextCatalog inside array
+        gettextCatalog.getString('6: gettextCatalog inside array'),
+
+        /// gettextCatalog(gettext) inside array
+        gettextCatalog.getString(gettext('7: gettextCatalog(gettext) inside array'))
+    ];
+
     /// Comment with no translations, ignore this comment too
 });
