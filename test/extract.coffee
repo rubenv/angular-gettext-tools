@@ -93,19 +93,19 @@ describe 'Extract', ->
 
         assert.equal(i.length, 5)
 
-        assert.equal(i[0].msgid, 'Bird')
-        assert.equal(i[0].extractedComments, 'Plural Comments')
+        assert.equal(i[0].msgid, '0: Translate this')
+        assert.equal(i[0].extractedComments, 'This is a comment')
 
-        assert.equal(i[1].msgid, 'No comment')
-        assert.equal(i[1].extractedComments, '')
+        assert.equal(i[1].msgid, '1: Two Part Comment')
+        assert.equal(i[1].extractedComments, 'This is two part comment,Second part')
 
-        assert.equal(i[2].msgid, 'Translate this')
-        assert.equal(i[2].extractedComments, 'This is a comment')
+        assert.equal(i[2].msgid, '2: No comment')
+        assert.equal(i[2].extractedComments, '')
 
-        assert.equal(i[3].msgid, 'Two Part Comment')
-        assert.equal(i[3].extractedComments, 'This is two part comment,Second part')
+        assert.equal(i[3].msgid, '3: Bird')
+        assert.equal(i[3].extractedComments, 'Plural Comments')
 
-        assert.equal(i[4].msgid, 'gettextCatalog.getString comment')
+        assert.equal(i[4].msgid, '4: gettextCatalog.getString comment')
         assert.equal(i[4].extractedComments, 'gettextCatalog.getString() comment')
 
     it 'Merges singular and plural strings', ->
