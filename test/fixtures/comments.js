@@ -15,5 +15,8 @@ angular.module("myApp").controller("helloController", function (gettext, gettext
     /// Plural Comments
     var myString = gettextCatalog.getPlural(2, "Bird", "Birds");
 
+    /// gettextCatalog.getString() comment
+    var myString = gettextCatalog.getString("gettextCatalog.getString comment");
+
     /// Comment with no translations, ignore this comment too
 });

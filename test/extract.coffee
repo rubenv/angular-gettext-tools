@@ -91,7 +91,7 @@ describe 'Extract', ->
 
         i = catalog.items
 
-        assert.equal(i.length, 4)
+        assert.equal(i.length, 5)
 
         assert.equal(i[0].msgid, 'Bird')
         assert.equal(i[0].extractedComments, 'Plural Comments')
@@ -104,6 +104,9 @@ describe 'Extract', ->
 
         assert.equal(i[3].msgid, 'Two Part Comment')
         assert.equal(i[3].extractedComments, 'This is two part comment,Second part')
+
+        assert.equal(i[4].msgid, 'gettextCatalog.getString comment')
+        assert.equal(i[4].extractedComments, 'gettextCatalog.getString() comment')
 
     it 'Merges singular and plural strings', ->
         files = [
