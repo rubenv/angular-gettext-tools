@@ -105,6 +105,19 @@ describe 'Extract', ->
         assert.equal(i[3].msgid, 'Two Part Comment')
         assert.equal(i[3].extractedComments, 'This is two part comment,Second part')
 
+    it 'Merges duplicate comments', ->
+      files = [
+          'test/fixtures/duplicate-comments.html'
+      ]
+      catalog = testExtract(files)
+
+      i = catalog.items
+      assert.equal(i.length, 1)
+
+      assert.equal(i[0].msgid, 'Translate this')
+      assert.equal(i[0].extractedComments.length, 1)
+      assert.equal(i[0].extractedComments, 'This is a comment')
+
     it 'Merges singular and plural strings', ->
         files = [
             'test/fixtures/merge.html'
