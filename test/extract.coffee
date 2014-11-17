@@ -520,3 +520,12 @@ describe 'Extract', ->
         catalog = testExtract(files)
 
         assert.equal(catalog.items.length, 0)
+
+    # see https://github.com/rubenv/angular-gettext/issues/60
+    it 'Adds Project-Id-Version header', ->
+        # can't use PO.parse b/c that sets headers for us
+        extractor = new Extractor()
+        filename = 'test/fixtures/single.html'
+        extractor.parse(filename, fs.readFileSync(filename, 'utf8'))
+        poText = extractor.toString()
+        assert.equal(/\n"Project-Id-Version: \\n"\n/.test(poText), true)
