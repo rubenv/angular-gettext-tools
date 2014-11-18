@@ -1,5 +1,14 @@
 <html>
     <body>
-        <h1 data-translate>Hello!</h1>
+        <h1 data-translate>1: Hello!</h1>
+        <h1 data-translate translate-comment="comment">2: with comment</h1>
+        <h1 data-translate data-translate-comment="comment">3: with data-comment</h1>
+        <h1 translate data-translate-comment="comment">4: translate with data-comment</h1>
+        <h1 translate translate-n="count" data-translate-plural="foos">
+          5: translate with data-plural
+        </h1>
+        <h1 translate translate-n="count" data-translate-plural="foos">
+          6: data-translate with data-plural
+        </h1>
     </body>
 </html>

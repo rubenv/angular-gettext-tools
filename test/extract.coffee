@@ -403,11 +403,49 @@ describe 'Extract', ->
         ]
         catalog = testExtract(files)
 
-        assert.equal(catalog.items.length, 1)
-        assert.equal(catalog.items[0].msgid, 'Hello!')
+        assert.equal(catalog.items.length, 6)
+
+        assert.equal(catalog.items[0].msgid, '1: Hello!')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/data.html')
+
+        assert.equal(catalog.items[1].msgid, '2: with comment')
+        assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/data.html')
+        assert.equal(catalog.items[1].extractedComments.length, 1)
+        assert.equal(catalog.items[1].extractedComments[0], 'comment')
+
+        assert.equal(catalog.items[2].msgid, '3: with data-comment')
+        assert.equal(catalog.items[2].msgstr, '')
+        assert.equal(catalog.items[2].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/data.html')
+        assert.equal(catalog.items[2].extractedComments.length, 1)
+        assert.equal(catalog.items[2].extractedComments[0], 'comment')
+
+        assert.equal(catalog.items[3].msgid, '4: translate with data-comment')
+        assert.equal(catalog.items[3].msgstr, '')
+        assert.equal(catalog.items[3].references.length, 1)
+        assert.equal(catalog.items[3].references[0], 'test/fixtures/data.html')
+        assert.equal(catalog.items[3].extractedComments.length, 1)
+        assert.equal(catalog.items[3].extractedComments[0], 'comment')
+
+        assert.equal(catalog.items[4].msgid, '5: translate with data-plural')
+        assert.equal(catalog.items[4].msgstr.length, 2)
+        assert.equal(catalog.items[4].msgstr[0], '')
+        assert.equal(catalog.items[4].msgstr[1], '')
+        assert.equal(catalog.items[4].references.length, 1)
+        assert.equal(catalog.items[4].references[0], 'test/fixtures/data.html')
+        assert.equal(catalog.items[4].msgid_plural, 'foos')
+
+        assert.equal(catalog.items[5].msgid, '6: data-translate with data-plural')
+        assert.equal(catalog.items[5].msgstr.length, 2)
+        assert.equal(catalog.items[5].msgstr[0], '')
+        assert.equal(catalog.items[5].msgstr[1], '')
+        assert.equal(catalog.items[5].references.length, 1)
+        assert.equal(catalog.items[5].references[0], 'test/fixtures/data.html')
+        assert.equal(catalog.items[5].msgid_plural, 'foos')
 
     it 'Extract strings from custom HTML file extensions', ->
         files = [
