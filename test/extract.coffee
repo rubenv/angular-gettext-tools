@@ -494,6 +494,30 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/no_delimiter.html')
 
+    it 'Extracts strings from <translate> element', ->
+        files = [
+            'test/fixtures/translate-element.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 2)
+
+        assert.equal(catalog.items[0].msgid, '1: message')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/translate-element.html')
+        assert.equal(catalog.items[0].extractedComments.length, 0)
+
+        assert.equal(catalog.items[1].msgid, '2: message with comment and plural')
+        assert.equal(catalog.items[1].msgid_plural, 'foos')
+        assert.equal(catalog.items[1].msgstr.length, 2)
+        assert.equal(catalog.items[1].msgstr[0], '')
+        assert.equal(catalog.items[1].msgstr[1], '')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/translate-element.html')
+        assert.equal(catalog.items[1].extractedComments.length, 1)
+        assert.equal(catalog.items[1].extractedComments[0], 'comment')
+
     it 'Can customize the marker name', ->
         files = [
             'test/fixtures/custom_marker_name.js'
