@@ -579,3 +579,19 @@ describe 'Extract', ->
         extractor.parse(filename, fs.readFileSync(filename, 'utf8'))
         poText = extractor.toString()
         assert.equal(/\n"Project-Id-Version: \\n"\n/.test(poText), true)
+
+    it 'Should extract context from HTML', ->
+        files = [
+            'test/fixtures/context.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 2)
+
+        assert.equal(catalog.items[0].msgid, 'Hello!')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.strictEqual(catalog.items[0].msgctxt, null)
+
+        assert.equal(catalog.items[1].msgid, 'Hello!')
+        assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[1].msgctxt, 'male')
