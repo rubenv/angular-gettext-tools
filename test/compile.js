@@ -214,12 +214,12 @@ describe('Compile', function () {
         var data = JSON.parse(output);
 
         assert.deepEqual(data.nl, {
-            'Hello!': [
-                'Hallo!',
-                { msgctxt: 'male', msgstr: 'Hallo (male)!' }
-            ],
+            'Hello!': {
+                '$$noContext': 'Hallo!',
+                'male': 'Hallo (male)!'
+            },
             'Goodbye': 'Vaarwel',
-            'Ciao': { msgctxt: 'female', msgstr: 'Ciao (female)' }
+            'Ciao': { female: 'Ciao (female)' }
         });
     });
 });
