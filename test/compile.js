@@ -205,4 +205,21 @@ describe('Compile', function () {
             'Goodbye!': 'Au revoir!'
         });
     });
+
+    it('Can handle contexts', function () {
+        var files = ['test/fixtures/context.po'];
+        var output = testCompile(files, {
+            format: 'json'
+        });
+        var data = JSON.parse(output);
+
+        assert.deepEqual(data.nl, {
+            'Hello!': [
+                'Hallo!',
+                { msgctxt: 'male', msgstr: 'Hallo (male)!' }
+            ],
+            'Goodbye': 'Vaarwel',
+            'Ciao': { msgctxt: 'female', msgstr: 'Ciao (female)' }
+        });
+    });
 });
