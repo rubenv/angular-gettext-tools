@@ -369,6 +369,18 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/php.php')
 
+    it 'Can extract from ERB files', ->
+        files = [
+            'test/fixtures/erb.erb'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 1)
+        assert.equal(catalog.items[0].msgid, 'message')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/erb.erb')
+
     it 'Sorts strings', ->
         files = [
             'test/fixtures/sort.html'
