@@ -186,6 +186,23 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].references.length, 1)
         assert.equal(catalog.items[1].references[0], 'test/fixtures/multifilter.html')
 
+    it 'Extracts filter strings using escaped quotes', ->
+        files = [
+            'test/fixtures/escaped_quotes.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 2)
+        assert.equal(catalog.items[0].msgid, 'Hello')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped_quotes.html')
+
+        assert.equal(catalog.items[1].msgid, 'World')
+        assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/escaped_quotes.html')
+
     it 'Extracts flagged strings from JavaScript source', ->
         files = [
             'test/fixtures/source.js'
