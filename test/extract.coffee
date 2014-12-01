@@ -38,25 +38,31 @@ describe 'Extract', ->
         assert.equal(i[1].msgid, 'This is a test')
 
     it 'Merges duplicate strings with references', ->
+        test = (files) ->
+            catalog = testExtract(files)
+
+            i = catalog.items
+            assert.equal(i.length, 2)
+
+            assert.equal(i[0].msgid, 'Hello!')
+            assert.equal(i[0].references.length, 3)
+            assert.equal(i[0].references[0], 'test/fixtures/second.html:3')
+            assert.equal(i[0].references[1], 'test/fixtures/single.html:3')
+            assert.equal(i[0].references[2], 'test/fixtures/single.html:4')
+
+            assert.equal(i[1].msgid, 'This is a test')
+            assert.equal(i[1].references.length, 1)
+            assert.equal(i[1].references[0], 'test/fixtures/second.html:4')
+
         files = [
             'test/fixtures/single.html'
             'test/fixtures/second.html'
-            'test/fixtures/custom.extension'
         ]
-        catalog = testExtract(files)
+        test(files)
 
-        i = catalog.items
-        assert.equal(i.length, 2)
-
-        assert.equal(i[0].msgid, 'Hello!')
-        assert.equal(i[0].references.length, 3)
-        assert.equal(i[0].references[0], 'test/fixtures/single.html:3')
-        assert.equal(i[0].references[1], 'test/fixtures/single.html:4')
-        assert.equal(i[0].references[2], 'test/fixtures/second.html:3')
-
-        assert.equal(i[1].msgid, 'This is a test')
-        assert.equal(i[1].references.length, 1)
-        assert.equal(i[1].references[0], 'test/fixtures/second.html:4')
+        # references should be sorted alphabetically no matter what order files are processed
+        files.reverse()
+        test(files)
 
     it 'Extracts plural strings', ->
         files = [
