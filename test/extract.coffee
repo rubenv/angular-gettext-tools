@@ -213,7 +213,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, 'Hello')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/source.js')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/source.js:2')
 
     it 'Extracts flagged strings from OOP Javascript source', ->
         files = [
@@ -230,11 +230,11 @@ describe 'Extract', ->
         assert.equal(catalog.items[2].msgstr, '')
 
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/source-property.js')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/source-property.js:5')
         assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/source-property.js')
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/source-property.js:11')
         assert.equal(catalog.items[2].references.length, 1)
-        assert.equal(catalog.items[2].references[0], 'test/fixtures/source-property.js')
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/source-property.js:6')
 
     it 'Extracts strings from calls to gettextCatalog', ->
         files = [
@@ -248,12 +248,12 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgstr[0], '')
         assert.equal(catalog.items[0].msgstr[1], '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/catalog.js')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/catalog.js:3')
         assert.equal(catalog.items.length, 2)
         assert.equal(catalog.items[1].msgid, 'Hello')
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/catalog.js')
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/catalog.js:2')
 
     it 'Extracts strings from deep path calls to obj.gettextCatalog', ->
         files = [
@@ -267,12 +267,12 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgstr[0], '')
         assert.equal(catalog.items[0].msgstr[1], '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/deeppath_catalog.js')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/deeppath_catalog.js:5')
         assert.equal(catalog.items.length, 2)
         assert.equal(catalog.items[1].msgid, 'Hello')
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/deeppath_catalog.js')
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/deeppath_catalog.js:4')
 
     it 'Extracts strings with quotes', ->
         files = [
@@ -419,12 +419,12 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, 'Hello one concat!')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/concat.js')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/concat.js:2')
 
         assert.equal(catalog.items[1].msgid, 'Hello two concat!')
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/concat.js')
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/concat.js:3')
 
     it 'Support data-translate for old-school HTML style', ->
         files = [
@@ -504,7 +504,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, 'Hello custom')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.js_extension')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.js_extension:2')
 
     it 'Extracts strings from non-delimited attribute', ->
         files = [
@@ -559,7 +559,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, 'Hello custom')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/custom_marker_name.js')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/custom_marker_name.js:4')
 
     it 'Can customize multiple marker name functions', ->
       files = [
@@ -572,17 +572,17 @@ describe 'Extract', ->
       assert.equal(catalog.items[0].msgid, 'Hello default')
       assert.equal(catalog.items[0].msgstr, '')
       assert.equal(catalog.items[0].references.length, 1)
-      assert.equal(catalog.items[0].references[0], 'test/fixtures/custom_marker_names.js')
+      assert.equal(catalog.items[0].references[0], 'test/fixtures/custom_marker_names.js:2')
 
       assert.equal(catalog.items[1].msgid, 'Hello first custom')
       assert.equal(catalog.items[1].msgstr, '')
       assert.equal(catalog.items[1].references.length, 1)
-      assert.equal(catalog.items[1].references[0], 'test/fixtures/custom_marker_names.js')
+      assert.equal(catalog.items[1].references[0], 'test/fixtures/custom_marker_names.js:6')
 
       assert.equal(catalog.items[2].msgid, 'Hello second custom')
       assert.equal(catalog.items[2].msgstr, '')
       assert.equal(catalog.items[2].references.length, 1)
-      assert.equal(catalog.items[2].references[0], 'test/fixtures/custom_marker_names.js')
+      assert.equal(catalog.items[2].references[0], 'test/fixtures/custom_marker_names.js:7')
 
     it 'Can post-process the catalog', ->
         called = false
@@ -632,3 +632,25 @@ describe 'Extract', ->
         extractor.parse(filename, fs.readFileSync(filename, 'utf8'))
         poText = extractor.toString()
         assert.equal(/\n"Project-Id-Version: \\n"\n/.test(poText), true)
+
+    it 'Extracts line numbers from JavaScript', ->
+        files = [
+            'test/fixtures/line_numbers.js'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items[0].msgid, 'Line number 2')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/line_numbers.js:2')
+
+    it "Doesn't extract line numbers from JavaScript if lineNumbers: false", ->
+        files = [
+            'test/fixtures/line_numbers.js'
+        ]
+        catalog = testExtract(files, { lineNumbers: false })
+
+        assert.equal(catalog.items[0].msgid, 'Line number 2')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/line_numbers.js')
