@@ -85,6 +85,27 @@ describe 'Extract', ->
         assert.equal(i[0].msgid, 'Translate this')
         assert.equal(i[0].extractedComments, 'This is a comment')
 
+    it 'Orders extracted comments alphabetically', ->
+        test = (files) ->
+            catalog = testExtract(files)
+
+            i = catalog.items
+            assert.equal(i.length, 1)
+
+            assert.equal(i[0].msgid, 'Translate this')
+            assert.equal(i[0].extractedComments.length, 2)
+            assert.equal(i[0].extractedComments[0], 'This is a comment')
+            assert.equal(i[0].extractedComments[1], 'This is also a comment')
+
+        # order of extracted comments should be independent of order files were processed
+        files = [
+            'test/fixtures/comments.html',
+            'test/fixtures/comments2.html'
+        ]
+        test(files)
+        files.reverse()
+        test(files)
+
     it 'Extracts comment strings from JavaScript source', ->
         files = [
             'test/fixtures/comments.js'
