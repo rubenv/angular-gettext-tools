@@ -159,6 +159,24 @@ describe 'Extract', ->
       assert.equal(i[0].extractedComments.length, 1)
       assert.equal(i[0].extractedComments, 'This is a comment')
 
+    it 'Should order multi-line JS comments', ->
+        files = [
+            'test/fixtures/multi-line-comments.js'
+        ]
+        catalog = testExtract(files)
+
+        i = catalog.items
+        assert.equal(i.length, 2)
+
+        assert.equal(i[0].msgid, '0')
+        assert.equal(i[0].extractedComments.length, 2)
+        assert.equal(i[0].extractedComments[0], 'A,B')
+        assert.equal(i[0].extractedComments[1], 'B,A')
+
+        assert.equal(i[1].msgid, '1')
+        assert.equal(i[1].extractedComments.length, 1)
+        assert.equal(i[1].extractedComments[0], 'B,A')
+
     it 'Merges singular and plural strings', ->
         files = [
             'test/fixtures/merge.html'
