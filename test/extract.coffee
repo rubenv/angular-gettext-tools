@@ -633,6 +633,26 @@ describe 'Extract', ->
         poText = extractor.toString()
         assert.equal(/\n"Project-Id-Version: \\n"\n/.test(poText), true)
 
+    it 'Supports Angular 1.3 bind once syntax', ->
+        files = [
+            'test/fixtures/bind-once.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 4)
+
+        assert.equal(catalog.items[0].msgid, '0: no space')
+        assert.equal(catalog.items[0].msgstr, '')
+
+        assert.equal(catalog.items[1].msgid, '1: trailing space')
+        assert.equal(catalog.items[1].msgstr, '')
+
+        assert.equal(catalog.items[2].msgid, '2: leading space')
+        assert.equal(catalog.items[2].msgstr, '')
+
+        assert.equal(catalog.items[3].msgid, '3: leading and trailing space')
+        assert.equal(catalog.items[3].msgstr, '')
+
     it 'Extracts line numbers from JavaScript', ->
         files = [
             'test/fixtures/line_numbers.js'
