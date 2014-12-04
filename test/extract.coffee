@@ -164,12 +164,12 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, 'Hello')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/filter.html')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/filter.html:3')
 
         assert.equal(catalog.items[1].msgid, 'Second')
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/filter.html')
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/filter.html:4')
 
     it 'Extracts concatenated filter strings', ->
         files = [
@@ -181,12 +181,12 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, 'Hello')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/multifilter.html')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/multifilter.html:3')
 
         assert.equal(catalog.items[1].msgid, 'Second')
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/multifilter.html')
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/multifilter.html:4')
 
     it 'Extracts filter strings using escaped quotes', ->
         files = [
@@ -198,12 +198,12 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, 'Hello')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped_quotes.html')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped_quotes.html:3')
 
         assert.equal(catalog.items[1].msgid, 'World')
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/escaped_quotes.html')
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/escaped_quotes.html:4')
 
     it 'Extracts flagged strings from JavaScript source', ->
         files = [
@@ -298,7 +298,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, "'These quotes' should not be escaped.")
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped-quotes.html')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped-quotes.html:3')
 
     it 'Works with inline templates', ->
         files = [
@@ -374,7 +374,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgid, 'Hello')
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/delim.html')
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/delim.html:3')
 
     it 'Can extract from PHP files', ->
         files = [
@@ -523,7 +523,7 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].msgid, 'Selected a file to upload!')
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/no_delimiter.html')
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/no_delimiter.html:5')
 
     it 'Extracts strings from <translate> element', ->
         files = [
@@ -646,15 +646,23 @@ describe 'Extract', ->
 
         assert.equal(catalog.items[0].msgid, '0: no space')
         assert.equal(catalog.items[0].msgstr, '')
+        assert.equal(catalog.items[0].references.length, 1)
+        assert.equal(catalog.items[0].references[0], 'test/fixtures/bind-once.html:1')
 
         assert.equal(catalog.items[1].msgid, '1: trailing space')
         assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[1].references.length, 1)
+        assert.equal(catalog.items[1].references[0], 'test/fixtures/bind-once.html:2')
 
         assert.equal(catalog.items[2].msgid, '2: leading space')
         assert.equal(catalog.items[2].msgstr, '')
+        assert.equal(catalog.items[2].references.length, 1)
+        assert.equal(catalog.items[2].references[0], 'test/fixtures/bind-once.html:3')
 
         assert.equal(catalog.items[3].msgid, '3: leading and trailing space')
         assert.equal(catalog.items[3].msgstr, '')
+        assert.equal(catalog.items[3].references.length, 1)
+        assert.equal(catalog.items[3].references[0], 'test/fixtures/bind-once.html:4')
 
     it 'Extracts line numbers from JavaScript', ->
         files = [

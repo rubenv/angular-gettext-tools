@@ -31,13 +31,13 @@ describe("Extract (regression tests)", function () {
         assert.equal(catalog.items.length, 17);
         assertString("(Show on map)", 3);
         assertString("Add", 3);
-        assertString("Address");
+        assertString("Address", 1);
         assertString("All", 3);
         assertString("Birth date", 3);
         assertString("Cancel", 3);
         assertString("Communications", 3);
         assertString("E-mail", 3);
-        assertString("Enter your message here...");
+        assertString("Enter your message here...", 3);
         assertString("Log", 3);
         assertString("Order", 3);
         assertString("Orders", 3);
