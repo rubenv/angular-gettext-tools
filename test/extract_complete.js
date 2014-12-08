@@ -18,34 +18,33 @@ describe("Extract (regression tests)", function () {
 
         var i = 0;
 
-        function assertString(string, plural) {
-            if (plural == null) {
-                plural = null;
-            }
+        function assertString(string, line) {
+            line = line ? ":" + line : "";
+
             assert.equal(catalog.items[i].msgid, string);
-            assert.equal(catalog.items[i].msgid_plural, plural);
+            assert.equal(catalog.items[i].msgid_plural, null);
             assert.equal(catalog.items[i].references.length, 1);
-            assert.equal(catalog.items[i].references[0], "test/fixtures/complete/issue23.html");
+            assert.equal(catalog.items[i].references[0], "test/fixtures/complete/issue23.html" + line);
             i++;
         }
 
         assert.equal(catalog.items.length, 17);
-        assertString("(Show on map)");
-        assertString("Add");
-        assertString("Address");
-        assertString("All");
-        assertString("Birth date");
-        assertString("Cancel");
-        assertString("Communications");
-        assertString("E-mail");
-        assertString("Enter your message here...");
-        assertString("Log");
-        assertString("Order");
-        assertString("Orders");
-        assertString("Personal details");
-        assertString("Preferences");
-        assertString("Remarks");
-        assertString("Statistics");
-        assertString("Subscribed to");
+        assertString("(Show on map)", 3);
+        assertString("Add", 3);
+        assertString("Address", 1);
+        assertString("All", 3);
+        assertString("Birth date", 3);
+        assertString("Cancel", 3);
+        assertString("Communications", 3);
+        assertString("E-mail", 3);
+        assertString("Enter your message here...", 3);
+        assertString("Log", 3);
+        assertString("Order", 3);
+        assertString("Orders", 3);
+        assertString("Personal details", 1);
+        assertString("Preferences", 3);
+        assertString("Remarks", 3);
+        assertString("Statistics", 3);
+        assertString("Subscribed to", 3);
     });
 });
