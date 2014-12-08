@@ -674,3 +674,19 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/line_numbers.js')
+
+    it 'Should extract context from HTML', ->
+        files = [
+            'test/fixtures/context.html'
+        ]
+        catalog = testExtract(files)
+
+        assert.equal(catalog.items.length, 2)
+
+        assert.equal(catalog.items[0].msgid, 'Hello!')
+        assert.equal(catalog.items[0].msgstr, '')
+        assert.strictEqual(catalog.items[0].msgctxt, null)
+
+        assert.equal(catalog.items[1].msgid, 'Hello!')
+        assert.equal(catalog.items[1].msgstr, '')
+        assert.equal(catalog.items[1].msgctxt, 'male')
