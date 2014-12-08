@@ -2,13 +2,7 @@ assert = require 'assert'
 PO = require 'pofile'
 fs = require 'fs'
 Extractor = require('..').Extractor
-
-testExtract = (filenames, options) ->
-    extractor = new Extractor(options)
-    for filename in filenames
-        extractor.parse(filename, fs.readFileSync(filename, 'utf8'))
-
-    return PO.parse(extractor.toString())
+testExtract = require('./utils').testExtract
 
 describe 'Extract', ->
     it 'Extracts strings from views', ->
@@ -57,248 +51,6 @@ describe 'Extract', ->
         assert.equal(i[1].msgid, 'This is a test')
         assert.equal(i[1].references.length, 1)
         assert.equal(i[1].references[0], 'test/fixtures/second.html:4')
-
-    it 'Extracts plural strings', ->
-        files = [
-            'test/fixtures/plural.html'
-        ]
-        catalog = testExtract(files)
-
-        i = catalog.items
-        assert.equal(i.length, 1)
-
-        assert.equal(i[0].msgid, 'Bird')
-        assert.equal(i[0].msgid_plural, 'Birds')
-        assert.equal(i[0].msgstr.length, 2)
-        assert.equal(i[0].msgstr[0], '')
-        assert.equal(i[0].msgstr[1], '')
-
-    it 'Extracts comment strings', ->
-        files = [
-            'test/fixtures/comments.html'
-        ]
-        catalog = testExtract(files)
-
-        i = catalog.items
-        assert.equal(i.length, 1)
-
-        assert.equal(i[0].msgid, 'Translate this')
-        assert.equal(i[0].extractedComments, 'This is a comment')
-
-    it 'Extracts comment strings from JavaScript source', ->
-        files = [
-            'test/fixtures/comments.js'
-        ]
-        catalog = testExtract(files)
-
-        i = catalog.items
-
-        assert.equal(i.length, 8)
-
-        assert.equal(i[0].msgid, '0: Translate this')
-        assert.equal(i[0].extractedComments, 'This is a comment')
-
-        assert.equal(i[1].msgid, '1: Two Part Comment')
-        assert.equal(i[1].extractedComments, 'This is two part comment,Second part')
-
-        assert.equal(i[2].msgid, '2: No comment')
-        assert.equal(i[2].extractedComments, '')
-
-        assert.equal(i[3].msgid, '3: Bird')
-        assert.equal(i[3].extractedComments, 'Plural Comments')
-
-        assert.equal(i[4].msgid, '4: gettextCatalog.getString comment')
-        assert.equal(i[4].extractedComments, 'gettextCatalog.getString() comment')
-
-        assert.equal(i[5].msgid, '5: gettext inside array')
-        assert.equal(i[5].extractedComments, 'gettext inside array')
-
-        assert.equal(i[6].msgid, '6: gettextCatalog inside array')
-        assert.equal(i[6].extractedComments, 'gettextCatalog inside array')
-
-        assert.equal(i[7].msgid, '7: gettextCatalog(gettext) inside array')
-        assert.equal(i[7].extractedComments, 'gettextCatalog(gettext) inside array')
-
-    it 'Merges duplicate comments', ->
-      files = [
-          'test/fixtures/duplicate-comments.html'
-      ]
-      catalog = testExtract(files)
-
-      i = catalog.items
-      assert.equal(i.length, 1)
-
-      assert.equal(i[0].msgid, 'Translate this')
-      assert.equal(i[0].extractedComments.length, 1)
-      assert.equal(i[0].extractedComments, 'This is a comment')
-
-    it 'Merges singular and plural strings', ->
-        files = [
-            'test/fixtures/merge.html'
-        ]
-        catalog = testExtract(files)
-
-        i = catalog.items
-        assert.equal(i.length, 1)
-
-        assert.equal(i[0].msgid, 'Bird')
-        assert.equal(i[0].msgid_plural, 'Birds')
-        assert.equal(i[0].msgstr.length, 2)
-        assert.equal(i[0].msgstr[0], '')
-        assert.equal(i[0].msgstr[1], '')
-
-    it 'Warns for incompatible plurals', ->
-        files = [
-            'test/fixtures/corrupt.html'
-        ]
-        assert.throws ->
-            testExtract(files)
-
-    it 'Extracts filter strings', ->
-        files = [
-            'test/fixtures/filter.html'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 2)
-        assert.equal(catalog.items[0].msgid, 'Hello')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/filter.html:3')
-
-        assert.equal(catalog.items[1].msgid, 'Second')
-        assert.equal(catalog.items[1].msgstr, '')
-        assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/filter.html:4')
-
-    it 'Extracts concatenated filter strings', ->
-        files = [
-            'test/fixtures/multifilter.html'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 2)
-        assert.equal(catalog.items[0].msgid, 'Hello')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/multifilter.html:3')
-
-        assert.equal(catalog.items[1].msgid, 'Second')
-        assert.equal(catalog.items[1].msgstr, '')
-        assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/multifilter.html:4')
-
-    it 'Extracts filter strings using escaped quotes', ->
-        files = [
-            'test/fixtures/escaped_quotes.html'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 2)
-        assert.equal(catalog.items[0].msgid, 'Hello')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped_quotes.html:3')
-
-        assert.equal(catalog.items[1].msgid, 'World')
-        assert.equal(catalog.items[1].msgstr, '')
-        assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/escaped_quotes.html:4')
-
-    it 'Extracts flagged strings from JavaScript source', ->
-        files = [
-            'test/fixtures/source.js'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 1)
-        assert.equal(catalog.items[0].msgid, 'Hello')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/source.js:2')
-
-    it 'Extracts flagged strings from OOP Javascript source', ->
-        files = [
-            'test/fixtures/source-property.js'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 3)
-        assert.equal(catalog.items[0].msgid, 'Hello')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[1].msgid, 'Hello world')
-        assert.equal(catalog.items[1].msgstr, '')
-        assert.equal(catalog.items[2].msgid, 'World')
-        assert.equal(catalog.items[2].msgstr, '')
-
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/source-property.js:5')
-        assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/source-property.js:11')
-        assert.equal(catalog.items[2].references.length, 1)
-        assert.equal(catalog.items[2].references[0], 'test/fixtures/source-property.js:6')
-
-    it 'Extracts strings from calls to gettextCatalog', ->
-        files = [
-            'test/fixtures/catalog.js'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items[0].msgid, 'Bird')
-        assert.equal(catalog.items[0].msgid_plural, 'Birds')
-        assert.equal(catalog.items[0].msgstr.length, 2)
-        assert.equal(catalog.items[0].msgstr[0], '')
-        assert.equal(catalog.items[0].msgstr[1], '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/catalog.js:3')
-        assert.equal(catalog.items.length, 2)
-        assert.equal(catalog.items[1].msgid, 'Hello')
-        assert.equal(catalog.items[1].msgstr, '')
-        assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/catalog.js:2')
-
-    it 'Extracts strings from deep path calls to obj.gettextCatalog', ->
-        files = [
-            'test/fixtures/deeppath_catalog.js'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items[0].msgid, 'Bird')
-        assert.equal(catalog.items[0].msgid_plural, 'Birds')
-        assert.equal(catalog.items[0].msgstr.length, 2)
-        assert.equal(catalog.items[0].msgstr[0], '')
-        assert.equal(catalog.items[0].msgstr[1], '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/deeppath_catalog.js:5')
-        assert.equal(catalog.items.length, 2)
-        assert.equal(catalog.items[1].msgid, 'Hello')
-        assert.equal(catalog.items[1].msgstr, '')
-        assert.equal(catalog.items[1].references.length, 1)
-        assert.equal(catalog.items[1].references[0], 'test/fixtures/deeppath_catalog.js:4')
-
-    it 'Extracts strings with quotes', ->
-        files = [
-            'test/fixtures/quotes.html'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 1)
-        assert.equal(catalog.items[0].msgid, 'Hello "world"!')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/quotes.html:3')
-
-    it 'Does not escape single quotes', ->
-        files = [
-            'test/fixtures/escaped-quotes.html'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 1)
-        assert.equal(catalog.items[0].msgid, "'These quotes' should not be escaped.")
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/escaped-quotes.html:3')
 
     it 'Works with inline templates', ->
         files = [
@@ -375,30 +127,6 @@ describe 'Extract', ->
         assert.equal(catalog.items[0].msgstr, '')
         assert.equal(catalog.items[0].references.length, 1)
         assert.equal(catalog.items[0].references[0], 'test/fixtures/delim.html:3')
-
-    it 'Can extract from PHP files', ->
-        files = [
-            'test/fixtures/php.php'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 1)
-        assert.equal(catalog.items[0].msgid, 'Play')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/php.php:2')
-
-    it 'Can extract from ERB files', ->
-        files = [
-            'test/fixtures/erb.erb'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 1)
-        assert.equal(catalog.items[0].msgid, 'message')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/erb.erb:3')
 
     it 'Sorts strings', ->
         files = [
@@ -477,36 +205,6 @@ describe 'Extract', ->
         assert.equal(catalog.items[5].references.length, 1)
         assert.equal(catalog.items[5].references[0], 'test/fixtures/data.html:10')
         assert.equal(catalog.items[5].msgid_plural, 'foos')
-
-    it 'Extract strings from custom HTML file extensions', ->
-        files = [
-            'test/fixtures/custom.extension'
-        ]
-        catalog = testExtract(files, {
-            extensions:
-                extension: 'html'
-        })
-
-        assert.equal(catalog.items.length, 2)
-        assert.equal(catalog.items[0].msgid, 'Custom file!')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.extension:3')
-
-    it 'Extract strings from custom JS file extensions', ->
-        files = [
-            'test/fixtures/custom.js_extension'
-        ]
-        catalog = testExtract(files, {
-            extensions:
-                js_extension: 'js'
-        })
-
-        assert.equal(catalog.items.length, 1)
-        assert.equal(catalog.items[0].msgid, 'Hello custom')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/custom.js_extension:2')
 
     it 'Extracts strings from non-delimited attribute', ->
         files = [
@@ -607,18 +305,6 @@ describe 'Extract', ->
         assert.equal(catalog.headers.Test, 'Test')
         assert(called)
 
-    it 'Can extract tapestry files', () ->
-        files = [
-            'test/fixtures/tapestry.tml'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items.length, 1)
-        assert.equal(catalog.items[0].msgid, 'Bonjour from HelloWorld component.')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/tapestry.tml:2')
-
     it 'Does not create empty-keyed items', ->
         files = [
             'test/fixtures/empty.html'
@@ -664,28 +350,6 @@ describe 'Extract', ->
         assert.equal(catalog.items[3].references.length, 1)
         assert.equal(catalog.items[3].references[0], 'test/fixtures/bind-once.html:4')
 
-    it 'Extracts line numbers from JavaScript', ->
-        files = [
-            'test/fixtures/line_numbers.js'
-        ]
-        catalog = testExtract(files)
-
-        assert.equal(catalog.items[0].msgid, 'Line number 2')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/line_numbers.js:2')
-
-    it "Doesn't extract line numbers from JavaScript if lineNumbers: false", ->
-        files = [
-            'test/fixtures/line_numbers.js'
-        ]
-        catalog = testExtract(files, { lineNumbers: false })
-
-        assert.equal(catalog.items[0].msgid, 'Line number 2')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/line_numbers.js')
-
     it 'Should extract context from HTML', ->
         files = [
             'test/fixtures/context.html'
@@ -701,14 +365,3 @@ describe 'Extract', ->
         assert.equal(catalog.items[1].msgid, 'Hello!')
         assert.equal(catalog.items[1].msgstr, '')
         assert.equal(catalog.items[1].msgctxt, 'male')
-
-    it "Doesn't extract line numbers from HTML if lineNumbers: false", ->
-        files = [
-            'test/fixtures/line_numbers.html'
-        ]
-        catalog = testExtract(files, { lineNumbers: false })
-
-        assert.equal(catalog.items[0].msgid, 'Line 1')
-        assert.equal(catalog.items[0].msgstr, '')
-        assert.equal(catalog.items[0].references.length, 1)
-        assert.equal(catalog.items[0].references[0], 'test/fixtures/line_numbers.html')
