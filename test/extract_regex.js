@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert');
 var mkAttrRegex = require('../lib/extract').mkAttrRegex;
 
