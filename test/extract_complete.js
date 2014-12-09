@@ -1,3 +1,5 @@
+"use strict";
+
 var assert = require("assert");
 var PO = require("pofile");
 var fs = require("fs");
