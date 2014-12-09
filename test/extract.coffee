@@ -38,25 +38,31 @@ describe 'Extract', ->
         assert.equal(i[1].msgid, 'This is a test')
 
     it 'Merges duplicate strings with references', ->
+        test = (files) ->
+            catalog = testExtract(files)
+
+            i = catalog.items
+            assert.equal(i.length, 2)
+
+            assert.equal(i[0].msgid, 'Hello!')
+            assert.equal(i[0].references.length, 3)
+            assert.equal(i[0].references[0], 'test/fixtures/second.html:3')
+            assert.equal(i[0].references[1], 'test/fixtures/single.html:3')
+            assert.equal(i[0].references[2], 'test/fixtures/single.html:4')
+
+            assert.equal(i[1].msgid, 'This is a test')
+            assert.equal(i[1].references.length, 1)
+            assert.equal(i[1].references[0], 'test/fixtures/second.html:4')
+
         files = [
             'test/fixtures/single.html'
             'test/fixtures/second.html'
-            'test/fixtures/custom.extension'
         ]
-        catalog = testExtract(files)
+        test(files)
 
-        i = catalog.items
-        assert.equal(i.length, 2)
-
-        assert.equal(i[0].msgid, 'Hello!')
-        assert.equal(i[0].references.length, 3)
-        assert.equal(i[0].references[0], 'test/fixtures/single.html:3')
-        assert.equal(i[0].references[1], 'test/fixtures/single.html:4')
-        assert.equal(i[0].references[2], 'test/fixtures/second.html:3')
-
-        assert.equal(i[1].msgid, 'This is a test')
-        assert.equal(i[1].references.length, 1)
-        assert.equal(i[1].references[0], 'test/fixtures/second.html:4')
+        # references should be sorted alphabetically no matter what order files are processed
+        files.reverse()
+        test(files)
 
     it 'Extracts plural strings', ->
         files = [
@@ -85,6 +91,27 @@ describe 'Extract', ->
         assert.equal(i[0].msgid, 'Translate this')
         assert.equal(i[0].extractedComments, 'This is a comment')
 
+    it 'Orders extracted comments alphabetically', ->
+        test = (files) ->
+            catalog = testExtract(files)
+
+            i = catalog.items
+            assert.equal(i.length, 1)
+
+            assert.equal(i[0].msgid, 'Translate this')
+            assert.equal(i[0].extractedComments.length, 2)
+            assert.equal(i[0].extractedComments[0], 'This is a comment')
+            assert.equal(i[0].extractedComments[1], 'This is also a comment')
+
+        # order of extracted comments should be independent of order files were processed
+        files = [
+            'test/fixtures/comments.html',
+            'test/fixtures/comments2.html'
+        ]
+        test(files)
+        files.reverse()
+        test(files)
+
     it 'Extracts comment strings from JavaScript source', ->
         files = [
             'test/fixtures/comments.js'
@@ -99,7 +126,7 @@ describe 'Extract', ->
         assert.equal(i[0].extractedComments, 'This is a comment')
 
         assert.equal(i[1].msgid, '1: Two Part Comment')
-        assert.equal(i[1].extractedComments, 'This is two part comment,Second part')
+        assert.equal(i[1].extractedComments, 'This is two part comment, Second part')
 
         assert.equal(i[2].msgid, '2: No comment')
         assert.equal(i[2].extractedComments, '')
@@ -131,6 +158,24 @@ describe 'Extract', ->
       assert.equal(i[0].msgid, 'Translate this')
       assert.equal(i[0].extractedComments.length, 1)
       assert.equal(i[0].extractedComments, 'This is a comment')
+
+    it 'Should order multi-line JS comments', ->
+        files = [
+            'test/fixtures/multi-line-comments.js'
+        ]
+        catalog = testExtract(files)
+
+        i = catalog.items
+        assert.equal(i.length, 2)
+
+        assert.equal(i[0].msgid, '0')
+        assert.equal(i[0].extractedComments.length, 2)
+        assert.equal(i[0].extractedComments[0], 'A, B')
+        assert.equal(i[0].extractedComments[1], 'B, A')
+
+        assert.equal(i[1].msgid, '1')
+        assert.equal(i[1].extractedComments.length, 1)
+        assert.equal(i[1].extractedComments[0], 'B, A')
 
     it 'Merges singular and plural strings', ->
         files = [
