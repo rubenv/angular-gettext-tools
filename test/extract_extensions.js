@@ -48,6 +48,18 @@ describe('Extracting files with different extensions', function () {
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/php.php:2']);
     });
 
+    it('supports EJS files', function () {
+        var files = [
+            'test/fixtures/ejs.ejs'
+        ];
+        var catalog =  testExtract(files);
+
+        assert.equal(catalog.items.length, 1);
+        assert.equal(catalog.items[0].msgid, 'EJS Link');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/ejs.ejs:2']);
+    });
+
     it('supports ERB files', function () {
         var files = [
             'test/fixtures/erb.erb'
