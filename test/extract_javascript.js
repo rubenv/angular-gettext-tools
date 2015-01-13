@@ -71,4 +71,11 @@ describe('Extracting from Javascript', function () {
         assert.equal(catalog.items[1].msgstr, '');
         assert.deepEqual(catalog.items[1].references, ['test/fixtures/deeppath_catalog.js:4']);
     });
+
+    it('supports invalid javascript syntax without exception', function () {
+        var files = [
+            'test/fixtures/deeppath_catalog_invalid.js'
+        ];
+        testExtract(files);
+    });
 });
