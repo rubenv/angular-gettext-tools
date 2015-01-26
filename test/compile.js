@@ -224,4 +224,22 @@ describe('Compile', function () {
             'Ciao': { female: 'Ciao (female)' }
         });
     });
+
+    it('Does not compile obsolete strings', function () {
+        var files = ['test/fixtures/obsolete.po'];
+        var output = testCompile(files);
+        var catalog = {
+            called: false,
+            setStrings: function (language, strings) {
+                this.called = true;
+                assert.equal(language, 'nl');
+                assert.equal(strings['Hello!'], 'Hallo!');
+                assert.equal(strings['Hello "world"'], undefined);
+            }
+        };
+
+        var context = vm.createContext(makeEnv('gettext', catalog));
+        vm.runInContext(output, context);
+        assert(catalog.called);
+    });
 });
