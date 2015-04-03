@@ -24,11 +24,11 @@ function makeEnv(mod, catalog) {
 }
 
 // Fake Angular environment with RequireJS module loader
-function makeRequireJsEnv(mod, name, deps, catalog) {
+function makeRequireJsEnv(mod, modPath, catalog) {
     return {
-        define: function (expliciteName, modules, callback) {
-            assert.equal(modules[0], deps[0]);
-            assert.equal(modules[1], deps[1]);
+        define: function (modules, callback) {
+            assert.equal(modules[0], 'angular');
+            assert.equal(modules[1], modPath);
 
             var angular = {
                 module: function (modDefined) {
@@ -116,7 +116,7 @@ describe('Compile', function () {
         var output = testCompile(files, {
             module: 'myApp',
             requirejs: true,
-            modulePath: ['angular', './test/fixtures/module']
+            modulePath: './test/fixtures/module'
         });
         var catalog = {
             called: false,
@@ -125,7 +125,7 @@ describe('Compile', function () {
             }
         };
 
-        var context = vm.createContext(makeRequireJsEnv('myApp', 'testName', ['angular', './test/fixtures/module'], catalog));
+        var context = vm.createContext(makeRequireJsEnv('myApp', './test/fixtures/module', catalog));
         vm.runInContext(output, context);
         assert(catalog.called);
     });
