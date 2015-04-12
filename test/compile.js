@@ -23,12 +23,37 @@ function makeEnv(mod, catalog) {
     };
 }
 
+
 // Fake Angular environment with RequireJS module loader
-function makeRequireJsEnv(mod, modPath, catalog) {
+function makeRequireJsExpliciteEnv(mod, name, module, catalog) {
+    return {
+        define: function (expliciteName, modules, callback) {
+            assert.equal(expliciteName, name);
+            assert.equal(modules[0], 'angular');
+            assert.equal(modules[1], module);
+
+            var angular = {
+                module: function (modDefined) {
+                    assert.equal(modDefined, mod);
+                    return {
+                        run: function (block) {
+                            assert.equal(block[0], 'gettextCatalog');
+                            block[1](catalog);
+                        }
+                    };
+                }
+            };
+            callback(angular);
+        }
+    };
+}
+
+// Fake Angular environment with RequireJS module loader
+function makeRequireJsEnv(mod, module, catalog) {
     return {
         define: function (modules, callback) {
             assert.equal(modules[0], 'angular');
-            assert.equal(modules[1], modPath);
+            assert.equal(modules[1], module);
 
             var angular = {
                 module: function (modDefined) {
@@ -116,7 +141,7 @@ describe('Compile', function () {
         var output = testCompile(files, {
             module: 'myApp',
             requirejs: true,
-            modulePath: './test/fixtures/module'
+            requirejsModule: './test/fixtures/module'
         });
         var catalog = {
             called: false,
@@ -126,6 +151,26 @@ describe('Compile', function () {
         };
 
         var context = vm.createContext(makeRequireJsEnv('myApp', './test/fixtures/module', catalog));
+        vm.runInContext(output, context);
+        assert(catalog.called);
+    });
+
+    it('Accepts a requirejs and name parameter', function () {
+        var files = ['test/fixtures/nl.po'];
+        var output = testCompile(files, {
+            module: 'myApp',
+            requirejs: true,
+            requirejsName: 'testName',
+            requirejsModule: './test/fixtures/module'
+        });
+        var catalog = {
+            called: false,
+            setStrings: function (language, strings) {
+                this.called = true;
+            }
+        };
+
+        var context = vm.createContext(makeRequireJsExpliciteEnv('myApp', 'testName', './test/fixtures/module', catalog));
         vm.runInContext(output, context);
         assert(catalog.called);
     });
