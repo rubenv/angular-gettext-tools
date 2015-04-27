@@ -109,6 +109,20 @@ describe('Extract', function () {
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/ngif.html:3']);
     });
 
+    it('Can customize trimming whitespace around strings', function () {
+        var files = [
+            'test/fixtures/strip-custom.html'
+        ];
+        var catalog = testExtract(files, {
+            idTransform: function (s) { return s.replace(/\s+/g,' '); }
+        });
+
+        assert.equal(catalog.items.length, 1);
+        assert.equal(catalog.items[0].msgid, ' Hello strip custom ');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/strip-custom.html:3']);
+    });
+
     it('Can customize delimiters', function () {
         var files = [
             'test/fixtures/delim.html'
