@@ -141,6 +141,7 @@ describe('Compile', function () {
         var output = testCompile(files, {
             module: 'myApp',
             requirejs: true,
+            requirejsAngular: 'angular',
             requirejsModule: './test/fixtures/module'
         });
         var catalog = {
@@ -161,6 +162,7 @@ describe('Compile', function () {
             module: 'myApp',
             requirejs: true,
             requirejsName: 'testName',
+            requirejsAngular: 'angular',
             requirejsModule: './test/fixtures/module'
         });
         var catalog = {
