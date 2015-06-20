@@ -343,6 +343,18 @@ describe('Extract', function () {
         assert.equal(catalog.items[1].msgctxt, 'male');
     });
 
+    it('Extracts strings from an ES6 class', function () {
+        var files = [
+            'test/fixtures/es6-class.js'
+        ];
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items.length, 1);
+        assert.equal(catalog.items[0].msgid, 'Hi from an ES6 class!');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-class.js:3']);
+    });
+
     it('Should extract custom attributes from HTML', function () {
         var files = [
             'test/fixtures/custom-attribute.html'
