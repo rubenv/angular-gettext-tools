@@ -44,7 +44,7 @@
   ],
   "dependencies": {
     "binary-search": "^1.2.0",
-    "cheerio": "~0.18.0",
+    "cheerio": "~0.19.0",
     "espree": "^2.0.0",
     "lodash": "~2.4.1",
     "pofile": "~0.2.8"
