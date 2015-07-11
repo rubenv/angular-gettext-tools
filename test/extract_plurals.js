@@ -40,4 +40,24 @@ describe('Extracting plurals', function () {
             testExtract(files);
         });
     });
+
+    it('works with custom attributes', function () {
+        var files = [
+            'test/fixtures/plural.html'
+        ];
+        var catalog = testExtract(files, {
+            attributes: ['custom-attr']
+        });
+
+        var i = catalog.items;
+        assert.equal(i.length, 2);
+
+        assert.equal(i[0].msgid, 'Bird');
+        assert.equal(i[0].msgid_plural, 'Birds');
+        assert.deepEqual(i[0].msgstr, ['', '']);
+
+        assert.equal(i[1].msgid, 'Hobbit');
+        assert.equal(i[1].msgid_plural, 'Hobbits');
+        assert.deepEqual(i[1].msgstr, ['', '']);
+    });
 });
