@@ -2,7 +2,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-jscs-checker');
+    grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-bump');
 
@@ -20,7 +20,7 @@ module.exports = function (grunt) {
                     config: '.jscs.json'
                 },
                 files: {
-                    src: ['*.{js,json}', '{lib,test}/**/*.js', '!test/fixtures/*.js']
+                    src: ['*.js', '{lib,test}/**/*.js', '!test/fixtures/*.js']
                 }
             }
         },
@@ -37,10 +37,6 @@ module.exports = function (grunt) {
         },
 
         mochacli: {
-            options: {
-                files: 'test/*_test.coffee',
-                compilers: ['coffee:coffee-script/register']
-            },
             spec: {
                 options: {
                     reporter: 'spec'
