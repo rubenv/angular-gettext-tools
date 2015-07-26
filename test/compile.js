@@ -23,6 +23,25 @@ function makeEnv(mod, catalog) {
     };
 }
 
+// Fake Browserify environment
+function makeBrowserifyEnv(mod, catalog) {
+    return {
+        require: function (name) {
+            return {
+                module: function (modDefined) {
+                    assert.equal(modDefined, mod);
+                    return {
+                        run: function (block) {
+                            assert.equal(block[0], 'gettextCatalog');
+                            return block[1](catalog);
+                        }
+                    };
+                }
+            };
+        }
+    };
+}
+
 // Fake Angular environment with RequireJS module loader
 function makeRequireJsEnv(mod, modPath, catalog) {
     return {
@@ -126,6 +145,25 @@ describe('Compile', function () {
         };
 
         var context = vm.createContext(makeRequireJsEnv('myApp', './test/fixtures/module', catalog));
+        vm.runInContext(output, context);
+        assert(catalog.called);
+    });
+
+    it('Accepts an browserify-style angular parameter', function () {
+        var files = ['test/fixtures/nl.po'];
+        var output = testCompile(files, {
+            angular: 'require(\'angular\')'
+        });
+        var catalog = {
+            called: false,
+            setStrings: function (language, strings) {
+                this.called = true;
+            }
+        };
+
+        assert.equal(output.substring(0, 36), "require('angular').module('gettext')");
+
+        var context = vm.createContext(makeBrowserifyEnv('gettext', catalog));
         vm.runInContext(output, context);
         assert(catalog.called);
     });
