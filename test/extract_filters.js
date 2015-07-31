@@ -57,4 +57,23 @@ describe('Extracting filters', function () {
         assert.equal(catalog.items[1].references.length, 1);
         assert.deepEqual(catalog.items[1].references, ['test/fixtures/escaped_quotes.html:4']);
     });
+
+    it('works for filters with context parameter', function () {
+        var files = [
+            'test/fixtures/filter-with-context.html'
+        ];
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items.length, 2);
+        assert.equal(catalog.items[0].msgid, 'Hello');
+        assert.equal(catalog.items[0].msgctxt, 'someContext');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/filter-with-context.html:3']);
+
+        assert.equal(catalog.items[1].msgid, 'Second');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.equal(catalog.items[1].msgctxt, 'someContext');
+        assert.equal(catalog.items[1].references.length, 1);
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/filter-with-context.html:4']);
+    });
 });
