@@ -83,4 +83,22 @@ describe('Extracting comments', function () {
         assert.equal(i[1].extractedComments.length, 1);
         assert.equal(i[1].extractedComments[0], 'B, A');
     });
+
+    it('extracts custom attribute comments from HTML', function () {
+        var files = [
+            'test/fixtures/comments.html'
+        ];
+        var catalog = testExtract(files, {
+            attributes: ['custom-attr']
+        });
+
+        var i = catalog.items;
+        assert.equal(i.length, 2);
+
+        assert.equal(i[0].msgid, 'And this');
+        assert.deepEqual(i[0].extractedComments, ['This is a custom attribute comment']);
+
+        assert.equal(i[1].msgid, 'Translate this');
+        assert.deepEqual(i[1].extractedComments, ['This is a comment']);
+    });
 });

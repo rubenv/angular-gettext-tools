@@ -354,4 +354,21 @@ describe('Extract', function () {
         assert.equal(catalog.items[0].msgstr, '');
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-class.js:3']);
     });
+
+    it('Should extract custom attributes from HTML', function () {
+        var files = [
+            'test/fixtures/custom-attribute.html'
+        ];
+        var catalog = testExtract(files, {
+            attributes: ['custom-attr']
+        });
+
+        assert.equal(catalog.items.length, 2);
+
+        assert.equal(catalog.items[0].msgid, 'Bye!');
+        assert.equal(catalog.items[0].msgstr, '');
+
+        assert.equal(catalog.items[1].msgid, 'Hello!');
+        assert.equal(catalog.items[1].msgstr, '');
+    });
 });
