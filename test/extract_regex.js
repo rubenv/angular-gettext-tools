@@ -3,6 +3,30 @@
 var assert = require('assert');
 var mkAttrRegex = require('../lib/extract').mkAttrRegex;
 
+function matchFilter(regex, filter) {
+    var matches;
+    var result = [];
+    while (matches = regex.exec(filter)) {
+        var row = {};
+        if (matches[2]) {
+            row.msgid = matches[2];
+        }
+        if (matches[4]) {
+            row.msgctxt = matches[4];
+        }
+        result.push(row);
+    }
+    return result;
+}
+
+function generateTest( name, txt, expected, regex ) {
+    it(name, function () {
+        var matches = matchFilter(regex || mkAttrRegex('{{', '}}'), txt);
+
+        assert.deepEqual(matches, expected);
+    });
+}
+
 describe('Extract: Filter regex', function () {
     var regex = null;
 
@@ -10,197 +34,49 @@ describe('Extract: Filter regex', function () {
         regex = mkAttrRegex('{{', '}}');
     });
 
-    it('Matches a simple string', function () {
-        var matches;
-        var hit = false;
+    generateTest('Matches a simple string', '{{\'Hello\'|translate}}', [ { msgid: 'Hello' } ]);
 
-        while (matches = regex.exec('{{\'Hello\'|translate}}')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
+    generateTest('Matches a simple string with multiple filters', '{{\'Hello\'|translate|lowercase}}', [ { msgid: 'Hello' } ]);
 
-    it('Matches a simple string with multiple filters', function () {
-        var matches;
-        var hit = false;
+    generateTest('Matches double quotes', '{{"Hello"|translate}}', [ { msgid: 'Hello' } ]);
 
-        while (matches = regex.exec('{{\'Hello\'|translate|lowercase}}')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
+    generateTest('Matches double quotes with multiple filters', '{{\'Hello\'|translate|lowercase}}', [ { msgid: 'Hello' } ]);
 
-    it('Matches double quotes', function () {
-        var matches;
-        var hit = false;
+    generateTest('Matches multiple strings', '{{\'Hello\'|translate}} {{"Second"|translate}}', [
+        { msgid: 'Hello' },
+        { msgid: 'Second' }
+    ]);
 
-        while (matches = regex.exec('{{"Hello"|translate}}')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
+    generateTest('Matches multiple strings with multiple filters', '{{\'Hello\'|translate|lowercase}} {{"Second"|translate|uppercase}}', [
+            { msgid: 'Hello' },
+            { msgid: 'Second' }
+        ]);
 
-    it('Matches double quotes with multiple filters', function () {
-        var matches;
-        var hit = false;
+    generateTest('Matches encoded quotes', '{{\'Hello\'|translate}} {{&quot;Second&quot;|translate}}', [
+            { msgid: 'Hello' },
+            { msgid: 'Second' }
+        ]);
 
-        while (matches = regex.exec('{{\'Hello\'|translate|lowercase}}')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
+    generateTest('Matches encoded quotes with multiple filters', '{{\'Hello\'|translate}} {{&quot;Second&quot;|translate|lowercase}}', [
+            { msgid: 'Hello' },
+            { msgid: 'Second' }
+        ]);
 
-    it('Matches multiple strings', function () {
-        var matches;
-        var hit = 0;
+    generateTest('Matches spaces', '{{ "Hello" | translate }}', [ { msgid: 'Hello' } ]);
 
-        while (matches = regex.exec('{{\'Hello\'|translate}} {{"Second"|translate}}')) {
-            if (hit === 0) {
-                assert.equal(matches.length, 4);
-                assert.equal(matches[2], 'Hello');
-            } else if (hit === 1) {
-                assert.equal(matches.length, 4);
-                assert.equal(matches[2], 'Second');
-            }
-            hit++;
-        }
-        assert.equal(hit, 2);
-    });
+    generateTest('Matches spaces with multiple filters', '{{ "Hello" | translate | lowercase }}', [ { msgid: 'Hello' } ]);
 
-    it('Matches multiple strings with multiple filters', function () {
-        var matches;
-        var hit = 0;
+    generateTest('Can customize delimiters', '[[\'Hello\'|translate]]', [ { msgid: 'Hello' } ], mkAttrRegex('[[', ']]'));
 
-        while (matches = regex.exec('{{\'Hello\'|translate|lowercase}} {{"Second"|translate|uppercase}}')) {
-            if (hit === 0) {
-                assert.equal(matches.length, 4);
-                assert.equal(matches[2], 'Hello');
-            } else if (hit === 1) {
-                assert.equal(matches.length, 4);
-                assert.equal(matches[2], 'Second');
-            }
-            hit++;
-        }
-        assert.equal(hit, 2);
-    });
+    generateTest('Can customize delimiters with multiple filters', '[[\'Hello\'|translate|lowercase]]', [ { msgid: 'Hello' } ], mkAttrRegex('[[', ']]'));
 
-    it('Matches encoded quotes', function () {
-        var matches;
-        var hit = 0;
+    generateTest('Can be used without delimiters', '\'Hello\' | translate', [ { msgid: 'Hello' } ], mkAttrRegex('', ''));
 
-        while (matches = regex.exec('{{\'Hello\'|translate}} {{&quot;Second&quot;|translate}}')) {
-            if (hit === 0) {
-                assert.equal(matches.length, 4);
-                assert.equal(matches[2], 'Hello');
-            } else if (hit === 1) {
-                assert.equal(matches.length, 4);
-                assert.equal(matches[2], 'Second');
-            }
-            hit++;
-        }
-        assert.equal(hit, 2);
-    });
+    generateTest('Can be used without delimiters with multiple filters', '\'Hello\' | translate | lowercase', [ { msgid: 'Hello' } ], mkAttrRegex('', ''));
 
-    it('Matches encoded quotes with multiple filters', function () {
-        var matches;
-        var hit = 0;
+    generateTest('Ignores filters in default delimiters if using empty string as delimiters', '{{\'Hello\' | translate}}', [], mkAttrRegex('', ''));
 
-        while (matches = regex.exec('{{\'Hello\'|translate}} {{&quot;Second&quot;|translate|lowercase}}')) {
-            if (hit === 0) {
-                assert.equal(matches.length, 4);
-                assert.equal(matches[2], 'Hello');
-            } else if (hit === 1) {
-                assert.equal(matches.length, 4);
-                assert.equal(matches[2], 'Second');
-            }
-            hit++;
-        }
-        assert.equal(hit, 2);
-    });
+    generateTest('Matches string with context', '{{\'Hello\'|translate:\'someContext\'}}', [ { msgid: 'Hello', msgctxt: 'someContext' } ]);
 
-    it('Matches spaces', function () {
-        var matches;
-        var hit = false;
-
-        while (matches = regex.exec('{{ "Hello" | translate }}')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
-
-    it('Matches spaces with multiple filters', function () {
-        var matches;
-        var hit = false;
-
-        while (matches = regex.exec('{{ "Hello" | translate | lowercase }}')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
-
-    it('Can customize delimiters', function () {
-        var matches;
-        var regex = mkAttrRegex('[[', ']]');
-        var hit = false;
-
-        while (matches = regex.exec('[[\'Hello\'|translate]]')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
-
-    it('Can customize delimiters with multiple filters', function () {
-        var matches;
-        var regex = mkAttrRegex('[[', ']]');
-        var hit = false;
-
-        while (matches = regex.exec('[[\'Hello\'|translate|lowercase]]')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
-
-    it('Can be used without delimiters', function () {
-        var matches;
-        var regex = mkAttrRegex('', '');
-        var hit = false;
-
-        while (matches = regex.exec('\'Hello\' | translate')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-    });
-
-    it('Can be used without delimiters with multiple filters', function () {
-        var matches;
-        var regex = mkAttrRegex('', '');
-        var hit = false;
-
-        while (matches = regex.exec('\'Hello\' | translate | lowercase')) {
-            assert.equal(matches.length, 4);
-            assert.equal(matches[2], 'Hello');
-            hit = true;
-        }
-        assert(hit);
-        matches = regex.exec('{{\'Hello\' | translate}}');
-        assert.equal(matches, null);
-    });
+    generateTest('Matches string with context and spaces', '{{ \'Hello\' | translate : \'someContext\' }}', [ { msgid: 'Hello', msgctxt: 'someContext' } ]);
 });
