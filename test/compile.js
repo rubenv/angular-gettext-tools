@@ -253,4 +253,15 @@ describe('Compile', function () {
             'Non-breaking&nbsp;space': 'Harde&nbsp;spatie'
         });
     });
+
+    it('Converts horizontal ellipsis in msgids', function () {
+        var files = ['test/fixtures/hellip.po'];
+        var output = testCompile(files, {
+            format: 'json'
+        });
+        var data = JSON.parse(output);
+        assert.deepEqual(data.nl, {
+            'Dots…': 'Puntjes&hellip;'
+        });
+    });
 });
