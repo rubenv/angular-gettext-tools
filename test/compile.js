@@ -242,4 +242,15 @@ describe('Compile', function () {
         vm.runInContext(output, context);
         assert(catalog.called);
     });
+
+    it('Leaves non-breaking spaces in msgids in tact', function () {
+        var files = ['test/fixtures/nbsp.po'];
+        var output = testCompile(files, {
+            format: 'json'
+        });
+        var data = JSON.parse(output);
+        assert.deepEqual(data.nl, {
+            'Non-breaking&nbsp;space': 'Harde&nbsp;spatie'
+        });
+    });
 });
