@@ -72,6 +72,30 @@ describe('Extracting files with different extensions', function () {
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/erb.erb:3']);
     });
 
+    it('supports JSP .jsp files', function () {
+        var files = [
+            'test/fixtures/jsp.jsp'
+        ];
+        var catalog =  testExtract(files);
+
+        assert.equal(catalog.items.length, 1);
+        assert.equal(catalog.items[0].msgid, 'message');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/jsp.jsp:3']);
+    });
+    it('supports JSP .tag files', function () {
+        var files = [
+            'test/fixtures/tag.tag'
+        ];
+        var catalog =  testExtract(files);
+
+        assert.equal(catalog.items.length, 1);
+        assert.equal(catalog.items[0].msgid, 'message');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/tag.tag:3']);
+    });
+
+
     it('supports tapestry files', function () {
         var files = [
             'test/fixtures/tapestry.tml'
