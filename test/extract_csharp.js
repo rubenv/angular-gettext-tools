@@ -4,7 +4,7 @@ var assert = require('assert');
 var testExtract = require('./utils').testExtract;
 
 describe('Extracting from C#', function () {
-    it('should extract the properties having _translate_ sufix', function () {
+    it('should extract the properties having _translate sufix', function () {
         var files = [
             'test/fixtures/Constants.cs'
         ];
