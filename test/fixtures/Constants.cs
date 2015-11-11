@@ -11,9 +11,9 @@ namespace Core.Common
 
         public static class Messages
         {
-            public const string SuccessfullySaved_translate_       = 
+            public const string SuccessfullySaved_translate       = 
                   "Successfully saved!"           ; 
-            public const string OccurrencesDeleted_translate_ =            "The selected items were deleted successfully."   ;
+            public const string OccurrencesDeleted_translate =            "The selected items were deleted successfully."   ;
             public const string StatusUpdated = "Investigation status was updated successfully.";
 
             public static class EmailGroupsMessages
