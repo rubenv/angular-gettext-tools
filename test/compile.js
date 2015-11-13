@@ -54,6 +54,14 @@ function testCompile(filenames, options) {
     return compiler.convertPo(inputs);
 }
 
+function testCompileCs(filenames, options) {
+    var compiler = new Compiler(options);
+    var inputs = filenames.map(function (filename) {
+        return fs.readFileSync(filename, 'utf8');
+    });
+    return compiler.convertPo(inputs,'test.cs');
+}
+
 describe('Compile', function () {
     it('Compiles a .po file into a .js catalog', function () {
         var files = ['test/fixtures/nl.po'];
@@ -241,5 +249,14 @@ describe('Compile', function () {
         var context = vm.createContext(makeEnv('gettext', catalog));
         vm.runInContext(output, context);
         assert(catalog.called);
+    });
+
+
+    it('Generates ', function () {
+        var files = ['test/fixtures/nl.po'];
+        var output = testCompileCs(files);
+
+        console.log('The output is:' + output);
+
     });
 });
