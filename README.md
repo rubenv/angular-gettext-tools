@@ -15,6 +15,25 @@ Implementations:
 
 Check the website for usage instructions: [http://angular-gettext.rocketeer.be/](http://angular-gettext.rocketeer.be/).
 
+## Options
+
+All options and defaults are displayed below: 
+
+```JSON
+{
+    "startDelim": "{{",
+    "endDelim": "}}",
+    "markerName": "gettext",
+    "markerNames": [],
+    "moduleName": "gettextCatalog",
+    "moduleMethodString": "getString",
+    "moduleMethodPlural": "getPlural",
+    "attribute": "translate",
+    "attributes": [],
+    "lineNumbers": true
+}
+```
+
 ## License 
 
     (The MIT License)
