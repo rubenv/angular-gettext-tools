@@ -204,7 +204,7 @@ describe('Extract: Filter regex', function () {
         assert.equal(matches, null);
     });
 
-    it('Can be used has nested filter', function () {
+    it('Can be used as nested filter', function () {
         var matches;
         var regex = mkAttrRegex('{{', '}}');
         var hit = false;
