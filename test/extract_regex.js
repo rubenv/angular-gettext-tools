@@ -203,4 +203,18 @@ describe('Extract: Filter regex', function () {
         matches = regex.exec('{{\'Hello\' | translate}}');
         assert.equal(matches, null);
     });
+
+    it('Can be used has nested filter', function () {
+        var matches;
+        var regex = mkAttrRegex('{{', '}}');
+        var hit = false;
+
+        while (matches = regex.exec('{{ myModel || (\'Hello\' | translate) }}')) {
+            assert.equal(matches.length, 4);
+            assert.equal(matches[2], 'Hello');
+            hit = true;
+        }
+        assert(hit);
+    });
 });
+
