@@ -54,6 +54,14 @@ function testCompile(filenames, options) {
     return compiler.convertPo(inputs);
 }
 
+function testCompileCs(filenames, options) {
+    var compiler = new Compiler(options);
+    var inputs = filenames.map(function (filename) {
+        return fs.readFileSync(filename, 'utf8');
+    });
+    return compiler.convertPo(inputs, 'test.cs');
+}
+
 describe('Compile', function () {
     it('Compiles a .po file into a .js catalog', function () {
         var files = ['test/fixtures/nl.po'];
@@ -241,5 +249,181 @@ describe('Compile', function () {
         var context = vm.createContext(makeEnv('gettext', catalog));
         vm.runInContext(output, context);
         assert(catalog.called);
+    });
+
+    describe('C# dictionary file', function () {
+        it('Generates the expected c# dictionary', function () {
+            var files = ['test/fixtures/nl_c#test.po'];
+            var output = testCompileCs(files);
+            var expectedOutput = 'using System;\n' +
+                 'using System.Collections.Generic;\n' +
+                 'namespace Core.Common\n' +
+                 '{\n' +
+                 'public static class Translations{\n' +
+                 'public  static readonly Dictionary<string, Dictionary<string, string>> _translations = new Dictionary<string, Dictionary<string, string>>();\n' +
+                 'private static Dictionary<string, string> _currentLanguage;\n' +
+                 'static Translations()\n' +
+                 '{\n' +
+                 'var dictionarynl = new Dictionary<string, string>();\n' +
+                 'dictionarynl.Add("Hello!","Hallo!");\n' +
+                 '_translations.Add("nl", dictionarynl);\n' +
+                 '}\n' +
+                 'public static void SetCurrentLanguage(string languageCode)\n' +
+                 '{\n' +
+                 'foreach (var translation in _translations)\n' +
+                 '{\n' +
+                 'if (translation.Key != languageCode) continue;\n' +
+                 '_currentLanguage = translation.Value;\n' +
+                 'return;\n' +
+                 '}\n' +
+                 '}\n' +
+                 'public static string Translate(string key)\n' +
+                 '{\n' +
+                 'try\n' +
+                 '{\n' +
+                 'return _currentLanguage != null ? _currentLanguage[key] : key;\n' +
+                 '}\n' +
+                 'catch(Exception)\n' +
+                 '{\n' +
+                 'return key;\n' +
+                 '}\n' +
+                 '}\n' +
+                 '}\n' +
+                 '}\n';
+
+            assert.equal(output, expectedOutput);
+        });
+
+        it('Escapes quotes and new lines', function () {
+            var files = ['test/fixtures/nl_escape.po'];
+            var output = testCompileCs(files);
+            var expectedOutput = 'using System;\n' +
+                 'using System.Collections.Generic;\n' +
+                 'namespace Core.Common\n' +
+                 '{\n' +
+                 'public static class Translations{\n' +
+                 'public  static readonly Dictionary<string, Dictionary<string, string>> _translations = new Dictionary<string, Dictionary<string, string>>();\n' +
+                 'private static Dictionary<string, string> _currentLanguage;\n' +
+                 'static Translations()\n' +
+                 '{\n' +
+                 'var dictionarynl = new Dictionary<string, string>();\n' +
+                 'dictionarynl.Add("This is a test","Dit is een test");\n' +
+                 'dictionarynl.Add("Bird","Vogel");\n' +
+                 'dictionarynl.Add("Hello \\"world\\"","Hallo \\"wereld\\"");\n' +
+                 '_translations.Add("nl", dictionarynl);\n' +
+                 '}\n' +
+                 'public static void SetCurrentLanguage(string languageCode)\n' +
+                 '{\n' +
+                 'foreach (var translation in _translations)\n' +
+                 '{\n' +
+                 'if (translation.Key != languageCode) continue;\n' +
+                 '_currentLanguage = translation.Value;\n' +
+                 'return;\n' +
+                 '}\n' +
+                 '}\n' +
+                 'public static string Translate(string key)\n' +
+                 '{\n' +
+                 'try\n' +
+                 '{\n' +
+                 'return _currentLanguage != null ? _currentLanguage[key] : key;\n' +
+                 '}\n' +
+                 'catch(Exception)\n' +
+                 '{\n' +
+                 'return key;\n' +
+                 '}\n' +
+                 '}\n' +
+                 '}\n' +
+                 '}\n';
+
+            assert.equal(output, expectedOutput);
+        });
+
+        it('Accepts a defaultLanguage parameter', function () {
+            var files = ['test/fixtures/nl_c#test.po'];
+            var output = testCompileCs(files, {
+                defaultLanguage: 'nl'
+            });
+            var expectedOutput = 'using System;\n' +
+                 'using System.Collections.Generic;\n' +
+                 'namespace Core.Common\n' +
+                 '{\n' +
+                 'public static class Translations{\n' +
+                 'public  static readonly Dictionary<string, Dictionary<string, string>> _translations = new Dictionary<string, Dictionary<string, string>>();\n' +
+                 'private static Dictionary<string, string> _currentLanguage;\n' +
+                 'static Translations()\n' +
+                 '{\n' +
+                 'var dictionarynl = new Dictionary<string, string>();\n' +
+                 'dictionarynl.Add("Hello!","Hallo!");\n' +
+                 '_translations.Add("nl", dictionarynl);\n' +
+                 'SetCurrentLanguage("nl");\n' +
+                 '}\n' +
+                 'public static void SetCurrentLanguage(string languageCode)\n' +
+                 '{\n' +
+                 'foreach (var translation in _translations)\n' +
+                 '{\n' +
+                 'if (translation.Key != languageCode) continue;\n' +
+                 '_currentLanguage = translation.Value;\n' +
+                 'return;\n' +
+                 '}\n' +
+                 '}\n' +
+                 'public static string Translate(string key)\n' +
+                 '{\n' +
+                 'try\n' +
+                 '{\n' +
+                 'return _currentLanguage != null ? _currentLanguage[key] : key;\n' +
+                 '}\n' +
+                 'catch(Exception)\n' +
+                 '{\n' +
+                 'return key;\n' +
+                 '}\n' +
+                 '}\n' +
+                 '}\n' +
+                 '}\n';
+
+            assert.equal(output, expectedOutput);
+        });
+
+        it('Accepts a namaspace parameter', function () {
+            var files = ['test/fixtures/nl_c#test.po'];
+            var output = testCompileCs(files, {
+                namespace: 'Test.Namaspace'
+            });
+            var expectedOutput = 'using System;\n' +
+                 'using System.Collections.Generic;\n' +
+                 'namespace Test.Namaspace\n' +
+                 '{\n' +
+                 'public static class Translations{\n' +
+                 'public  static readonly Dictionary<string, Dictionary<string, string>> _translations = new Dictionary<string, Dictionary<string, string>>();\n' +
+                 'private static Dictionary<string, string> _currentLanguage;\n' +
+                 'static Translations()\n' +
+                 '{\n' +
+                 'var dictionarynl = new Dictionary<string, string>();\n' +
+                 'dictionarynl.Add("Hello!","Hallo!");\n' +
+                 '_translations.Add("nl", dictionarynl);\n' +
+                 '}\n' +
+                 'public static void SetCurrentLanguage(string languageCode)\n' +
+                 '{\n' +
+                 'foreach (var translation in _translations)\n' +
+                 '{\n' +
+                 'if (translation.Key != languageCode) continue;\n' +
+                 '_currentLanguage = translation.Value;\n' +
+                 'return;\n' +
+                 '}\n' +
+                 '}\n' +
+                 'public static string Translate(string key)\n' +
+                 '{\n' +
+                 'try\n' +
+                 '{\n' +
+                 'return _currentLanguage != null ? _currentLanguage[key] : key;\n' +
+                 '}\n' +
+                 'catch(Exception)\n' +
+                 '{\n' +
+                 'return key;\n' +
+                 '}\n' +
+                 '}\n' +
+                 '}\n' +
+                 '}\n';
+            assert.equal(output, expectedOutput);
+        });
     });
 });
