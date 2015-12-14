@@ -243,25 +243,44 @@ describe('Compile', function () {
         assert(catalog.called);
     });
 
-    it('Leaves non-breaking spaces in msgids in tact', function () {
-        var files = ['test/fixtures/nbsp.po'];
+    it('Leaves html-entities in msgids that are not converted in the browser in tact', function () {
+        var files = ['test/fixtures/inconvertible_html_entities.po'];
         var output = testCompile(files, {
             format: 'json'
         });
         var data = JSON.parse(output);
         assert.deepEqual(data.nl, {
-            'Non-breaking&nbsp;space': 'Harde&nbsp;spatie'
+            'non-breaking&nbsp;space': 'harde&nbsp;spatie',
+            'greater &gt; than': 'groter &gt; dan',
+            'less &lt; than': 'kleiner &lt; dan',
+            'and &amp;': 'en &lt;'
         });
     });
 
-    it('Converts horizontal ellipsis in msgids', function () {
-        var files = ['test/fixtures/hellip.po'];
+    it('Converts html-entities in msgids that are also converted in the browser', function () {
+        var files = ['test/fixtures/convertible_html_entities.po'];
         var output = testCompile(files, {
             format: 'json'
         });
         var data = JSON.parse(output);
         assert.deepEqual(data.nl, {
-            'Dots…': 'Puntjes&hellip;'
+            'dots…': 'puntjes&hellip;',
+            'cents ¢, pounds £ and euros €': 'centen &cent;, ponden &pound; and euro’s &euro;',
+            '«double» and ‹single› guillemets': '&laquo;dubbel&raquo; en &lsaquo;enkele&rsaquo; guillemets',
+            'copyright © and registered ® trade ™ marks': 'kopierecht &copy; en geregistreerde &reg; handels &trade; merken',
+            '§ sections and paragraphs¶': '&sect; secties en paragrafen&para;',
+            'hot 10° cold': 'heet &deg; koud',
+            '± greater ≥ or less than ≤': '&plusmn; groter &ge; of kleiner dan &le;',
+            'not ≠ or approximately ≈ equal': 'niet &ne; of ongeveer &asymp; gelijk',
+            'middle · dot': 'middel &middot; punt',
+            'en – and em — dash': 'gedachte&ndash; of aandachts&mdash; streepje',
+            '‘single’ ‘quotes‚': '&lsquo;enkele&rsquo; &lsquo;aanhalingstekens&sbquo;',
+            '“double” “quotes„': '&ldquo;dubbele&rdquo; &ldquo;aanhalingstekens&bdquo;',
+            '† dagger ‡': '&dagger; obelisk &Dagger;',
+            '• bullet': '&bull; opsommingsteken',
+            '10′23″': '10&prime;23&Prime; tijd',
+            'square root ² and to the power of ³': 'kwadraat &sup2; en to de macht &sup3;',
+            'fraction two ½ three ⅓ four ¼ and three fourths ¾': 'helft &frac12; derde &frac13; kwart &frac14; en drie-vierde &frac34;'
         });
     });
 });

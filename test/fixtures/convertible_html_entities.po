@@ -1,0 +1,82 @@
+msgid ""
+msgstr ""
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: test/fixtures/html_entities.html
+msgid "dots&hellip;"
+msgstr "puntjes&hellip;"
+
+#: test/fixtures/html_entities.html
+msgid "cents &cent;, pounds &pound; and euros &euro;"
+msgstr "centen &cent;, ponden &pound; and euro’s &euro;"
+
+#: test/fixtures/html_entities.html
+msgid "&laquo;double&raquo; and &lsaquo;single&rsaquo; guillemets"
+msgstr "&laquo;dubbel&raquo; en &lsaquo;enkele&rsaquo; guillemets"
+
+#: test/fixtures/html_entities.html
+msgid "copyright &copy; and registered &reg; trade &trade; marks"
+msgstr "kopierecht &copy; en geregistreerde &reg; handels &trade; merken"
+
+#: test/fixtures/html_entities.html
+msgid "&sect; sections and paragraphs&para;"
+msgstr "&sect; secties en paragrafen&para;"
+
+#: test/fixtures/html_entities.html
+msgid "hot 10&deg; cold"
+msgstr "heet &deg; koud"
+
+#: test/fixtures/html_entities.html
+msgid "&plusmn; greater &ge; or less than &le;"
+msgstr "&plusmn; groter &ge; of kleiner dan &le;"
+
+#: test/fixtures/html_entities.html
+msgid "not &ne; or approximately &asymp; equal"
+msgstr "niet &ne; of ongeveer &asymp; gelijk"
+
+#: test/fixtures/html_entities.html
+msgid "middle &middot; dot"
+msgstr "middel &middot; punt"
+
+#: test/fixtures/html_entities.html
+msgid "en &ndash; and em &mdash; dash"
+msgstr "gedachte&ndash; of aandachts&mdash; streepje"
+
+#: test/fixtures/html_entities.html
+msgid "&lsquo;single&rsquo; &lsquo;quotes&sbquo;"
+msgstr "&lsquo;enkele&rsquo; &lsquo;aanhalingstekens&sbquo;"
+
+#: test/fixtures/html_entities.html
+msgid "&ldquo;double&rdquo; &ldquo;quotes&bdquo;"
+msgstr "&ldquo;dubbele&rdquo; &ldquo;aanhalingstekens&bdquo;"
+
+#: test/fixtures/html_entities.html
+msgid "&dagger; dagger &Dagger;"
+msgstr "&dagger; obelisk &Dagger;"
+
+#: test/fixtures/html_entities.html
+msgid "&bull; bullet"
+msgstr "&bull; opsommingsteken"
+
+#: test/fixtures/html_entities.html
+msgid "10&prime;23&Prime;"
+msgstr "10&prime;23&Prime; tijd"
+
+#: test/fixtures/html_entities.html
+msgid "square root &sup2; and to the power of &sup3;"
+msgstr "kwadraat &sup2; en to de macht &sup3;"
+
+#: test/fixtures/html_entities.html
+msgid "fraction two &frac12; three &frac13; four &frac14; and three fourths &frac34;"
+msgstr "helft &frac12; derde &frac13; kwart &frac14; en drie-vierde &frac34;"
+
