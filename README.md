@@ -10,7 +10,7 @@ Implementations:
 
 * [Grunt plugin](https://github.com/rubenv/grunt-angular-gettext)
 * [Gulp plugin](https://github.com/gabegorelick/gulp-angular-gettext)
-* [CLI utility (extraction)](https://github.com/huston007/angular-gettext-cli)
+* [CLI utility](https://github.com/huston007/angular-gettext-cli)
 * [Webpack loader (compilation)](https://github.com/princed/angular-gettext-loader)
 
 Check the website for usage instructions: [http://angular-gettext.rocketeer.be/](http://angular-gettext.rocketeer.be/).
