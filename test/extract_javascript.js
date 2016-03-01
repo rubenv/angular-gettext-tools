@@ -42,16 +42,22 @@ describe('Extracting from Javascript', function () {
         ];
         var catalog = testExtract(files);
 
+        assert.equal(catalog.items.length, 3);
         assert.equal(catalog.items[0].msgid, 'Bird');
         assert.equal(catalog.items[0].msgid_plural, 'Birds');
         assert.equal(catalog.items[0].msgstr.length, 2);
         assert.equal(catalog.items[0].msgstr[0], '');
         assert.equal(catalog.items[0].msgstr[1], '');
-        assert.deepEqual(catalog.items[0].references, ['test/fixtures/catalog.js:3']);
-        assert.equal(catalog.items.length, 2);
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/catalog.js:4']);
+
         assert.equal(catalog.items[1].msgid, 'Hello');
         assert.equal(catalog.items[1].msgstr, '');
         assert.deepEqual(catalog.items[1].references, ['test/fixtures/catalog.js:2']);
+
+        assert.equal(catalog.items[2].msgid, 'Hello2');
+        assert.equal(catalog.items[2].msgstr, '');
+        assert.equal(catalog.items[2].msgctxt, 'Context');
+        assert.deepEqual(catalog.items[2].references, ['test/fixtures/catalog.js:3']);
     });
 
     it('supports foo.gettextCatalog.getString()', function () {
@@ -77,5 +83,40 @@ describe('Extracting from Javascript', function () {
             'test/fixtures/deeppath_catalog_invalid.js'
         ];
         testExtract(files);
+    });
+
+    describe('from HTML <script> tags', function () {
+        it('should work if <script> has no type', function () {
+            // In HTML5, type defaults to text/javascript.
+            // In HTML4, it's required, so if it's not there, just assume it's JS
+            var files = [
+                'test/fixtures/js-in-script-tags/no-type.html'
+            ];
+            var catalog = testExtract(files);
+
+            assert.equal(catalog.items.length, 1);
+            assert.equal(catalog.items[0].msgid, 'Hi');
+            assert.deepEqual(catalog.items[0].references, ['test/fixtures/js-in-script-tags/no-type.html:4']);
+        });
+
+        it('should work if <script> is type="text/javascript"', function () {
+            var files = [
+                'test/fixtures/js-in-script-tags/type-javascript.html'
+            ];
+            var catalog = testExtract(files);
+
+            assert.equal(catalog.items.length, 1);
+            assert.equal(catalog.items[0].msgid, 'Hi');
+            assert.deepEqual(catalog.items[0].references, ['test/fixtures/js-in-script-tags/type-javascript.html:4']);
+        });
+
+        it('should not extract <script> if type is not javascript', function () {
+            var files = [
+                'test/fixtures/js-in-script-tags/not-javascript.html'
+            ];
+            var catalog = testExtract(files);
+
+            assert.equal(catalog.items.length, 0);
+        });
     });
 });

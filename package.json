@@ -1,7 +1,7 @@
 {
   "name": "angular-gettext-tools",
   "description": "Tools for extracting/compiling angular-gettext strings.",
-  "version": "2.0.3",
+  "version": "2.1.11",
   "homepage": "http://angular-gettext.rocketeer.be/",
   "author": {
     "name": "Ruben Vermeersch",
@@ -15,28 +15,22 @@
   "bugs": {
     "url": "https://github.com/rubenv/angular-gettext-tools/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/rubenv/angular-gettext-tools/blob/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "main": "index.js",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "grunt test"
   },
   "devDependencies": {
-    "coffee-script": "~1.7.1",
     "grunt": "~0.4.4",
     "grunt-bump": "0.0.13",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-jshint": "~0.11.2",
     "grunt-contrib-watch": "~0.6.1",
-    "grunt-jscs-checker": "~0.4.1",
-    "grunt-mocha-cli": "~1.8.0"
+    "grunt-jscs": "^1.8.0",
+    "grunt-mocha-cli": "^1.13.1"
   },
   "keywords": [
     "angular",
@@ -44,9 +38,9 @@
   ],
   "dependencies": {
     "binary-search": "^1.2.0",
-    "cheerio": "~0.18.0",
-    "esprima": "~1.1.1",
-    "lodash": "~2.4.1",
-    "pofile": "~0.2.8"
+    "cheerio": "~0.19.0",
+    "espree": "^2.0.0",
+    "lodash": "^4.0.0",
+    "pofile": "~1.0.0"
   }
 }

@@ -10,8 +10,29 @@ Implementations:
 
 * [Grunt plugin](https://github.com/rubenv/grunt-angular-gettext)
 * [Gulp plugin](https://github.com/gabegorelick/gulp-angular-gettext)
+* [CLI utility](https://github.com/huston007/angular-gettext-cli)
+* [Webpack loader (compilation)](https://github.com/princed/angular-gettext-loader)
 
 Check the website for usage instructions: [http://angular-gettext.rocketeer.be/](http://angular-gettext.rocketeer.be/).
+
+## Options
+
+All options and defaults are displayed below: 
+
+```JSON
+{
+    "startDelim": "{{",
+    "endDelim": "}}",
+    "markerName": "gettext",
+    "markerNames": [],
+    "moduleName": "gettextCatalog",
+    "moduleMethodString": "getString",
+    "moduleMethodPlural": "getPlural",
+    "attribute": "translate",
+    "attributes": [],
+    "lineNumbers": true
+}
+```
 
 ## License 
 
