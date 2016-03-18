@@ -130,10 +130,16 @@ describe('Extract', function () {
         ];
         var catalog = testExtract(files);
 
-        assert.equal(catalog.items.length, 3);
+        assert.equal(catalog.items.length, 6);
         assert.equal(catalog.items[0].msgid, 'a');
         assert.equal(catalog.items[1].msgid, 'b');
         assert.equal(catalog.items[2].msgid, 'c');
+        assert.equal(catalog.items[3].msgid, 'd');
+        assert.equal(catalog.items[3].msgctxt, null);
+        assert.equal(catalog.items[4].msgid, 'd');
+        assert.equal(catalog.items[4].msgctxt, 'a');
+        assert.equal(catalog.items[5].msgid, 'd');
+        assert.equal(catalog.items[5].msgctxt, 'b');
     });
 
     it('Extracts strings concatenation from JavaScript source', function () {
