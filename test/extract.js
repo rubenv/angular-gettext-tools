@@ -349,6 +349,33 @@ describe('Extract', function () {
         assert.equal(catalog.items[1].msgctxt, 'male');
     });
 
+    it('Should extract context of custom element attribute from HTM, including attribute as element', function () {
+        var files = [
+            'test/fixtures/context-custom.html'
+        ];
+        var catalog = testExtract(files, {
+            attribute: 'trans'
+        });
+
+        assert.equal(catalog.items.length, 4);
+
+        assert.equal(catalog.items[0].msgid, 'CrazyMe!');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.equal(catalog.items[0].msgctxt, 'male');
+
+        assert.equal(catalog.items[1].msgid, 'CrazyYou!');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.strictEqual(catalog.items[1].msgctxt, null);
+
+        assert.equal(catalog.items[2].msgid, 'Hello1!');
+        assert.equal(catalog.items[2].msgstr, '');
+        assert.strictEqual(catalog.items[2].msgctxt, null);
+
+        assert.equal(catalog.items[3].msgid, 'Hello2!');
+        assert.equal(catalog.items[3].msgstr, '');
+        assert.equal(catalog.items[3].msgctxt, 'male');
+    });
+
     it('Extracts strings from an ES6 class', function () {
         var files = [
             'test/fixtures/es6-class.js'
