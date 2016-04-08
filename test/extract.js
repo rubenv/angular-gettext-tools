@@ -404,4 +404,21 @@ describe('Extract', function () {
         assert.equal(catalog.items[1].msgid, 'Hello!');
         assert.equal(catalog.items[1].msgstr, '');
     });
+
+    it('Should extract multiple filters', function () {
+        var files = [
+            'test/fixtures/multiple-filters.html'
+        ];
+        var catalog = testExtract(files, {
+            attributes: ['normalTranslate', 'specialTranslate']
+        });
+
+        assert.equal(catalog.items.length, 2);
+
+        assert.equal(catalog.items[0].msgid, 'Normal translate');
+        assert.equal(catalog.items[0].msgstr, '');
+
+        assert.equal(catalog.items[1].msgid, 'Special translate');
+        assert.equal(catalog.items[1].msgstr, '');
+    });
 });
