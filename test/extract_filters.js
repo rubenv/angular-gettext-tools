@@ -90,7 +90,7 @@ describe('Extracting filters', function () {
         var catalog = testExtract(files);
 
         assert.equal(catalog.items.length, 2);
-        
+
         assert.equal(catalog.items[0].msgid, 'LabelAttribute');
         assert.equal(catalog.items[0].msgstr, '');
         assert.equal(catalog.items[0].references.length, 1);
