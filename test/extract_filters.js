@@ -91,12 +91,12 @@ describe('Extracting filters', function () {
 
         assert.equal(catalog.items.length, 2);
 
-        assert.equal(catalog.items[0].msgid, 'LabelAttribute');
+        assert.equal(catalog.items[0].msgid, 'expr1');
         assert.equal(catalog.items[0].msgstr, '');
         assert.equal(catalog.items[0].references.length, 1);
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/filter-data-attributes.html:3']);
 
-        assert.equal(catalog.items[1].msgid, 'DataLabelAttribute');
+        assert.equal(catalog.items[1].msgid, 'expr2');
         assert.equal(catalog.items[1].msgstr, '');
         assert.equal(catalog.items[1].references.length, 1);
         assert.deepEqual(catalog.items[1].references, ['test/fixtures/filter-data-attributes.html:4']);
