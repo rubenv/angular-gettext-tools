@@ -82,7 +82,7 @@ describe('Extracting filters', function () {
         assert.equal(catalog.items[3].msgstr, '');
         assert.deepEqual(catalog.items[3].references, ['test/fixtures/filter-in-multiple-expression-attributes.html:3']);
     });
-    
+
     it('works for the data attribute case', function () {
         var files = [
             'test/fixtures/filter-data-attributes.html'
