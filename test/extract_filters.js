@@ -82,4 +82,23 @@ describe('Extracting filters', function () {
         assert.equal(catalog.items[3].msgstr, '');
         assert.deepEqual(catalog.items[3].references, ['test/fixtures/filter-in-multiple-expression-attributes.html:3']);
     });
+    
+    it('works for the data attribute case', function () {
+        var files = [
+            'test/fixtures/filter-data-attributes.html'
+        ];
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items.length, 2);
+        
+        assert.equal(catalog.items[0].msgid, 'LabelAttribute');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.equal(catalog.items[0].references.length, 1);
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/filter-data-attributes.html:3']);
+
+        assert.equal(catalog.items[1].msgid, 'DataLabelAttribute');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.equal(catalog.items[1].references.length, 1);
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/filter-data-attributes.html:4']);
+    });
 });
