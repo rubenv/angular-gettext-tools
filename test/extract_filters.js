@@ -89,16 +89,26 @@ describe('Extracting filters', function () {
         ];
         var catalog = testExtract(files);
 
-        assert.equal(catalog.items.length, 2);
+        assert.equal(catalog.items.length, 4);
 
-        assert.equal(catalog.items[0].msgid, 'expr1');
+        assert.equal(catalog.items[0].msgid, 'label1');
         assert.equal(catalog.items[0].msgstr, '');
         assert.equal(catalog.items[0].references.length, 1);
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/filter-data-attributes.html:3']);
 
-        assert.equal(catalog.items[1].msgid, 'expr2');
+        assert.equal(catalog.items[1].msgid, 'label2');
         assert.equal(catalog.items[1].msgstr, '');
         assert.equal(catalog.items[1].references.length, 1);
         assert.deepEqual(catalog.items[1].references, ['test/fixtures/filter-data-attributes.html:4']);
+
+        assert.equal(catalog.items[2].msgid, 'label3');
+        assert.equal(catalog.items[2].msgstr, '');
+        assert.equal(catalog.items[2].references.length, 1);
+        assert.deepEqual(catalog.items[2].references, ['test/fixtures/filter-data-attributes.html:5']);
+
+        assert.equal(catalog.items[3].msgid, 'label4');
+        assert.equal(catalog.items[3].msgstr, '');
+        assert.equal(catalog.items[3].references.length, 1);
+        assert.deepEqual(catalog.items[3].references, ['test/fixtures/filter-data-attributes.html:6']);
     });
 });
