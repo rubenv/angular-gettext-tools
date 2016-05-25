@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('assert');
+var sinon = require('sinon');
 var testExtract = require('./utils').testExtract;
 
 describe('Extracting from Javascript', function () {
@@ -78,11 +79,23 @@ describe('Extracting from Javascript', function () {
         assert.deepEqual(catalog.items[1].references, ['test/fixtures/deeppath_catalog.js:4']);
     });
 
-    it('supports invalid javascript syntax without exception', function () {
-        var files = [
-            'test/fixtures/deeppath_catalog_invalid.js'
-        ];
-        testExtract(files);
+    describe('invalid javascript', function () {
+        beforeEach(function () {
+            sinon.stub(console, 'warn', function () {
+                // respect the rule of silence
+            });
+        });
+
+        afterEach(function () {
+            console.warn.restore();
+        });
+
+        it('should not throw an exception', function () {
+            var files = [
+                'test/fixtures/deeppath_catalog_invalid.js'
+            ];
+            testExtract(files);
+        });
     });
 
     describe('from HTML <script> tags', function () {
