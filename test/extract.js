@@ -404,4 +404,34 @@ describe('Extract', function () {
         assert.equal(catalog.items[1].msgid, 'Hello!');
         assert.equal(catalog.items[1].msgstr, '');
     });
+
+    it('Extracts strings from an ES6 export', function () {
+        var files = [
+            'test/fixtures/es6-export.js'
+        ];
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items.length, 2);
+
+        assert.equal(catalog.items[0].msgid, 'Hi from an ES6 export default!');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-export.js:6']);
+
+        assert.equal(catalog.items[1].msgid, 'Hi from an ES6 export!');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/es6-export.js:2']);
+    });
+
+    it('Extracts strings from an ES6 import', function () {
+        var files = [
+            'test/fixtures/es6-import.js'
+        ];
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items.length, 1);
+
+        assert.equal(catalog.items[0].msgid, 'Hi from ES6 file with import!');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-import.js:5']);
+    });
 });
