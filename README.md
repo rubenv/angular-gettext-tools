@@ -33,7 +33,7 @@ All options and defaults are displayed below:
     "lineNumbers": true,
     "format": "javascript",
     "defaultLanguage": false,
-    "requireJs": false
+    "requirejs": false
 }
 ```
 
