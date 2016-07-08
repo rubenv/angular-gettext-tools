@@ -30,7 +30,10 @@ All options and defaults are displayed below:
     "moduleMethodPlural": "getPlural",
     "attribute": "translate",
     "attributes": [],
-    "lineNumbers": true
+    "lineNumbers": true,
+    "format": "javascript",
+    "defaultLanguage": false,
+    "requireJs": false
 }
 ```
 
