@@ -193,6 +193,35 @@ describe('Compile', function () {
         });
     });
 
+    it('Remove spaces', function () {
+        var files = ['test/fixtures/spaces.po'];
+        var output = testCompile(files, {
+            format: 'json',
+            removeWhiteSpaces: true
+        });
+        var data = JSON.parse(output);
+
+        assert.deepEqual(data.fr, {
+            'Hello!': 'Bonjour!',
+            'This is a test': 'Ceci est un test',
+            'Bird': ['Oiseau', 'Oiseaux']
+        });
+    });
+
+    it('Do not remove spaces', function () {
+        var files = ['test/fixtures/spaces.po'];
+        var output = testCompile(files, {
+            format: 'json'
+        });
+        var data = JSON.parse(output);
+
+        assert.deepEqual(data.fr, {
+            'Hello!': 'Bonjour!',
+            'This           is\n         a test': 'Ceci est un test',
+            'Bird': ['Oiseau', 'Oiseaux']
+        });
+    });
+
     it('Can output multiple inputs to single JSON', function () {
         var files = ['test/fixtures/fr.po', 'test/fixtures/depth/fr.po'];
         var output = testCompile(files, {
