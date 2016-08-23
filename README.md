@@ -17,7 +17,7 @@ Check the website for usage instructions: [http://angular-gettext.rocketeer.be/]
 
 ## Options
 
-All options and defaults are displayed below: 
+All options and defaults are displayed below:
 
 ```JSON
 {
@@ -33,11 +33,12 @@ All options and defaults are displayed below:
     "lineNumbers": true,
     "format": "javascript",
     "defaultLanguage": false,
-    "requirejs": false
+    "requirejs": false,
+    "jshintIgnore": false
 }
 ```
 
-## License 
+## License
 
     (The MIT License)
 
