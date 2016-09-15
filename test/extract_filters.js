@@ -111,4 +111,43 @@ describe('Extracting filters', function () {
         assert.equal(catalog.items[3].references.length, 1);
         assert.deepEqual(catalog.items[3].references, ['test/fixtures/filter-data-attributes.html:6']);
     });
+
+    it('works with context at attributes', function () {
+        var files = [
+            'test/fixtures/filter-attr-context.html'
+        ];
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items.length, 5);
+
+        assert.equal(catalog.items[0].msgid, 'Hello1');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.equal(catalog.items[0].msgctxt, 'contextSimple');
+        assert.equal(catalog.items[0].references.length, 1);
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/filter-attr-context.html:3']);
+
+        assert.equal(catalog.items[1].msgid, 'Hello2');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.equal(catalog.items[1].msgctxt, 'context in singe quotes');
+        assert.equal(catalog.items[1].references.length, 1);
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/filter-attr-context.html:4']);
+
+        assert.equal(catalog.items[2].msgid, 'Hello3');
+        assert.equal(catalog.items[2].msgstr, '');
+        assert.equal(catalog.items[2].msgctxt, 'context in double quotes');
+        assert.equal(catalog.items[2].references.length, 1);
+        assert.deepEqual(catalog.items[2].references, ['test/fixtures/filter-attr-context.html:5']);
+
+        assert.equal(catalog.items[3].msgid, 'Hello4');
+        assert.equal(catalog.items[3].msgstr, '');
+        assert.equal(catalog.items[3].msgctxt, 'context with space');
+        assert.equal(catalog.items[3].references.length, 1);
+        assert.deepEqual(catalog.items[3].references, ['test/fixtures/filter-attr-context.html:6']);
+
+        assert.equal(catalog.items[4].msgid, 'Hello5');
+        assert.equal(catalog.items[4].msgstr, '');
+        assert.equal(catalog.items[4].msgctxt, null);
+        assert.equal(catalog.items[4].references.length, 1);
+        assert.deepEqual(catalog.items[4].references, ['test/fixtures/filter-attr-context.html:7']);
+    });
 });
