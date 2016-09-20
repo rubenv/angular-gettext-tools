@@ -203,4 +203,19 @@ describe('Extract: Filter regex', function () {
         matches = regex.exec('{{\'Hello\' | translate}}');
         assert.equal(matches, null);
     });
+
+    it('Can be used with filter context', function () {
+        var matches;
+        var regex = mkAttrRegex('', '');
+        var hit = false;
+
+        while (matches = regex.exec('\'Hello\' | translate:"context"')) {
+            assert.equal(matches.length, 5);
+            assert.equal(matches[2], 'Hello');
+            assert.equal(matches[4], 'context');
+            hit = true;
+        }
+
+        assert(hit);
+    });
 });
