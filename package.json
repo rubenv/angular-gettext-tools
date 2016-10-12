@@ -38,9 +38,9 @@
     "gettext"
   ],
   "dependencies": {
+    "babylon": "^6.11.4",
     "binary-search": "^1.2.0",
     "cheerio": "~0.19.0",
-    "espree": "^3.0.0",
     "lodash": "^4.0.0",
     "pofile": "~1.0.0"
   }
