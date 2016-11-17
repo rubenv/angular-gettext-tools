@@ -33,7 +33,8 @@ All options and defaults are displayed below:
     "lineNumbers": true,
     "format": "javascript",
     "defaultLanguage": false,
-    "requirejs": false
+    "requirejs": false,
+    "includeFuzzy": false
 }
 ```
 
