@@ -15,7 +15,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('{{\'Hello\'|translate}}')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -27,7 +27,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('{{\'Hello\'|translate|lowercase}}')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -39,7 +39,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('{{"Hello"|translate}}')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -51,7 +51,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('{{\'Hello\'|translate|lowercase}}')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -64,10 +64,10 @@ describe('Extract: Filter regex', function () {
 
         while (matches = regex.exec('{{\'Hello\'|translate}} {{"Second"|translate}}')) {
             if (hit === 0) {
-                assert.equal(matches.length, 4);
+                assert.equal(matches.length, 5);
                 assert.equal(matches[2], 'Hello');
             } else if (hit === 1) {
-                assert.equal(matches.length, 4);
+                assert.equal(matches.length, 5);
                 assert.equal(matches[2], 'Second');
             }
             hit++;
@@ -81,10 +81,10 @@ describe('Extract: Filter regex', function () {
 
         while (matches = regex.exec('{{\'Hello\'|translate|lowercase}} {{"Second"|translate|uppercase}}')) {
             if (hit === 0) {
-                assert.equal(matches.length, 4);
+                assert.equal(matches.length, 5);
                 assert.equal(matches[2], 'Hello');
             } else if (hit === 1) {
-                assert.equal(matches.length, 4);
+                assert.equal(matches.length, 5);
                 assert.equal(matches[2], 'Second');
             }
             hit++;
@@ -98,10 +98,10 @@ describe('Extract: Filter regex', function () {
 
         while (matches = regex.exec('{{\'Hello\'|translate}} {{&quot;Second&quot;|translate}}')) {
             if (hit === 0) {
-                assert.equal(matches.length, 4);
+                assert.equal(matches.length, 5);
                 assert.equal(matches[2], 'Hello');
             } else if (hit === 1) {
-                assert.equal(matches.length, 4);
+                assert.equal(matches.length, 5);
                 assert.equal(matches[2], 'Second');
             }
             hit++;
@@ -115,10 +115,10 @@ describe('Extract: Filter regex', function () {
 
         while (matches = regex.exec('{{\'Hello\'|translate}} {{&quot;Second&quot;|translate|lowercase}}')) {
             if (hit === 0) {
-                assert.equal(matches.length, 4);
+                assert.equal(matches.length, 5);
                 assert.equal(matches[2], 'Hello');
             } else if (hit === 1) {
-                assert.equal(matches.length, 4);
+                assert.equal(matches.length, 5);
                 assert.equal(matches[2], 'Second');
             }
             hit++;
@@ -131,7 +131,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('{{ "Hello" | translate }}')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -143,7 +143,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('{{ "Hello" | translate | lowercase }}')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -156,7 +156,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('[[\'Hello\'|translate]]')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -169,7 +169,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('[[\'Hello\'|translate|lowercase]]')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -182,7 +182,7 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('\'Hello\' | translate')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
@@ -195,12 +195,27 @@ describe('Extract: Filter regex', function () {
         var hit = false;
 
         while (matches = regex.exec('\'Hello\' | translate | lowercase')) {
-            assert.equal(matches.length, 4);
+            assert.equal(matches.length, 5);
             assert.equal(matches[2], 'Hello');
             hit = true;
         }
         assert(hit);
         matches = regex.exec('{{\'Hello\' | translate}}');
         assert.equal(matches, null);
+    });
+
+    it('Can be used with filter context', function () {
+        var matches;
+        var regex = mkAttrRegex('', '');
+        var hit = false;
+
+        while (matches = regex.exec('\'Hello\' | translate:"context"')) {
+            assert.equal(matches.length, 5);
+            assert.equal(matches[2], 'Hello');
+            assert.equal(matches[4], 'context');
+            hit = true;
+        }
+
+        assert(hit);
     });
 });
