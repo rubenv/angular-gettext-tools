@@ -23,12 +23,37 @@ function makeEnv(mod, catalog) {
     };
 }
 
+
 // Fake Angular environment with RequireJS module loader
-function makeRequireJsEnv(mod, modPath, catalog) {
+function makeRequireJsExpliciteEnv(mod, name, module, catalog) {
+    return {
+        define: function (expliciteName, modules, callback) {
+            assert.equal(expliciteName, name);
+            assert.equal(modules[0], 'angular');
+            assert.equal(modules[1], module);
+
+            var angular = {
+                module: function (modDefined) {
+                    assert.equal(modDefined, mod);
+                    return {
+                        run: function (block) {
+                            assert.equal(block[0], 'gettextCatalog');
+                            block[1](catalog);
+                        }
+                    };
+                }
+            };
+            callback(angular);
+        }
+    };
+}
+
+// Fake Angular environment with RequireJS module loader
+function makeRequireJsEnv(mod, module, catalog) {
     return {
         define: function (modules, callback) {
             assert.equal(modules[0], 'angular');
-            assert.equal(modules[1], modPath);
+            assert.equal(modules[1], module);
 
             var angular = {
                 module: function (modDefined) {
@@ -116,7 +141,8 @@ describe('Compile', function () {
         var output = testCompile(files, {
             module: 'myApp',
             requirejs: true,
-            modulePath: './test/fixtures/module'
+            requirejsAngular: 'angular',
+            requirejsModule: './test/fixtures/module'
         });
         var catalog = {
             called: false,
@@ -126,6 +152,27 @@ describe('Compile', function () {
         };
 
         var context = vm.createContext(makeRequireJsEnv('myApp', './test/fixtures/module', catalog));
+        vm.runInContext(output, context);
+        assert(catalog.called);
+    });
+
+    it('Accepts a requirejs and name parameter', function () {
+        var files = ['test/fixtures/nl.po'];
+        var output = testCompile(files, {
+            module: 'myApp',
+            requirejs: true,
+            requirejsName: 'testName',
+            requirejsAngular: 'angular',
+            requirejsModule: './test/fixtures/module'
+        });
+        var catalog = {
+            called: false,
+            setStrings: function (language, strings) {
+                this.called = true;
+            }
+        };
+
+        var context = vm.createContext(makeRequireJsExpliciteEnv('myApp', 'testName', './test/fixtures/module', catalog));
         vm.runInContext(output, context);
         assert(catalog.called);
     });
@@ -241,46 +288,5 @@ describe('Compile', function () {
         var context = vm.createContext(makeEnv('gettext', catalog));
         vm.runInContext(output, context);
         assert(catalog.called);
-    });
-
-    it('Leaves html-entities in msgids that are not converted in the browser in tact', function () {
-        var files = ['test/fixtures/inconvertible_html_entities.po'];
-        var output = testCompile(files, {
-            format: 'json'
-        });
-        var data = JSON.parse(output);
-        assert.deepEqual(data.nl, {
-            'non-breaking&nbsp;space': 'harde&nbsp;spatie',
-            'greater &gt; than': 'groter &gt; dan',
-            'less &lt; than': 'kleiner &lt; dan',
-            'and &amp;': 'en &lt;'
-        });
-    });
-
-    it('Converts html-entities in msgids that are also converted in the browser', function () {
-        var files = ['test/fixtures/convertible_html_entities.po'];
-        var output = testCompile(files, {
-            format: 'json'
-        });
-        var data = JSON.parse(output);
-        assert.deepEqual(data.nl, {
-            'dots…': 'puntjes&hellip;',
-            'cents ¢, pounds £ and euros €': 'centen &cent;, ponden &pound; and euro’s &euro;',
-            '«double» and ‹single› guillemets': '&laquo;dubbel&raquo; en &lsaquo;enkele&rsaquo; guillemets',
-            'copyright © and registered ® trade ™ marks': 'kopierecht &copy; en geregistreerde &reg; handels &trade; merken',
-            '§ sections and paragraphs¶': '&sect; secties en paragrafen&para;',
-            'hot 10° cold': 'heet &deg; koud',
-            '± greater ≥ or less than ≤': '&plusmn; groter &ge; of kleiner dan &le;',
-            'not ≠ or approximately ≈ equal': 'niet &ne; of ongeveer &asymp; gelijk',
-            'middle · dot': 'middel &middot; punt',
-            'en – and em — dash': 'gedachte&ndash; of aandachts&mdash; streepje',
-            '‘single’ ‘quotes‚': '&lsquo;enkele&rsquo; &lsquo;aanhalingstekens&sbquo;',
-            '“double” “quotes„': '&ldquo;dubbele&rdquo; &ldquo;aanhalingstekens&bdquo;',
-            '† dagger ‡': '&dagger; obelisk &Dagger;',
-            '• bullet': '&bull; opsommingsteken',
-            '10′23″': '10&prime;23&Prime; tijd',
-            'square root ² and to the power of ³': 'kwadraat &sup2; en to de macht &sup3;',
-            'fraction two ½ three ⅓ four ¼ and three fourths ¾': 'helft &frac12; derde &frac13; kwart &frac14; en drie-vierde &frac34;'
-        });
     });
 });
