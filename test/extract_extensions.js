@@ -107,4 +107,20 @@ describe('Extracting files with different extensions', function () {
         assert.equal(catalog.items[0].msgstr, '');
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/tapestry.tml:2']);
     });
+
+    it('supports TypeScript files', function () {
+        var files = [
+            'test/fixtures/ts.ts'
+        ];
+        var catalog =  testExtract(files);
+
+        assert.equal(catalog.items.length, 2);
+        assert.equal(catalog.items[0].msgid, 'Hello');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/ts.ts:2']);
+
+        assert.equal(catalog.items[1].msgid, 'One\nTwo\nThree');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/ts.ts:3']);
+    });
 });
