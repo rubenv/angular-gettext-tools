@@ -1,7 +1,7 @@
 {
   "name": "angular-gettext-tools",
   "description": "Tools for extracting/compiling angular-gettext strings.",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "homepage": "http://angular-gettext.rocketeer.be/",
   "author": {
     "name": "Ruben Vermeersch",
