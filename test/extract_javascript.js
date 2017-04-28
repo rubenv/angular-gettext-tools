@@ -43,7 +43,7 @@ describe('Extracting from Javascript', function () {
         ];
         var catalog = testExtract(files);
 
-        assert.equal(catalog.items.length, 3);
+        assert.equal(catalog.items.length, 4);
         assert.equal(catalog.items[0].msgid, 'Bird');
         assert.equal(catalog.items[0].msgid_plural, 'Birds');
         assert.equal(catalog.items[0].msgstr.length, 2);
@@ -51,14 +51,22 @@ describe('Extracting from Javascript', function () {
         assert.equal(catalog.items[0].msgstr[1], '');
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/catalog.js:4']);
 
-        assert.equal(catalog.items[1].msgid, 'Hello');
-        assert.equal(catalog.items[1].msgstr, '');
-        assert.deepEqual(catalog.items[1].references, ['test/fixtures/catalog.js:2']);
+        assert.equal(catalog.items[1].msgid, 'Bird2');
+        assert.equal(catalog.items[1].msgid_plural, 'Birds2');
+        assert.equal(catalog.items[1].msgstr.length, 2);
+        assert.equal(catalog.items[1].msgstr[0], '');
+        assert.equal(catalog.items[1].msgstr[1], '');
+        assert.equal(catalog.items[1].msgctxt, 'Context2');
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/catalog.js:5']);
 
-        assert.equal(catalog.items[2].msgid, 'Hello2');
+        assert.equal(catalog.items[2].msgid, 'Hello');
         assert.equal(catalog.items[2].msgstr, '');
-        assert.equal(catalog.items[2].msgctxt, 'Context');
-        assert.deepEqual(catalog.items[2].references, ['test/fixtures/catalog.js:3']);
+        assert.deepEqual(catalog.items[2].references, ['test/fixtures/catalog.js:2']);
+
+        assert.equal(catalog.items[3].msgid, 'Hello2');
+        assert.equal(catalog.items[3].msgstr, '');
+        assert.equal(catalog.items[3].msgctxt, 'Context');
+        assert.deepEqual(catalog.items[3].references, ['test/fixtures/catalog.js:3']);
     });
 
     it('supports foo.gettextCatalog.getString()', function () {
