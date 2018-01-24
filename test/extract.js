@@ -131,15 +131,18 @@ describe('Extract', function () {
         var catalog = testExtract(files);
 
         assert.equal(catalog.items.length, 6);
-        assert.equal(catalog.items[0].msgid, 'a');
-        assert.equal(catalog.items[1].msgid, 'b');
-        assert.equal(catalog.items[2].msgid, 'c');
-        assert.equal(catalog.items[3].msgid, 'd');
+        assert.equal(catalog.items[0].msgid, 'd');
+        assert.equal(catalog.items[0].msgctxt, 'a');
+        assert.equal(catalog.items[1].msgid, 'd');
+        assert.equal(catalog.items[1].msgctxt, 'b');
+        assert.equal(catalog.items[2].msgid, 'a');
+        assert.equal(catalog.items[2].msgctxt, null);
+        assert.equal(catalog.items[3].msgid, 'b');
         assert.equal(catalog.items[3].msgctxt, null);
-        assert.equal(catalog.items[4].msgid, 'd');
-        assert.equal(catalog.items[4].msgctxt, 'a');
+        assert.equal(catalog.items[4].msgid, 'c');
+        assert.equal(catalog.items[4].msgctxt, null);
         assert.equal(catalog.items[5].msgid, 'd');
-        assert.equal(catalog.items[5].msgctxt, 'b');
+        assert.equal(catalog.items[5].msgctxt, null);
     });
 
     it('Extracts strings concatenation from JavaScript source', function () {
@@ -342,11 +345,11 @@ describe('Extract', function () {
 
         assert.equal(catalog.items[0].msgid, 'Hello!');
         assert.equal(catalog.items[0].msgstr, '');
-        assert.strictEqual(catalog.items[0].msgctxt, null);
+        assert.equal(catalog.items[0].msgctxt, 'male');
 
         assert.equal(catalog.items[1].msgid, 'Hello!');
         assert.equal(catalog.items[1].msgstr, '');
-        assert.equal(catalog.items[1].msgctxt, 'male');
+        assert.strictEqual(catalog.items[1].msgctxt, null);
     });
 
     it('Should extract context of custom element attribute from HTM, including attribute as element', function () {
@@ -363,17 +366,17 @@ describe('Extract', function () {
         assert.equal(catalog.items[0].msgstr, '');
         assert.equal(catalog.items[0].msgctxt, 'male');
 
-        assert.equal(catalog.items[1].msgid, 'CrazyYou!');
+        assert.equal(catalog.items[1].msgid, 'Hello2!');
         assert.equal(catalog.items[1].msgstr, '');
-        assert.strictEqual(catalog.items[1].msgctxt, null);
+        assert.equal(catalog.items[1].msgctxt, 'male');
 
-        assert.equal(catalog.items[2].msgid, 'Hello1!');
+        assert.equal(catalog.items[2].msgid, 'CrazyYou!');
         assert.equal(catalog.items[2].msgstr, '');
         assert.strictEqual(catalog.items[2].msgctxt, null);
 
-        assert.equal(catalog.items[3].msgid, 'Hello2!');
+        assert.equal(catalog.items[3].msgid, 'Hello1!');
         assert.equal(catalog.items[3].msgstr, '');
-        assert.equal(catalog.items[3].msgctxt, 'male');
+        assert.strictEqual(catalog.items[3].msgctxt, null);
     });
 
     it('Extracts strings from an ES6 class', function () {
