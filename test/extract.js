@@ -437,4 +437,26 @@ describe('Extract', function () {
         assert.equal(catalog.items[0].msgstr, '');
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-import.js:5']);
     });
+
+    it('Should not extract strings contains only expression', function () {
+        var files = [
+            'test/fixtures/expressions-only.html'
+        ];
+
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items.length, 6);
+        assert.equal(catalog.items[1].msgid, '{{attribute}}{{attribute}}');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.equal(catalog.items[3].msgid, '{{inner}}{{inner}}');
+        assert.equal(catalog.items[3].msgstr, '');
+        assert.equal(catalog.items[5].msgid, '{{tag}}{{tag}}');
+        assert.equal(catalog.items[5].msgstr, '');
+        assert.equal(catalog.items[0].msgid, '{{attribute ? \'on\' : \'off\'}}');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.equal(catalog.items[2].msgid, '{{inner ? \'on\' : \'off\'}}');
+        assert.equal(catalog.items[2].msgstr, '');
+        assert.equal(catalog.items[4].msgid, '{{tag ? \'on\' : \'off\'}}');
+        assert.equal(catalog.items[4].msgstr, '');
+    });
 });
