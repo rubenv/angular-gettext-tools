@@ -4,7 +4,7 @@
 
 Used to construct build tools for [`angular-gettext`](https://github.com/rubenv/angular-gettext).
 
-[![Build Status](https://travis-ci.org/rubenv/grunt-angular-gettext.png?branch=master)](https://travis-ci.org/rubenv/angular-gettext-tools)
+[![Build Status](https://travis-ci.org/rubenv/angular-gettext-tools.png?branch=master)](https://travis-ci.org/rubenv/angular-gettext-tools)
 
 Implementations:
 
