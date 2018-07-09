@@ -437,4 +437,17 @@ describe('Extract', function () {
         assert.equal(catalog.items[0].msgstr, '');
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-import.js:5']);
     });
+
+    it('Extracts strings from an ES6 import', function () {
+        var files = [
+            'test/fixtures/es6-dynamic-import.js'
+        ];
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items.length, 1);
+
+        assert.equal(catalog.items[0].msgid, 'Hi from ES6 file with dynamic import!');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-dynamic-import.js:6']);
+    });
 });
