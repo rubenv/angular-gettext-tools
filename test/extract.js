@@ -18,6 +18,19 @@ describe('Extract', function () {
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/single.html:3', 'test/fixtures/single.html:4']);
     });
 
+    it('Extracts attributes from the view', function () {
+        var files = [
+            'test/fixtures/single.html'
+        ];
+        var catalog = testExtract(files, {
+            attributes: ['custom-translate']
+        });
+        assert.equal(catalog.items.length, 2);
+        assert.equal(catalog.items[1].msgid, 'monique');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/single.html:5']);
+    });
+
     it('Merges multiple views into one .pot', function () {
         var files = [
             'test/fixtures/single.html',
