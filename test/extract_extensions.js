@@ -114,14 +114,18 @@ describe('Extracting files with different extensions', function () {
         ];
         var catalog =  testExtract(files);
 
-        assert.equal(catalog.items.length, 2);
-        assert.equal(catalog.items[0].msgid, 'Hello');
+        assert.equal(catalog.items.length, 3);
+        assert.equal(catalog.items[0].msgid, 'Casted');
         assert.equal(catalog.items[0].msgstr, '');
-        assert.deepEqual(catalog.items[0].references, ['test/fixtures/ts.ts:2']);
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/ts.ts:6']);
 
-        assert.equal(catalog.items[1].msgid, 'One\nTwo\nThree');
+        assert.equal(catalog.items[1].msgid, 'Hello');
         assert.equal(catalog.items[1].msgstr, '');
-        assert.deepEqual(catalog.items[1].references, ['test/fixtures/ts.ts:3']);
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/ts.ts:2']);
+
+        assert.equal(catalog.items[2].msgid, 'One\nTwo\nThree');
+        assert.equal(catalog.items[2].msgstr, '');
+        assert.deepEqual(catalog.items[2].references, ['test/fixtures/ts.ts:3']);
     });
 
     it('supports TypeScript .tsx files', function () {
