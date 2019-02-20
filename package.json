@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "grunt": "~0.4.4",
-    "grunt-bump": "^0.8.0",
+    "grunt-bump": "0.0.13",
     "grunt-contrib-clean": "~0.6.0",
     "grunt-contrib-jshint": "~0.11.2",
     "grunt-contrib-watch": "~0.6.1",
@@ -38,13 +38,12 @@
     "gettext"
   ],
   "dependencies": {
-    "@typescript-eslint/parser": "^1.3.0",
     "babylon": "^6.11.4",
     "binary-search": "^1.2.0",
-    "cheerio": "^0.22.0",
-    "eslint": "^5.14.1",
+    "cheerio": "~0.19.0",
     "lodash": "^4.17.5",
     "pofile": "~1.0.0",
-    "typescript": "~3.2.4"
+    "typescript": "~2.3.2",
+    "typescript-eslint-parser": "^3.0.0"
   }
 }
