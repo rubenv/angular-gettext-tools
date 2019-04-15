@@ -6,7 +6,13 @@ class TestController {
 
     this.bindedMethod = ::this.method;
 
-    const component = <Component attr={true} />;
+    const component = (
+      <Component attr={true}>
+        <>
+          {gettext("Hi from a fragment!")};
+        </>
+      </Component>
+    );
 
     const a = { a: 1 };
     const b = { b: 2 };
