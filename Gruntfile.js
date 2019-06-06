@@ -1,28 +1,13 @@
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-jscs');
+    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-bump');
 
     grunt.initConfig({
-        jshint: {
-            all: ['{lib,test}/**/*.js', 'index.js', '!test/fixtures/*.js'],
-            options: {
-                jshintrc: '.jshintrc'
-            }
-        },
-
-        jscs: {
-            src: {
-                options: {
-                    config: '.jscs.json'
-                },
-                files: {
-                    src: ['*.js', '{lib,test}/**/*.js', '!test/fixtures/*.js']
-                }
-            }
+        eslint: {
+            target: ['*.js', '{lib,test}/**/*.js', '!test/fixtures/*.js']
         },
 
         clean: {
@@ -54,6 +39,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['test']);
-    grunt.registerTask('build', ['clean', 'jshint', 'jscs']);
+    grunt.registerTask('build', ['clean', 'eslint']);
     grunt.registerTask('test', ['build', 'mochacli']);
 };
