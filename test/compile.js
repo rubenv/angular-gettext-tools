@@ -193,6 +193,20 @@ describe('Compile', function () {
         });
     });
 
+    it('Intentionally does not ignore fuzzy strings', function () {
+        var files = ['test/fixtures/fuzzy.po'];
+        var output = testCompile(files, {
+            format: 'json',
+            ignoreFuzzyString: false
+        });
+        var data = JSON.parse(output);
+
+        assert.deepEqual(data.nl, {
+            'Hello!': 'Dag!',
+            'This is a test': 'Dit is een test'
+        });
+    });
+
     it('Can output multiple inputs to single JSON', function () {
         var files = ['test/fixtures/fr.po', 'test/fixtures/depth/fr.po'];
         var output = testCompile(files, {
