@@ -398,10 +398,15 @@ describe('Extract', function () {
         ];
         var catalog = testExtract(files);
 
-        assert.equal(catalog.items.length, 1);
-        assert.equal(catalog.items[0].msgid, 'Hi from an ES6 class!');
+        assert.equal(catalog.items.length, 2);
+
+        assert.equal(catalog.items[1].msgid, 'Hi from an ES6 class!');
+        assert.equal(catalog.items[1].msgstr, '');
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/es6-class.js:5']);
+
+        assert.equal(catalog.items[0].msgid, 'Hi from a fragment!');
         assert.equal(catalog.items[0].msgstr, '');
-        assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-class.js:5']);
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/es6-class.js:12']);
     });
 
     it('Should extract custom attributes from HTML', function () {
