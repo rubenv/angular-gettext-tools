@@ -24,13 +24,13 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt": "~0.4.4",
+    "grunt": "1.0.4",
     "grunt-bump": "^0.8.0",
     "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-jshint": "~0.11.2",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-jscs": "^1.8.0",
-    "grunt-mocha-cli": "^1.13.1",
+    "grunt-contrib-jshint": "2.1.0",
+    "grunt-contrib-watch": "1.1.0",
+    "grunt-jscs": "3.0.1",
+    "grunt-mocha-cli": "4.0.0",
     "sinon": "^1.17.4"
   },
   "keywords": [
@@ -41,7 +41,7 @@
     "@babel/parser": "^7.4.3",
     "binary-search": "^1.2.0",
     "cheerio": "^0.22.0",
-    "lodash": "^4.17.5",
+    "lodash": "4.17.15",
     "pofile": "~1.0.0"
   }
 }
