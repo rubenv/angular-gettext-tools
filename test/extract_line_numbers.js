@@ -26,6 +26,18 @@ describe('Extracting line numbers', function () {
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/line_numbers.html:1']);
     });
 
+
+    it('works on Typescript', function () {
+        var files = [
+            'test/fixtures/DecoratedClassWithProperties.ts'
+        ];
+        var catalog = testExtract(files);
+
+        assert.equal(catalog.items[0].msgid, 'A Hello');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/DecoratedClassWithProperties.ts:10']);
+    });
+
     it("doesn't extract line numbers from JavaScript if lineNumbers: false", function () {
         var files = [
             'test/fixtures/line_numbers.js'
