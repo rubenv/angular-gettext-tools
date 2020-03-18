@@ -32,6 +32,7 @@ All options and defaults are displayed below:
     "attribute": "translate",
     "attributes": [],
     "lineNumbers": true,
+    "filterName": "translate",
     "format": "javascript",
     "defaultLanguage": false,
     "requirejs": false
