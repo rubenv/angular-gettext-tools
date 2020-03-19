@@ -262,6 +262,21 @@ describe('Extract', function () {
         assert.deepEqual(catalog.items[0].references, ['test/fixtures/custom_marker_name.js:4']);
     });
 
+    it('Can customize the plural marker name', function () {
+        var files = [
+            'test/fixtures/custom_marker_name_plural.js'
+        ];
+        var catalog = testExtract(files, {
+            markerNamePlural: '_n'
+        });
+
+        assert.equal(catalog.items.length, 1);
+        assert.equal(catalog.items[0].msgid, 'Hello custom singular');
+        assert.equal(catalog.items[0].msgid_plural, 'Hello custom plural');
+        assert.deepEqual(catalog.items[0].msgstr, ['', '']);
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/custom_marker_name_plural.js:4']);
+    });
+
     it('Can customize multiple marker name functions', function () {
         var files = [
             'test/fixtures/custom_marker_names.js'
@@ -281,6 +296,29 @@ describe('Extract', function () {
         assert.equal(catalog.items[2].msgid, 'Hello second custom');
         assert.equal(catalog.items[2].msgstr, '');
         assert.deepEqual(catalog.items[2].references, ['test/fixtures/custom_marker_names.js:7']);
+    });
+
+    it('Can customize multiple plural marker name functions', function () {
+        var files = [
+            'test/fixtures/custom_marker_names_plural.js'
+        ];
+        var catalog = testExtract(files, { markerNamesPlural: ['showErrors', 'showSuccesses'] });
+
+        assert.equal(catalog.items.length, 3);
+
+        assert.equal(catalog.items[0].msgid, 'Hello default');
+        assert.equal(catalog.items[0].msgstr, '');
+        assert.deepEqual(catalog.items[0].references, ['test/fixtures/custom_marker_names_plural.js:2']);
+
+        assert.equal(catalog.items[1].msgid, 'Hello first custom singular');
+        assert.equal(catalog.items[1].msgid_plural, 'Hello first custom plural');
+        assert.deepEqual(catalog.items[1].msgstr, ['', '']);
+        assert.deepEqual(catalog.items[1].references, ['test/fixtures/custom_marker_names_plural.js:6']);
+
+        assert.equal(catalog.items[2].msgid, 'Hello second custom singular');
+        assert.equal(catalog.items[2].msgid_plural, 'Hello second custom plural');
+        assert.deepEqual(catalog.items[2].msgstr, ['', '']);
+        assert.deepEqual(catalog.items[2].references, ['test/fixtures/custom_marker_names_plural.js:7']);
     });
 
     it('Can post-process the catalog', function () {
