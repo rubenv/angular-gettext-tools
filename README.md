@@ -26,6 +26,8 @@ All options and defaults are displayed below:
     "endDelim": "}}",
     "markerName": "gettext",
     "markerNames": [],
+    "markerNamePlural": null,
+    "markerNamesPlural": [],
     "moduleName": "gettextCatalog",
     "moduleMethodString": "getString",
     "moduleMethodPlural": "getPlural",
