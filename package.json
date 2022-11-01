@@ -27,10 +27,10 @@
     "grunt": "~1.5.2",
     "grunt-bump": "^0.8.0",
     "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-jshint": "~0.11.2",
-    "grunt-contrib-watch": "~0.6.1",
-    "grunt-jscs": "^1.8.0",
-    "grunt-mocha-cli": "^1.13.1",
+    "grunt-contrib-jshint": "~3.2.0",
+    "grunt-contrib-watch": "~1.1.0",
+    "grunt-jscs": "^3.0.1",
+    "grunt-mocha-cli": "^7.0.0",
     "sinon": "^1.17.4"
   },
   "keywords": [
