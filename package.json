@@ -40,7 +40,7 @@
   "dependencies": {
     "@babel/parser": "^7.4.3",
     "binary-search": "^1.2.0",
-    "cheerio": "^0.22.0",
+    "cheerio": "^1.0.0-rc.12",
     "lodash": "^4.17.5",
     "pofile": "~1.0.0"
   }
