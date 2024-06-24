@@ -30,6 +30,7 @@ All options and defaults are displayed below:
     "markerNamesPlural": [],
     "moduleName": "gettextCatalog",
     "moduleMethodString": "getString",
+    "moduleMethodStringArgumentIndex": 0,
     "moduleMethodPlural": "getPlural",
     "attribute": "translate",
     "attributes": [],
